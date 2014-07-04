@@ -12,7 +12,6 @@ MessagePack is an efficient binary serialization format. It lets you exchange da
 ## Podfile
 
 ```ruby
-platform :ios, "7.0"
 pod "MPMessagePack"
 ```
 

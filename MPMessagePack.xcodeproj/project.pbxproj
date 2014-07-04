@@ -48,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0057EDD519664B7E00F39536 /* msgpack.org.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = msgpack.org.md; sourceTree = "<group>"; };
 		006555AB1966276400288AE7 /* MPMessagePackReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePackReader.h; sourceTree = "<group>"; };
 		006555AC1966276400288AE7 /* MPMessagePackReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMessagePackReader.m; sourceTree = "<group>"; };
 		006555AF19662E3000288AE7 /* MPMessagePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePack.h; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 				006555BB19663A1600288AE7 /* MPMessagePack.podspec */,
 				00FB32E41966240B0060AF33 /* Podfile */,
 				00FB32E51966240B0060AF33 /* README.md */,
+				0057EDD519664B7E00F39536 /* msgpack.org.md */,
 				00FB32C919661A860060AF33 /* MPMessagePack */,
 				00FB32C819661A860060AF33 /* Products */,
 				D0B28C1420694B0CAA57DAF6 /* Frameworks */,
