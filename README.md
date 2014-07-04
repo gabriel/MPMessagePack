@@ -18,6 +18,8 @@ pod "MPMessagePack"
 
 # MPMessagePack
 
+## Writing
+
 ```objc
 #import <MPMessagePack/MPMessagePack.h>
 
@@ -34,4 +36,10 @@ NSData *data = [dict mp_messagePack];
 // To get error info
 NSError *error = nil;
 NSData *data = [MPMessagePackWriter writeObject:dict error:&error];
+```
+
+## Reading
+
+```objc
+id obj = [MPMessagePackReader readData:data error:&error];
 ```
