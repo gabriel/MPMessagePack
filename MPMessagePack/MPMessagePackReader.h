@@ -10,6 +10,6 @@
 
 @interface MPMessagePackReader : NSObject
 
-+ (id)readData:(NSData *)data;
++ (id)readData:(NSData *)data error:(NSError * __autoreleasing *)error;
 
 @end

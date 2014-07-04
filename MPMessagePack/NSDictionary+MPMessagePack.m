@@ -13,7 +13,7 @@
 @implementation NSDictionary (MPMessagePack)
 
 - (NSData *)mp_messagePack {
-  return [MPMessagePackWriter writeObject:self];
+  return [MPMessagePackWriter writeObject:self error:nil];
 }
 
 @end

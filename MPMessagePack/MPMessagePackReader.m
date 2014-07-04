@@ -10,6 +10,8 @@
 
 #include "cmp.h"
 
+#define MAX_DATA_LENGTH (1024 * 1024 * 100) // 100MB
+
 @interface MPMessagePackReader ()
 @property NSData *data;
 @property size_t index;
@@ -17,11 +19,10 @@
 
 @implementation MPMessagePackReader
 
-- (id)readFromContext:(cmp_ctx_t *)context {
+- (id)readFromContext:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
   cmp_object_t obj;
   if (!cmp_read_object(context, &obj)) {
-    NSAssert(NO, @"Unable to read");
-    return nil;
+    return [self returnNilWithErrorCode:200 description:@"Unable to read object" error:error];
   }
   
   switch (obj.type) {
@@ -34,6 +35,9 @@
     case CMP_TYPE_BIN32: {
       uint32_t length = obj.as.bin_size;
       if (length == 0) return [NSData data];
+      if (length > MAX_DATA_LENGTH) {
+        return [self returnNilWithErrorCode:298 description:@"Reached max data length, data might be malformed" error:error];
+      }
       NSMutableData *data = [NSMutableData dataWithLength:length];
       context->read(context, [data mutableBytes], length);
       return data;
@@ -58,6 +62,9 @@
     case CMP_TYPE_STR32: {
       uint32_t length = obj.as.str_size;
       if (length == 0) return @"";
+      if (length > MAX_DATA_LENGTH) {
+        return [self returnNilWithErrorCode:298 description:@"Reached max data length, data might be malformed" error:error];
+      }
       NSMutableData *data = [NSMutableData dataWithLength:length];
       context->read(context, [data mutableBytes], length);
       return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -67,14 +74,14 @@
     case CMP_TYPE_ARRAY16:
     case CMP_TYPE_ARRAY32: {
       uint32_t length = obj.as.array_size;
-      return [self readArrayFromContext:context length:length];
+      return [self readArrayFromContext:context length:length error:error];
     }
       
     case CMP_TYPE_FIXMAP:
     case CMP_TYPE_MAP16:
     case CMP_TYPE_MAP32: {
       uint32_t length = obj.as.map_size;
-      return [self readDictionaryFromContext:context length:length];
+      return [self readDictionaryFromContext:context length:length error:error];
     }
       
     case CMP_TYPE_EXT8:
@@ -85,43 +92,57 @@
     case CMP_TYPE_FIXEXT4:
     case CMP_TYPE_FIXEXT8:
     case CMP_TYPE_FIXEXT16:
-      NSAssert(NO, @"Unable to read");
-      return nil;
-
-    default:
-      NSAssert(NO, @"Unable to read");
-      return nil;
+      
+    default: {
+      return [self returnNilWithErrorCode:201 description:@"Unsupported object type" error:error];
+    }
   }
 }
 
-- (NSMutableArray *)readArrayFromContext:(cmp_ctx_t *)context length:(uint32_t)length {
-  NSMutableArray *array = [NSMutableArray arrayWithCapacity:length];
+- (NSMutableArray *)readArrayFromContext:(cmp_ctx_t *)context length:(uint32_t)length error:(NSError * __autoreleasing *)error {
+  NSUInteger capacity = length < 1000 ? length : 1000;
+  NSMutableArray *array = [NSMutableArray arrayWithCapacity:capacity];
   for (NSInteger i = 0; i < length; i++) {
-    id obj = [self readFromContext:context];
-    NSAssert(obj, @"Unable to read");
+    id obj = [self readFromContext:context error:error];
+    if (!obj) {
+      return [self returnNilWithErrorCode:202 description:@"Unable to read object" error:error];
+    }
     [array addObject:obj];
   }
   return array;
 }
 
-- (NSMutableDictionary *)readDictionaryFromContext:(cmp_ctx_t *)context length:(uint32_t)length {
-  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:length];
+- (NSMutableDictionary *)readDictionaryFromContext:(cmp_ctx_t *)context length:(uint32_t)length error:(NSError * __autoreleasing *)error {
+  NSUInteger capacity = length < 1000 ? length : 1000;
+  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:capacity];
   for (NSInteger i = 0; i < length; i++) {
-    id key = [self readFromContext:context];
-    NSAssert(key, @"Unable to read dict key");
-    id value = [self readFromContext:context];
-    NSAssert(value, @"Unable to read dict value");
+    id key = [self readFromContext:context error:error];
+    if (!key) {
+      return [self returnNilWithErrorCode:203 description:@"Unable to read object" error:error];
+    }
+    id value = [self readFromContext:context error:error];
+    if (!value) {
+      return [self returnNilWithErrorCode:204 description:@"Unable to read object" error:error];
+    }
     dict[key] = value;
   }
   return dict;
 }
 
+- (id)returnNilWithErrorCode:(NSInteger)errorCode description:(NSString *)description error:(NSError * __autoreleasing *)error {
+  if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:errorCode userInfo:@{NSLocalizedDescriptionKey: description}];
+  return nil;
+}
+
 - (size_t)read:(void *)data limit:(size_t)limit {
-  if (_index + limit > [_data length]) return 0;
+  if (_index + limit > [_data length]) {
+    NSLog(@"No more data");
+    return 0;
+  }
   [_data getBytes:data range:NSMakeRange(_index, limit)];
   
-  //NSData *read = [NSData dataWithBytes:data length:limit];
-  //NSLog(@"Read bytes: %@", read);
+//  NSData *read = [NSData dataWithBytes:data length:limit];
+//  NSLog(@"Read bytes: %@", read);
   
   _index += limit;
   return limit;
@@ -136,18 +157,25 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return 0;
 }
 
-- (id)readData:(NSData *)data {
+- (id)readData:(NSData *)data error:(NSError * __autoreleasing *)error {
   _data = data;
   _index = 0;
   
   cmp_ctx_t ctx;
   cmp_init(&ctx, (__bridge void *)self, mp_reader, mp_writer);
-  return [self readFromContext:&ctx];
+  return [self readFromContext:&ctx error:error];
 }
 
-+ (id)readData:(NSData *)data {
++ (id)readData:(NSData *)data error:(NSError * __autoreleasing *)error {
   MPMessagePackReader *messagePackReader = [[MPMessagePackReader alloc] init];
-  return [messagePackReader readData:data];
+  id obj = [messagePackReader readData:data error:error];
+  
+  if (!obj) {
+    if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:299 userInfo:@{NSLocalizedDescriptionKey: @"Unable to read object"}];
+    return nil;
+  }
+  
+  return obj;
 }
 
 @end

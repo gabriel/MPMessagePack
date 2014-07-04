@@ -30,4 +30,8 @@ NSDictionary *dict =
   };
 
 NSData *data = [dict mp_messagePack];
+
+// To get error info
+NSError *error = nil;
+NSData *data = [MPMessagePackWriter writeObject:dict error:&error];
 ```

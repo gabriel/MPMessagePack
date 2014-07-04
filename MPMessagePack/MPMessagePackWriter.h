@@ -10,6 +10,6 @@
 
 @interface MPMessagePackWriter : NSObject
 
-+ (NSData *)writeObject:(id)obj;
++ (NSData *)writeObject:(id)obj error:(NSError * __autoreleasing *)error;
 
 @end
