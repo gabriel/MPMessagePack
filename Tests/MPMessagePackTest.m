@@ -12,7 +12,7 @@
 
 - (void)test {
   NSData *data1 = [MPMessagePackWriter writeObject:@[] error:nil];
-  NSArray *read1 = [MPMessagePackReader readData:data1 error:nil];
+  NSArray *read1 = [MPMessagePackReader readData:data1 options:0 error:nil];
   GHAssertEqualObjects(@[], read1, nil);
   
   NSDictionary *obj2 =
@@ -25,7 +25,7 @@
   GHTestLog(@"Obj2: %@", obj2);
   
   NSData *data2 = [obj2 mp_messagePack];
-  NSDictionary *read2 = [MPMessagePackReader readData:data2 error:nil];
+  NSDictionary *read2 = [MPMessagePackReader readData:data2 options:0 error:nil];
   GHAssertEqualObjects(obj2, read2, nil);
 }
 
@@ -35,7 +35,7 @@
   SecRandomCopyBytes(kSecRandomDefault, length, [data mutableBytes]);
   
   NSError *error = nil;
-  [MPMessagePackReader readData:data error:&error];
+  [MPMessagePackReader readData:data options:0 error:&error];
   GHTestLog(@"Error: %@", error);
   // Just don't crash
 }

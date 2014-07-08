@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0057EE00196CABE500F39536 /* MPOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */; };
+		0057EE01196CABE500F39536 /* MPOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */; };
+		0057EE04196CAE6300F39536 /* MPOrderedDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0057EE03196CAE6300F39536 /* MPOrderedDictionaryTest.m */; };
 		006555AD1966276400288AE7 /* MPMessagePackReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555AC1966276400288AE7 /* MPMessagePackReader.m */; };
 		006555AE1966276400288AE7 /* MPMessagePackReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555AC1966276400288AE7 /* MPMessagePackReader.m */; };
 		006555B51966395500288AE7 /* NSDictionary+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555B41966395500288AE7 /* NSDictionary+MPMessagePack.m */; };
@@ -49,6 +52,10 @@
 
 /* Begin PBXFileReference section */
 		0057EDD519664B7E00F39536 /* msgpack.org.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = msgpack.org.md; sourceTree = "<group>"; };
+		0057EDFD196CAB7E00F39536 /* CHANGES */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
+		0057EDFE196CABE500F39536 /* MPOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPOrderedDictionary.h; sourceTree = "<group>"; };
+		0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPOrderedDictionary.m; sourceTree = "<group>"; };
+		0057EE03196CAE6300F39536 /* MPOrderedDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPOrderedDictionaryTest.m; sourceTree = "<group>"; };
 		006555AB1966276400288AE7 /* MPMessagePackReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePackReader.h; sourceTree = "<group>"; };
 		006555AC1966276400288AE7 /* MPMessagePackReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMessagePackReader.m; sourceTree = "<group>"; };
 		006555AF19662E3000288AE7 /* MPMessagePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePack.h; sourceTree = "<group>"; };
@@ -97,6 +104,7 @@
 			children = (
 				006555BB19663A1600288AE7 /* MPMessagePack.podspec */,
 				00FB32E41966240B0060AF33 /* Podfile */,
+				0057EDFD196CAB7E00F39536 /* CHANGES */,
 				00FB32E51966240B0060AF33 /* README.md */,
 				0057EDD519664B7E00F39536 /* msgpack.org.md */,
 				00FB32C919661A860060AF33 /* MPMessagePack */,
@@ -130,6 +138,8 @@
 				006555B41966395500288AE7 /* NSDictionary+MPMessagePack.m */,
 				006555B71966397500288AE7 /* NSArray+MPMessagePack.h */,
 				006555B81966397500288AE7 /* NSArray+MPMessagePack.m */,
+				0057EDFE196CABE500F39536 /* MPOrderedDictionary.h */,
+				0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */,
 			);
 			path = MPMessagePack;
 			sourceTree = "<group>";
@@ -139,6 +149,7 @@
 			children = (
 				682067E7246849A2926A84FA /* main.m */,
 				350EDB33056543CEB251CD88 /* MPMessagePackTest.m */,
+				0057EE03196CAE6300F39536 /* MPOrderedDictionaryTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -273,6 +284,7 @@
 				00FB32E319661B0A0060AF33 /* cmp.c in Sources */,
 				00FB32CD19661A870060AF33 /* MPMessagePackWriter.m in Sources */,
 				006555B51966395500288AE7 /* NSDictionary+MPMessagePack.m in Sources */,
+				0057EE00196CABE500F39536 /* MPOrderedDictionary.m in Sources */,
 				006555AD1966276400288AE7 /* MPMessagePackReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,12 +293,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0057EE01196CABE500F39536 /* MPOrderedDictionary.m in Sources */,
 				006555B61966395500288AE7 /* NSDictionary+MPMessagePack.m in Sources */,
 				00FB32E6196625BE0060AF33 /* cmp.c in Sources */,
 				3507E750E03F40A29B02939A /* main.m in Sources */,
 				006555BA1966397500288AE7 /* NSArray+MPMessagePack.m in Sources */,
 				006555AE1966276400288AE7 /* MPMessagePackReader.m in Sources */,
 				9B4192641A354BC7B3F73985 /* MPMessagePackTest.m in Sources */,
+				0057EE04196CAE6300F39536 /* MPOrderedDictionaryTest.m in Sources */,
 				00FB32E7196625C00060AF33 /* MPMessagePackWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

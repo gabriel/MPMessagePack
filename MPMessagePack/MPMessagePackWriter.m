@@ -10,6 +10,8 @@
 
 #include "cmp.h"
 
+#import "MPOrderedDictionary.h"
+
 @interface MPMessagePackWriter ()
 @property NSMutableData *data;
 @end
@@ -101,7 +103,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
         return NO;
       }
     }
-  } else if ([obj isKindOfClass:[NSDictionary class]]) {
+  } else if ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[MPOrderedDictionary class]]) {
     cmp_write_map(context, (uint32_t)[obj count]);
     for (id key in obj) {
       if (![self writeObject:key context:context error:error]) {

@@ -8,8 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, MPMessagePackReaderOptions) {
+  MPMessagePackReaderOptionsUseOrderedDictionary = 1 << 0,
+};
+
+
 @interface MPMessagePackReader : NSObject
 
 + (id)readData:(NSData *)data error:(NSError * __autoreleasing *)error;
+
++ (id)readData:(NSData *)data options:(MPMessagePackReaderOptions)options error:(NSError * __autoreleasing *)error;
 
 @end
