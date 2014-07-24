@@ -12,8 +12,6 @@
 
 #import "MPOrderedDictionary.h"
 
-#define MAX_DATA_LENGTH (1024 * 1024 * 100) // 100MB
-
 @interface MPMessagePackReader ()
 @property NSData *data;
 @property size_t index;
@@ -37,8 +35,8 @@
     case CMP_TYPE_BIN32: {
       uint32_t length = obj.as.bin_size;
       if (length == 0) return [NSData data];
-      if (length > MAX_DATA_LENGTH) {
-        return [self returnNilWithErrorCode:298 description:@"Reached max data length, data might be malformed" error:error];
+      if (length > [_data length]) { // binary data can't be larger than the total data size
+        return [self returnNilWithErrorCode:298 description:@"Invalid data length, data might be malformed" error:error];
       }
       NSMutableData *data = [NSMutableData dataWithLength:length];
       context->read(context, [data mutableBytes], length);
@@ -64,8 +62,8 @@
     case CMP_TYPE_STR32: {
       uint32_t length = obj.as.str_size;
       if (length == 0) return @"";
-      if (length > MAX_DATA_LENGTH) {
-        return [self returnNilWithErrorCode:298 description:@"Reached max data length, data might be malformed" error:error];
+      if (length > [_data length]) { // str data can't be larger than the total data size
+        return [self returnNilWithErrorCode:298 description:@"Invalid data length, data might be malformed" error:error];
       }
       NSMutableData *data = [NSMutableData dataWithLength:length];
       context->read(context, [data mutableBytes], length);
