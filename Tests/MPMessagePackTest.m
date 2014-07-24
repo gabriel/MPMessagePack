@@ -53,7 +53,7 @@
     @"arrayFloatDouble": @[@(1.1f), @(2.1)],
     @"dataEmpty": [NSData data],
     @"dataShort": [self dataFromHexString:@"ff"],
-    @"data": [self dataFromHexString:@"d696a4a60717b53162e89b5b41e2c5016929b7eb7dc4ef6286619c140b4fb7531d89989aa28ef6a82b97d2230461f8fa4c8"],
+    @"data": [self dataFromHexString:@"1c94d7de0000000344b409a81eafc66993cbe5fd885b5f6975a3f1f03c7338452116f7200a46412437007b65304528a314756bc701cec7b493cab44b3971b18c1137c1b1ba63d6a61119a5a2298b447d0cba89071320fc2c0f66b8f8056cd043d1ac6c0e983903355310e794ddd4a532729b3c2d65d71ebff32219f2f1759b3952d686149780c8e20f6bc912e5ba44701cdb165fcf5ab266c4295bf84796f9ac01c4e2ddf91ac7932d7ed71ee6187aa5fc3177b1abefdc29d8dec5098465b31f17511f65d38285f213724fcc98fe9cc6842c28d5"],
     @"null": [NSNull null],
     @"str": @"🍆😗😂😰",
     };
