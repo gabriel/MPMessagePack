@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MPMessagePackWriter.h"
+
 @interface NSDictionary (MPMessagePack)
 
 - (NSData *)mp_messagePack;
+
+- (NSData *)mp_messagePack:(MPMessagePackWriterOptions)options;
 
 @end

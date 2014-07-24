@@ -8,12 +8,14 @@
 
 #import "NSArray+MPMessagePack.h"
 
-#import "MPMessagePackWriter.h"
-
 @implementation NSArray (MPMessagePack)
 
 - (NSData *)mp_messagePack {
-  return [MPMessagePackWriter writeObject:self error:nil];
+  return [self mp_messagePack:0];
+}
+
+- (NSData *)mp_messagePack:(MPMessagePackWriterOptions)options {
+  return [MPMessagePackWriter writeObject:self options:options error:nil];
 }
 
 @end

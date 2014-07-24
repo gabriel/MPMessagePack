@@ -68,6 +68,10 @@
   [_array removeObject:key];
 }
 
+- (NSDictionary *)toDictionary {
+  return [_dictionary copy];
+}
+
 - (void)sortUsingSelector:(SEL)selector {
   [_array sortUsingSelector:selector];
 }
@@ -138,6 +142,18 @@
   }
   [lines addObject:@"}"];
   return [lines componentsJoinedByString:@"\n"];
+}
+
+- (BOOL)isEqual:(id)object {
+  if ([object isKindOfClass:[MPOrderedDictionary class]]) {
+    MPOrderedDictionary *dict = (MPOrderedDictionary *)object;
+    return [[dict toDictionary] isEqual:_dictionary] && [[dict allKeys] isEqual:[self allKeys]];
+  }
+  return NO;
+}
+
+- (NSUInteger)hash {
+  return [_dictionary hash];
 }
 
 @end

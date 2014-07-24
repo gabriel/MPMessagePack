@@ -32,13 +32,13 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return [mp write:data count:count];
 }
 
-- (NSData *)writeObject:(id)obj error:(NSError * __autoreleasing *)error {
+- (NSData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error {
   _data = [NSMutableData data];
   
   cmp_ctx_t ctx;
   cmp_init(&ctx, (__bridge void *)self, mp_reader, mp_writer);
   
-  if (![self writeObject:obj context:&ctx error:error]) {
+  if (![self writeObject:obj options:options context:&ctx error:error]) {
     return nil;
   }
   
@@ -46,8 +46,12 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
 }
 
 + (NSData *)writeObject:(id)obj error:(NSError * __autoreleasing *)error {
+  return [self writeObject:obj options:0 error:error];
+}
+
++ (NSData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error {
   MPMessagePackWriter *messagePack = [[MPMessagePackWriter alloc] init];
-  [messagePack writeObject:obj error:error];
+  [messagePack writeObject:obj options:options error:error];
   return messagePack.data;
 }
 
@@ -81,21 +85,29 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   }
 }
 
-- (BOOL)writeObject:(id)obj context:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
+- (BOOL)writeObject:(id)obj options:(MPMessagePackWriterOptions)options context:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
   if ([obj isKindOfClass:[NSArray class]]) {
     cmp_write_array(context, (uint32_t)[obj count]);
     for (id element in obj) {
-      if (![self writeObject:element context:context error:error]) {
+      if (![self writeObject:element options:options context:context error:error]) {
         return NO;
       }
     }
   } else if ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[MPOrderedDictionary class]]) {
     cmp_write_map(context, (uint32_t)[obj count]);
-    for (id key in obj) {
-      if (![self writeObject:key context:context error:error]) {
+    
+    NSEnumerator *keyEnumerator;
+    if ((options & MPMessagePackWriterOptionsSortDictionaryKeys) == MPMessagePackWriterOptionsSortDictionaryKeys) {
+      keyEnumerator = [[[obj allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectEnumerator];
+    } else {
+      keyEnumerator = [obj keyEnumerator];
+    }
+    
+    for (id key in keyEnumerator) {      
+      if (![self writeObject:key options:options context:context error:error]) {
         return NO;
       }
-      if (![self writeObject:[obj objectForKey:key] context:context error:error]) {
+      if (![self writeObject:obj[key] options:options context:context error:error]) {
         return NO;
       }
     }

@@ -31,4 +31,6 @@
 
 - (NSData *)mp_messagePack;
 
+- (NSDictionary *)toDictionary;
+
 @end
