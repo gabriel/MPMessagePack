@@ -145,7 +145,6 @@
 
 - (size_t)read:(void *)data limit:(size_t)limit {
   if (_index + limit > [_data length]) {
-    NSLog(@"No more data");
     return 0;
   }
   [_data getBytes:data range:NSMakeRange(_index, limit)];

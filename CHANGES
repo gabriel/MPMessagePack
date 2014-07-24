@@ -1,3 +1,9 @@
+= 0.1.5 (2014-07-23)
+
+Using cmp_write_uint and cmp_write_sint for better compatibility.
+Better testing.
+Can sort keys in MPOrderedDictionary
+
 = 0.1.4 (2014-07-08)
 
 * Options to use an ordered dictionary (MPOrderedDictionary)

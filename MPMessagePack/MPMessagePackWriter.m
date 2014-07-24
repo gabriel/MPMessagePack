@@ -59,40 +59,26 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   
   CFNumberType numberType = CFNumberGetType((CFNumberRef)number);
   switch (numberType)	{
-    case kCFNumberSInt8Type:
-    case kCFNumberCharType:
-      cmp_write_s8(context, number.charValue);
-      break;
-    case kCFNumberSInt16Type:
-    case kCFNumberShortType:
-      cmp_write_s16(context, number.shortValue);
-      break;
-    case kCFNumberSInt32Type:
-    case kCFNumberIntType:
-    case kCFNumberLongType:
-    case kCFNumberCFIndexType:
-    case kCFNumberNSIntegerType:
-      cmp_write_s32(context, number.intValue);
-      break;
-    case kCFNumberSInt64Type:
-    case kCFNumberLongLongType:
-      cmp_write_s64(context, number.longLongValue);
-      break;
     case kCFNumberFloat32Type:
     case kCFNumberFloatType:
     case kCFNumberCGFloatType:
       cmp_write_float(context, number.floatValue);
-      break;
+      return YES;
     case kCFNumberFloat64Type:
     case kCFNumberDoubleType:
       cmp_write_double(context, number.doubleValue);
-      break;
+      return YES;
     default:
-      if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:101 userInfo:@{NSLocalizedDescriptionKey: @"Unable to write number"}];
-      return NO;
+      break;
   }
   
-  return YES;
+  if ([number compare:@(0)] >= 0) {
+    cmp_write_uint(context, number.unsignedLongLongValue);
+    return YES;
+  } else {
+    cmp_write_sint(context, number.longLongValue);
+    return YES;
+  }
 }
 
 - (BOOL)writeObject:(id)obj context:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {

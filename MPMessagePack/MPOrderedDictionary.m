@@ -29,6 +29,13 @@
   return self;
 }
 
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+  if ((self = [self initWithCapacity:10])) {
+    [self addEntriesFromDictionary:dictionary];
+  }
+  return self;
+}
+
 - (id)mutableCopyWithZone:(NSZone *)zone {
   MPOrderedDictionary *mutableCopy = [[MPOrderedDictionary allocWithZone:zone] init];
   mutableCopy.array = [_array mutableCopy];
@@ -45,6 +52,11 @@
 }
 
 - (void)setObject:(id)object forKey:(id)key {
+  if (!object) {
+    [self removeObjectForKey:key];
+    return;
+  }
+  
   if (![_dictionary objectForKey:key]) {
     [_array addObject:key];
   }
@@ -92,8 +104,40 @@
   return [_array countByEnumeratingWithState:state objects:buffer count:len];
 }
 
+- (void)sortKeysUsingSelector:(SEL)selector deepSort:(BOOL)deepSort {
+  [_array sortUsingSelector:selector];
+  
+  if (deepSort) {
+    for (id key in _array) {
+      id value = self[key];
+      if ([value respondsToSelector:@selector(sortKeysUsingSelector:deepSort:)]) {
+        [value sortKeysUsingSelector:selector deepSort:deepSort];
+      }
+    }
+  }
+}
+
+- (NSArray *)allKeys {
+  return _array;
+}
+
+- (void)addEntriesFromDictionary:(NSDictionary *)dictionary {
+  [_array addObjectsFromArray:[dictionary allKeys]];
+  [_dictionary addEntriesFromDictionary:dictionary];
+}
+
 - (NSData *)mp_messagePack {
   return [MPMessagePackWriter writeObject:self error:nil];
+}
+
+- (NSString *)description {
+  NSMutableArray *lines = [NSMutableArray array];
+  [lines addObject:@"{"];
+  for (id key in self) {
+    [lines addObject:[NSString stringWithFormat:@"  %@: %@", key, self[key]]];
+  }
+  [lines addObject:@"}"];
+  return [lines componentsJoinedByString:@"\n"];
 }
 
 @end
