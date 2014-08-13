@@ -42,7 +42,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //</string>
 			<key>Title</key>
-			<string>GHUnit</string>
+			<string>GRUnit</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

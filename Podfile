@@ -1,5 +1,5 @@
 platform :ios, '7.0'
 
 target :Tests do
-  pod 'GHUnit'
+  pod 'GRUnit'
 end

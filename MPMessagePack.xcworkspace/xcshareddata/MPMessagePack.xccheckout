@@ -10,29 +10,29 @@
 	<string>MPMessagePack</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>67D187DC-A5BD-403F-8069-E8ABC4E2C4E1</key>
+		<key>697C717FC055E6E0717DFD1A6FDE9FC75B2B36B5</key>
 		<string>ssh://github.com/gabriel/MPMessagePack.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>MPMessagePack.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>67D187DC-A5BD-403F-8069-E8ABC4E2C4E1</key>
+		<key>697C717FC055E6E0717DFD1A6FDE9FC75B2B36B5</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/gabriel/MPMessagePack.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>67D187DC-A5BD-403F-8069-E8ABC4E2C4E1</string>
+	<string>697C717FC055E6E0717DFD1A6FDE9FC75B2B36B5</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>67D187DC-A5BD-403F-8069-E8ABC4E2C4E1</string>
+			<string>697C717FC055E6E0717DFD1A6FDE9FC75B2B36B5</string>
 			<key>IDESourceControlWCCName</key>
 			<string>MPMessagePack</string>
 		</dict>

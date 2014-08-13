@@ -1,8 +1,8 @@
-#import <GHUnit/GHUnit.h>
+#import <GRUnit/GRUnit.h>
 
 #import "MPOrderedDictionary.h"
 
-@interface MPOrderedDictionaryTest : GHTestCase
+@interface MPOrderedDictionaryTest : GRTestCase
 @end
 
 @implementation MPOrderedDictionaryTest
@@ -20,7 +20,7 @@
     [keysIterated addObject:key];
   }
   
-  GHAssertEqualObjects(keysIterated, keys, nil);
+  GRAssertEqualObjects(keysIterated, keys);
   
   MPOrderedDictionary *dictCopy = [dict copy];
   dictCopy[@(1)] = @"test";
@@ -44,13 +44,13 @@
   
   NSArray *expected = @[@"a", @"b", @"c", @"d", @"e", @"sub"];
   NSArray *expected2 = @[@"x", @"y", @"z"];
-  GHTestLog(@"Dict: %@", dict);
+  GRTestLog(@"Dict: %@", dict);
   
-  GHAssertNotEqualObjects(expected, [dict allKeys], nil);
+  GRAssertNotEqualObjects(expected, [dict allKeys]);
   [dict sortKeysUsingSelector:@selector(localizedCaseInsensitiveCompare:) deepSort:YES];
-  GHAssertEqualObjects(expected, [dict allKeys], nil);
-  GHAssertEqualObjects(expected, [[dict keyEnumerator] allObjects], nil);
-  GHAssertEqualObjects(expected2, [dict[@"sub"] allKeys], nil);
+  GRAssertEqualObjects(expected, [dict allKeys]);
+  GRAssertEqualObjects(expected, [[dict keyEnumerator] allObjects]);
+  GRAssertEqualObjects(expected2, [dict[@"sub"] allKeys]);
 }
 
 @end

@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-Tests-GHUnit.xcscheme</key>
+		<key>Pods-Tests-GRUnit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +17,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>33A40FA3FDE5478C81B8E3D3</key>
+		<key>6B2427C068D14A6FB7793615</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8377B829481445F982261418</key>
+		<key>97B79B130DF947E2B6E4F022</key>
 		<dict>
 			<key>primary</key>
 			<true/>

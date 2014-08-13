@@ -3,6 +3,6 @@
 
 int main(int argc, char *argv[]) {
   @autoreleasepool {
-    return UIApplicationMain(argc, argv, nil, @"GHUnitIOSAppDelegate");
+    return UIApplicationMain(argc, argv, nil, @"GRUnitIOSAppDelegate");
   }
 }

@@ -1,7 +1,7 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
-## GHUnit
+## GRUnit
 
 //
 //  Created by Gabriel Handford on 3/1/09.

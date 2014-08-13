@@ -1,11 +1,11 @@
 //
 //  MPMessagePackTest.m
 //
-#import <GHUnit/GHUnit.h>
+#import <GRUnit/GRUnit.h>
 
 #import "MPMessagePack.h"
 
-@interface MPMessagePackTest : GHTestCase
+@interface MPMessagePackTest : GRTestCase
 @end
 
 @implementation MPMessagePackTest
@@ -28,7 +28,7 @@
 - (void)testEmpty {
   NSData *data1 = [MPMessagePackWriter writeObject:@[] error:nil];
   NSArray *read1 = [MPMessagePackReader readData:data1 options:0 error:nil];
-  GHAssertEqualObjects(@[], read1, nil);
+  GRAssertEqualObjects(@[], read1);
 }
 
 - (void)testPackUnpack {
@@ -57,15 +57,15 @@
     @"null": [NSNull null],
     @"str": @"🍆😗😂😰",
     };
-  GHTestLog(@"Obj: %@", obj);
+  GRTestLog(@"Obj: %@", obj);
   
   NSData *data2 = [obj mp_messagePack];
   NSDictionary *read2 = [MPMessagePackReader readData:data2 options:0 error:nil];
-  GHAssertEqualObjects(obj, read2, nil);
+  GRAssertEqualObjects(obj, read2);
   
   NSData *data3 = [MPMessagePackWriter writeObject:obj options:MPMessagePackWriterOptionsSortDictionaryKeys error:nil];
   NSDictionary *read3 = [MPMessagePackReader readData:data3 options:0 error:nil];
-  GHAssertEqualObjects(obj, read3, nil);
+  GRAssertEqualObjects(obj, read3);
 }
 
 - (void)testRandomData {
@@ -75,7 +75,7 @@
   
   NSError *error = nil;
   [MPMessagePackReader readData:data options:0 error:&error];
-  GHTestLog(@"Error: %@", error);
+  GRTestLog(@"Error: %@", error);
   // Just don't crash
 }
 
