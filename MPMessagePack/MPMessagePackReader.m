@@ -67,7 +67,13 @@
       }
       NSMutableData *data = [NSMutableData dataWithLength:length];
       context->read(context, [data mutableBytes], length);
-      return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+      NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+      if (!str) {
+        // Invalid string encoding
+        // Or returnNilWithErrorCode?
+        return [NSNull null];
+      }
+      return str;
     }
 
     case CMP_TYPE_FIXARRAY:
