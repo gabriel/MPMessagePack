@@ -15,9 +15,10 @@ typedef NS_ENUM(NSInteger, MPMessagePackReaderOptions) {
 
 @interface MPMessagePackReader : NSObject
 
-- (instancetype)initWithData:(NSData *)data;
-
 @property (readonly) size_t index;
+
+- (instancetype)initWithData:(NSData *)data;
+- (instancetype)initWithData:(NSData *)data options:(MPMessagePackReaderOptions)options;
 
 - (id)readObject:(NSError * __autoreleasing *)error;
 

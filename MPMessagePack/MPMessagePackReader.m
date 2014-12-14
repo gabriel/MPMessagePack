@@ -187,7 +187,10 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
 - (id)readObject:(NSError * __autoreleasing *)error {
   cmp_ctx_t ctx;
   cmp_init(&ctx, (__bridge void *)self, mp_reader, mp_writer);
-  return [self readFromContext:&ctx error:error];
+  size_t index = _index;
+  id obj = [self readFromContext:&ctx error:error];
+  if (error) _index = index;
+  return obj;
 }
 
 + (id)readData:(NSData *)data error:(NSError * __autoreleasing *)error {

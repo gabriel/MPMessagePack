@@ -73,7 +73,8 @@
   [data appendData:[MPMessagePackWriter writeObject:@{@"a": @(1)} error:nil]];
   [data appendData:[MPMessagePackWriter writeObject:@[@(1), @(2)] error:nil]];
   
-  MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:[data subdataWithRange:NSMakeRange(0, data.length -1)]];
+  NSMutableData *subdata = [[data subdataWithRange:NSMakeRange(0, data.length - 1)] mutableCopy];
+  MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:subdata];
   id obj1 = [reader readObject:nil];
   id obj2 = [reader readObject:nil];
   
@@ -81,10 +82,17 @@
   GRAssertEqualObjects(obj2, @{@"a": @(1)});
   
   NSError *error = nil;
+  size_t index = reader.index;
   id obj3 = [reader readObject:&error];
   GRAssertNil(obj3);
   GRAssertNotNil(error);
   GRAssertEquals(error.code, (NSInteger)202);
+  GRAssertEquals(reader.index, (size_t)index); // Make sure error resets index
+  
+  [subdata appendData:[data subdataWithRange:NSMakeRange(data.length - 1, 1)]];
+  obj3 = [reader readObject:nil];
+  id expected3 = @[@(1), @(2)];
+  GRAssertEqualObjects(obj3, expected3);
 }
 
 - (void)testRandomData {
