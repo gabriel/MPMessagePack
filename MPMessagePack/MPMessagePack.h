@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MPDefines.h"
 #import "MPMessagePackWriter.h"
 #import "MPMessagePackReader.h"
 
