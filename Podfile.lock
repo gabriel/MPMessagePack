@@ -1,10 +1,10 @@
 PODS:
-  - GRUnit (1.0.7)
+  - GRUnit (1.0.14)
 
 DEPENDENCIES:
   - GRUnit
 
 SPEC CHECKSUMS:
-  GRUnit: 0aa19eb3ff9ad445f18a6768edbca4f699bdb966
+  GRUnit: 9d8c3edaa4d80cffcdd41b3dfb116b2bae985275
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.35.0

@@ -14,8 +14,10 @@ typedef NS_ENUM(NSInteger, MPMessagePackWriterOptions) {
 
 @interface MPMessagePackWriter : NSObject
 
-+ (NSData *)writeObject:(id)obj error:(NSError * __autoreleasing *)error;
+- (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error;
 
-+ (NSData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error;
++ (NSMutableData *)writeObject:(id)obj error:(NSError * __autoreleasing *)error;
+
++ (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error;
 
 @end

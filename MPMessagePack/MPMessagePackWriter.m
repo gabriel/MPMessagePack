@@ -32,7 +32,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return [mp write:data count:count];
 }
 
-- (NSData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error {
+- (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error {
   _data = [NSMutableData data];
   
   cmp_ctx_t ctx;
@@ -45,11 +45,11 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return _data;
 }
 
-+ (NSData *)writeObject:(id)obj error:(NSError * __autoreleasing *)error {
++ (NSMutableData *)writeObject:(id)obj error:(NSError * __autoreleasing *)error {
   return [self writeObject:obj options:0 error:error];
 }
 
-+ (NSData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error {
++ (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error {
   MPMessagePackWriter *messagePack = [[MPMessagePackWriter alloc] init];
   [messagePack writeObject:obj options:options error:error];
   return messagePack.data;

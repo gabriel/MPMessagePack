@@ -68,6 +68,25 @@
   GRAssertEqualObjects(obj, read3);
 }
 
+- (void)testMultiple {
+  NSMutableData *data = [NSMutableData dataWithData:[MPMessagePackWriter writeObject:@(1) error:nil]];
+  [data appendData:[MPMessagePackWriter writeObject:@{@"a": @(1)} error:nil]];
+  [data appendData:[MPMessagePackWriter writeObject:@[@(1), @(2)] error:nil]];
+  
+  MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:[data subdataWithRange:NSMakeRange(0, data.length -1)]];
+  id obj1 = [reader readObject:nil];
+  id obj2 = [reader readObject:nil];
+  
+  GRAssertEqualObjects(obj1, @(1));
+  GRAssertEqualObjects(obj2, @{@"a": @(1)});
+  
+  NSError *error = nil;
+  id obj3 = [reader readObject:&error];
+  GRAssertNil(obj3);
+  GRAssertNotNil(error);
+  GRAssertEquals(error.code, (NSInteger)202);
+}
+
 - (void)testRandomData {
   NSUInteger length = 1024 * 32;
   NSMutableData *data = [NSMutableData dataWithLength:length];

@@ -15,11 +15,26 @@
 @interface MPMessagePackReader ()
 @property NSData *data;
 @property size_t index;
+@property MPMessagePackReaderOptions options;
 @end
 
 @implementation MPMessagePackReader
 
-- (id)readFromContext:(cmp_ctx_t *)context options:(MPMessagePackReaderOptions)options error:(NSError * __autoreleasing *)error {
+- (instancetype)initWithData:(NSData *)data {
+  if ((self = [super init])) {
+    _data = data;
+  }
+  return self;
+}
+
+- (instancetype)initWithData:(NSData *)data options:(MPMessagePackReaderOptions)options {
+  if ((self = [self initWithData:data])) {
+    _options = options;
+  }
+  return self;
+}
+
+- (id)readFromContext:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
   cmp_object_t obj;
   if (!cmp_read_object(context, &obj)) {
     return [self returnNilWithErrorCode:200 description:@"Unable to read object" error:error];
@@ -80,14 +95,14 @@
     case CMP_TYPE_ARRAY16:
     case CMP_TYPE_ARRAY32: {
       uint32_t length = obj.as.array_size;
-      return [self readArrayFromContext:context options:options length:length error:error];
+      return [self readArrayFromContext:context length:length error:error];
     }
       
     case CMP_TYPE_FIXMAP:
     case CMP_TYPE_MAP16:
     case CMP_TYPE_MAP32: {
       uint32_t length = obj.as.map_size;
-      return [self readDictionaryFromContext:context options:options length:length error:error];
+      return [self readDictionaryFromContext:context length:length error:error];
     }
       
     case CMP_TYPE_EXT8:
@@ -105,11 +120,11 @@
   }
 }
 
-- (NSMutableArray *)readArrayFromContext:(cmp_ctx_t *)context options:(MPMessagePackReaderOptions)options length:(uint32_t)length error:(NSError * __autoreleasing *)error {
+- (NSMutableArray *)readArrayFromContext:(cmp_ctx_t *)context length:(uint32_t)length error:(NSError * __autoreleasing *)error {
   NSUInteger capacity = length < 1000 ? length : 1000;
   NSMutableArray *array = [NSMutableArray arrayWithCapacity:capacity];
   for (NSInteger i = 0; i < length; i++) {
-    id obj = [self readFromContext:context options:options error:error];
+    id obj = [self readFromContext:context error:error];
     if (!obj) {
       return [self returnNilWithErrorCode:202 description:@"Unable to read object" error:error];
     }
@@ -118,22 +133,22 @@
   return array;
 }
 
-- (NSMutableDictionary *)readDictionaryFromContext:(cmp_ctx_t *)context options:(MPMessagePackReaderOptions)options length:(uint32_t)length error:(NSError * __autoreleasing *)error {
+- (NSMutableDictionary *)readDictionaryFromContext:(cmp_ctx_t *)context length:(uint32_t)length error:(NSError * __autoreleasing *)error {
   NSUInteger capacity = length < 1000 ? length : 1000;
 
   id dict = nil;
-  if ((options & MPMessagePackReaderOptionsUseOrderedDictionary) == MPMessagePackReaderOptionsUseOrderedDictionary) {
+  if ((_options & MPMessagePackReaderOptionsUseOrderedDictionary) == MPMessagePackReaderOptionsUseOrderedDictionary) {
     dict = [[MPOrderedDictionary alloc] initWithCapacity:capacity];
   } else {
     dict = [NSMutableDictionary dictionaryWithCapacity:capacity];
   }
   
   for (NSInteger i = 0; i < length; i++) {
-    id key = [self readFromContext:context options:options error:error];
+    id key = [self readFromContext:context error:error];
     if (!key) {
       return [self returnNilWithErrorCode:203 description:@"Unable to read object" error:error];
     }
-    id value = [self readFromContext:context options:options error:error];
+    id value = [self readFromContext:context error:error];
     if (!value) {
       return [self returnNilWithErrorCode:204 description:@"Unable to read object" error:error];
     }
@@ -169,13 +184,10 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return 0;
 }
 
-- (id)readData:(NSData *)data options:(MPMessagePackReaderOptions)options error:(NSError * __autoreleasing *)error {
-  _data = data;
-  _index = 0;
-  
+- (id)readObject:(NSError * __autoreleasing *)error {
   cmp_ctx_t ctx;
   cmp_init(&ctx, (__bridge void *)self, mp_reader, mp_writer);
-  return [self readFromContext:&ctx options:options error:error];
+  return [self readFromContext:&ctx error:error];
 }
 
 + (id)readData:(NSData *)data error:(NSError * __autoreleasing *)error {
@@ -183,8 +195,8 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
 }
 
 + (id)readData:(NSData *)data options:(MPMessagePackReaderOptions)options error:(NSError * __autoreleasing *)error {
-  MPMessagePackReader *messagePackReader = [[MPMessagePackReader alloc] init];
-  id obj = [messagePackReader readData:data options:options error:error];
+  MPMessagePackReader *messagePackReader = [[MPMessagePackReader alloc] initWithData:data options:options];
+  id obj = [messagePackReader readObject:error];
   
   if (!obj) {
     if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:299 userInfo:@{NSLocalizedDescriptionKey: @"Unable to read object"}];
