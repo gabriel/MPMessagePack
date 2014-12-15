@@ -2,9 +2,13 @@ PODS:
   - GRUnit (1.0.14)
 
 DEPENDENCIES:
-  - GRUnit
+  - GRUnit (from `../GRUnit`)
+
+EXTERNAL SOURCES:
+  GRUnit:
+    :path: ../GRUnit
 
 SPEC CHECKSUMS:
-  GRUnit: 9d8c3edaa4d80cffcdd41b3dfb116b2bae985275
+  GRUnit: eee1097d81b586263f9dab264f69ad30513dbfa0
 
 COCOAPODS: 0.35.0

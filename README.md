@@ -59,7 +59,7 @@ id obj = [MPMessagePackReader readData:data error:&error];
 
 ```objc
 MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:data];
-id obj1 = [reader read:&error];
-id obj2 = [reader read:&error];
+id obj1 = [reader read:&error]; // Read an object
+id obj2 = [reader read:&error]; // Read another object
 ```
 

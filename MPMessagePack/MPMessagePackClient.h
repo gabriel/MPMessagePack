@@ -16,12 +16,13 @@ typedef NS_ENUM(NSInteger, MPMessagePackClientStatus) {
   MPMessagePackClientStatusOpen,
 };
 
-typedef NS_ENUM(NSInteger, MPMessagePackClientOptions) {
-  MPMessagePackClientOptionsFramed = 1 << 0,
+typedef NS_ENUM(NSInteger, MPMessagePackOptions) {
+  MPMessagePackOptionsFramed = 1 << 0,
 };
 
 @class MPMessagePackClient;
 
+typedef void (^MPErrorHandler)(NSError *error);
 typedef void (^MPRequestCompletion)(NSError *error, id result);
 typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletion completion);
 
@@ -37,11 +38,11 @@ typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletio
 @property (copy) MPRequestHandler requestHandler;
 @property (readonly, nonatomic) MPMessagePackClientStatus status;
 
-- (instancetype)initWithOptions:(MPMessagePackClientOptions)options;
-
-- (instancetype)initWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream options:(MPMessagePackClientOptions)options;
+- (instancetype)initWithName:(NSString *)name options:(MPMessagePackOptions)options;
 
 - (void)openWithHost:(NSString *)host port:(UInt32)port completion:(MPCompletion)completion;
+
+- (void)setInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream;
 
 - (void)close;
 

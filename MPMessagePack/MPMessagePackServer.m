@@ -12,21 +12,33 @@
 
 #include <sys/socket.h>
 #include <netinet/in.h>
+//#include <arpa/inet.h>
 #include <unistd.h>
 
 NSString *const MPMessagePackServerErrorDomain = @"MPMessagePackServerErrorDomain";
 
 @interface MPMessagePackServer ()
+@property MPMessagePackOptions options;
 @property CFSocketRef socket;
 @property MPMessagePackClient *client;
-//@property NSNetService *netService;
 @end
 
 @implementation MPMessagePackServer
 
+- (instancetype)initWithOptions:(MPMessagePackOptions)options {
+  if ((self = [super init])) {
+    _options = options;
+  }
+  return self;
+}
+
 - (void)connectionFromAddress:(NSData *)addr inputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream {
-  _client = [[MPMessagePackClient alloc] initWithInputStream:inputStream outputStream:outputStream options:1];
+  NSAssert(!_client, @"This server only handles a single client"); // TODO
+  
+  _client = [[MPMessagePackClient alloc] initWithName:@"Server" options:_options];
   _client.requestHandler = _requestHandler;
+  _client.delegate = self;
+  [_client setInputStream:inputStream outputStream:outputStream];
 }
 
 - (void)setRequestHandler:(MPRequestHandler)requestHandler {
@@ -36,7 +48,7 @@ NSString *const MPMessagePackServerErrorDomain = @"MPMessagePackServerErrorDomai
 
 static void MPMessagePackServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
   MPMessagePackServer *server = (__bridge MPMessagePackServer *)info;
-  MPDebug(@"Accept callback type: %d", (int)type);
+  //MPDebug(@"Accept callback type: %d", (int)type);
   if (kCFSocketAcceptCallBack == type) {
     CFSocketNativeHandle nativeSocketHandle = *(CFSocketNativeHandle *)data;
     uint8_t name[SOCK_MAXADDRLEN];
@@ -80,16 +92,20 @@ static void MPMessagePackServerAcceptCallBack(CFSocketRef socket, CFSocketCallBa
   int yes = 1;
   setsockopt(CFSocketGetNative(_socket), SOL_SOCKET, SO_REUSEADDR, (void *)&yes, sizeof(yes));
   
-  // Set up the IPv4 endpoint; if port is 0, this will cause the kernel to choose a port for us
   struct sockaddr_in addr4;
   memset(&addr4, 0, sizeof(addr4));
   addr4.sin_len = sizeof(addr4);
   addr4.sin_family = AF_INET;
   addr4.sin_port = htons(port);
   addr4.sin_addr.s_addr = htonl(INADDR_ANY);
-  NSData *address4 = [NSData dataWithBytes:&addr4 length:sizeof(addr4)];
+  NSData *address = [NSData dataWithBytes:&addr4 length:sizeof(addr4)];
   
-  if (kCFSocketSuccess != CFSocketSetAddress(_socket, (CFDataRef)address4)) {
+//  struct sockaddr_un sun;
+//  sun.sun_len = sizeof(struct sockaddr_un);
+//  sun.sun_family = AF_UNIX;
+//  strcpy(&sun.sun_path[0], [@"/tmp/keybase.socket" UTF8String]);
+  
+  if (kCFSocketSuccess != CFSocketSetAddress(_socket, (CFDataRef)address)) {
     if (_socket) {
       CFRelease(_socket);
       _socket = NULL;
@@ -102,14 +118,6 @@ static void MPMessagePackServerAcceptCallBack(CFSocketRef socket, CFSocketCallBa
   CFRunLoopAddSource(CFRunLoopGetCurrent(), source4, kCFRunLoopCommonModes);
   CFRelease(source4);
   
-//  _netService = [[NSNetService alloc] initWithDomain: @"local." type:@"_keybase._tcp." name:@"Keybase" port:port];
-//  if (_netService) {
-//    //_netService.delegate = self;
-//    //_netService publishWithOptions:
-//  } else {
-//    // Error
-//  }
-  
   MPDebug(@"Created socket");
   return YES;
 }
@@ -119,6 +127,19 @@ static void MPMessagePackServerAcceptCallBack(CFSocketRef socket, CFSocketCallBa
     CFSocketInvalidate(_socket);
     _socket = NULL;
   }
+}
+
+#pragma mark -
+
+- (void)client:(MPMessagePackClient *)client didError:(NSError *)error fatal:(BOOL)fatal {
+  MPErr(@"Client error: %@", error);
+  if (fatal) {
+    [_client close];
+  }
+}
+
+- (void)client:(MPMessagePackClient *)client didChangeStatus:(MPMessagePackClientStatus)status {
+  
 }
 
 @end

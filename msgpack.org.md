@@ -5,7 +5,7 @@
 pod "MPMessagePack"
 ```
 
-# Writing
+## Writing
 
 ```objc
 #import <MPMessagePack/MPMessagePack.h>
@@ -19,14 +19,33 @@ NSDictionary *dict =
 };
 
 NSData *data = [dict mp_messagePack];
+```
 
-// To get error info
+Or via ```MPMessagePackWriter```.
+
+```objc
 NSError *error = nil;
 NSData *data = [MPMessagePackWriter writeObject:dict error:&error];
 ```
 
-# Reading
+If you need to use an ordered dictionary.
+
+```objc
+MPOrderedDictionary *dict = [[MPOrderedDictionary alloc] init];
+[dict addEntriesFromDictionary:@{@"c": @(1), @"b": @(2), @"a": @(3)}];
+[dict sortKeysUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+[dict mp_messagePack];
+```
+
+## Reading
 
 ```objc
 id obj = [MPMessagePackReader readData:data error:&error];
 ```
+
+```objc
+MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:data];
+id obj1 = [reader read:&error]; // Read an object
+id obj2 = [reader read:&error]; // Read another object
+```
+

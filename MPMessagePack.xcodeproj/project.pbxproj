@@ -9,9 +9,17 @@
 /* Begin PBXBuildFile section */
 		004D149A1A3D1B9F0083888D /* MPMessagePackClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14991A3D1B9F0083888D /* MPMessagePackClient.m */; };
 		004D149B1A3D1B9F0083888D /* MPMessagePackClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14991A3D1B9F0083888D /* MPMessagePackClient.m */; };
-		004D149F1A3D1BE60083888D /* MPMessagePackClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D149D1A3D1BE60083888D /* MPMessagePackClientTest.m */; };
 		004D14A71A3D23B10083888D /* MPMessagePackServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14A61A3D23B10083888D /* MPMessagePackServer.m */; };
 		004D14A81A3D23B10083888D /* MPMessagePackServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14A61A3D23B10083888D /* MPMessagePackServer.m */; };
+		004D14CE1A3D59C50083888D /* mainosx.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14A91A3D59950083888D /* mainosx.m */; };
+		004D14D01A3D59D20083888D /* cmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 00FB32E119661B0A0060AF33 /* cmp.c */; };
+		004D14D11A3D59D90083888D /* MPMessagePackWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FB32CC19661A870060AF33 /* MPMessagePackWriter.m */; };
+		004D14D21A3D59E90083888D /* MPMessagePackReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555AC1966276400288AE7 /* MPMessagePackReader.m */; };
+		004D14D31A3D59EF0083888D /* NSArray+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555B81966397500288AE7 /* NSArray+MPMessagePack.m */; };
+		004D14D41A3D59F20083888D /* MPOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */; };
+		004D14D51A3D59F50083888D /* MPMessagePackClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14991A3D1B9F0083888D /* MPMessagePackClient.m */; };
+		004D14D61A3D59F80083888D /* MPMessagePackServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14A61A3D23B10083888D /* MPMessagePackServer.m */; };
+		004D14DA1A3F97C70083888D /* MPMessagePackClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D149D1A3D1BE60083888D /* MPMessagePackClientTest.m */; };
 		0057EE00196CABE500F39536 /* MPOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */; };
 		0057EE01196CABE500F39536 /* MPOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */; };
 		0057EE04196CAE6300F39536 /* MPOrderedDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0057EE03196CAE6300F39536 /* MPOrderedDictionaryTest.m */; };
@@ -62,6 +70,8 @@
 		004D14A11A3D1D210083888D /* MPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPDefines.h; sourceTree = "<group>"; };
 		004D14A51A3D23B10083888D /* MPMessagePackServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePackServer.h; sourceTree = "<group>"; };
 		004D14A61A3D23B10083888D /* MPMessagePackServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMessagePackServer.m; sourceTree = "<group>"; };
+		004D14A91A3D59950083888D /* mainosx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mainosx.m; sourceTree = "<group>"; };
+		004D14AE1A3D59B30083888D /* TestsOSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestsOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0057EDD519664B7E00F39536 /* msgpack.org.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = msgpack.org.md; sourceTree = "<group>"; };
 		0057EDFD196CAB7E00F39536 /* CHANGES */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
 		0057EDFE196CABE500F39536 /* MPOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPOrderedDictionary.h; sourceTree = "<group>"; };
@@ -92,6 +102,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		004D14AB1A3D59B30083888D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00FB32C419661A860060AF33 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,6 +149,7 @@
 			children = (
 				00FB32C719661A860060AF33 /* libMPMessagePack.a */,
 				684E46587C98451692387FD4 /* Tests.app */,
+				004D14AE1A3D59B30083888D /* TestsOSX.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -168,6 +186,7 @@
 				350EDB33056543CEB251CD88 /* MPMessagePackTest.m */,
 				0057EE03196CAE6300F39536 /* MPOrderedDictionaryTest.m */,
 				004D149D1A3D1BE60083888D /* MPMessagePackClientTest.m */,
+				004D14A91A3D59950083888D /* mainosx.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -201,6 +220,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		004D14AD1A3D59B30083888D /* TestsOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 004D14C81A3D59B30083888D /* Build configuration list for PBXNativeTarget "TestsOSX" */;
+			buildPhases = (
+				004D14AA1A3D59B30083888D /* Sources */,
+				004D14AB1A3D59B30083888D /* Frameworks */,
+				004D14AC1A3D59B30083888D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestsOSX;
+			productName = TestsOSX;
+			productReference = 004D14AE1A3D59B30083888D /* TestsOSX.app */;
+			productType = "com.apple.product-type.application";
+		};
 		00FB32C619661A860060AF33 /* MPMessagePack */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00FB32DB19661A870060AF33 /* Build configuration list for PBXNativeTarget "MPMessagePack" */;
@@ -246,6 +282,9 @@
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Gabriel Handford";
 				TargetAttributes = {
+					004D14AD1A3D59B30083888D = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
 					00FB32C619661A860060AF33 = {
 						CreatedOnToolsVersion = 6.0;
 					};
@@ -257,6 +296,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 00FB32BE19661A860060AF33;
 			productRefGroup = 00FB32C819661A860060AF33 /* Products */;
@@ -265,9 +305,20 @@
 			targets = (
 				00FB32C619661A860060AF33 /* MPMessagePack */,
 				92ABD186D50A49738C3845A8 /* Tests */,
+				004D14AD1A3D59B30083888D /* TestsOSX */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		004D14AC1A3D59B30083888D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		25A42B27A5854F99A31FFDB0 /* Check Pods Manifest.lock */ = {
@@ -303,6 +354,21 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		004D14AA1A3D59B30083888D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				004D14D51A3D59F50083888D /* MPMessagePackClient.m in Sources */,
+				004D14D61A3D59F80083888D /* MPMessagePackServer.m in Sources */,
+				004D14D01A3D59D20083888D /* cmp.c in Sources */,
+				004D14D21A3D59E90083888D /* MPMessagePackReader.m in Sources */,
+				004D14D11A3D59D90083888D /* MPMessagePackWriter.m in Sources */,
+				004D14D41A3D59F20083888D /* MPOrderedDictionary.m in Sources */,
+				004D14D31A3D59EF0083888D /* NSArray+MPMessagePack.m in Sources */,
+				004D14CE1A3D59C50083888D /* mainosx.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00FB32C319661A860060AF33 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -329,8 +395,8 @@
 				004D14A81A3D23B10083888D /* MPMessagePackServer.m in Sources */,
 				3507E750E03F40A29B02939A /* main.m in Sources */,
 				006555BA1966397500288AE7 /* NSArray+MPMessagePack.m in Sources */,
-				004D149F1A3D1BE60083888D /* MPMessagePackClientTest.m in Sources */,
 				006555AE1966276400288AE7 /* MPMessagePackReader.m in Sources */,
+				004D14DA1A3F97C70083888D /* MPMessagePackClientTest.m in Sources */,
 				9B4192641A354BC7B3F73985 /* MPMessagePackTest.m in Sources */,
 				0057EE04196CAE6300F39536 /* MPOrderedDictionaryTest.m in Sources */,
 				00FB32E7196625C00060AF33 /* MPMessagePackWriter.m in Sources */,
@@ -348,6 +414,39 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		004D14C91A3D59B30083888D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		004D14CA1A3D59B30083888D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		00FB32D919661A870060AF33 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -499,6 +598,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		004D14C81A3D59B30083888D /* Build configuration list for PBXNativeTarget "TestsOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				004D14C91A3D59B30083888D /* Debug */,
+				004D14CA1A3D59B30083888D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		00FB32C219661A860060AF33 /* Build configuration list for PBXProject "MPMessagePack" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

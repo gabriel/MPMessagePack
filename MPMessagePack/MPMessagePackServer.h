@@ -11,9 +11,11 @@
 #import "MPMessagePack.h"
 #import "MPMessagePackClient.h"
 
-@interface MPMessagePackServer : NSObject
+@interface MPMessagePackServer : NSObject <MPMessagePackClientDelegate>
 
 @property (copy, nonatomic) MPRequestHandler requestHandler;
+
+- (instancetype)initWithOptions:(MPMessagePackOptions)options;
 
 - (BOOL)openWithPort:(uint16_t)port error:(NSError **)error;
 
