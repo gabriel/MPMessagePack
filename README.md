@@ -65,6 +65,8 @@ id obj2 = [reader read:&error]; // Read another object
 
 # RPC
 
+Should be compatible with [msgpack-rpc](https://github.com/msgpack-rpc/msgpack-rpc). It also supports a framing option where it will send the number of bytes for the following object (as a msgpack'ed number).
+
 ## Client
 
 ```objc
@@ -87,6 +89,8 @@ MPMessagePackServer *server = [[MPMessagePackServer alloc] initWithOptions:MPMes
 server.requestHandler = ^(NSString *method, id params, MPRequestCompletion completion) {
   if ([method isEqualToString:@"test"]) {
     completion(nil, params);
+  } else {
+    completion(@{@"error": {@"description": @"Method not found"}}, nil);
   }
 };
 
