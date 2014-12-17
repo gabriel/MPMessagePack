@@ -63,3 +63,36 @@ id obj1 = [reader read:&error]; // Read an object
 id obj2 = [reader read:&error]; // Read another object
 ```
 
+# RPC
+
+## Client
+
+```
+MPMessagePackClient *client = [[MPMessagePackClient alloc] init];
+[client openWithHost:@"localhost" port:93434 completion:^(NSError *error) {
+  // If error we failed
+  [_client sendRequestWithMethod:@"test" params:@{@"param1": @(1)} completion:^(NSError *error, id result) {
+    // If error we failed
+    // Otherwise the result
+  }];
+}];
+```
+
+
+## Server
+
+```objc
+MPMessagePackServer *server = [[MPMessagePackServer alloc] initWithOptions:MPMessagePackOptionsFramed];
+
+server.requestHandler = ^(NSString *method, id params, MPRequestCompletion completion) {
+  if ([method isEqualToString:@"test"]) {
+    completion(nil, params);
+  }
+};
+
+NSError *error = nil;
+if (![server openWithPort:93434 error:&error]) {
+  // Failed to open
+}
+```
+

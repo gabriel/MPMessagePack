@@ -99,7 +99,7 @@
 - (void)writeObject:(id)object completion:(MPErrorHandler)completion {
   NSError *error = nil;
   NSData *data = [MPMessagePackWriter writeObject:object options:0 error:&error];
-  if (!data) {
+  if (error) {
     completion(error);
     return;
   }
