@@ -67,7 +67,7 @@ id obj2 = [reader read:&error]; // Read another object
 
 ## Client
 
-```
+```objc
 MPMessagePackClient *client = [[MPMessagePackClient alloc] init];
 [client openWithHost:@"localhost" port:93434 completion:^(NSError *error) {
   // If error we failed
