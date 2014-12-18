@@ -104,7 +104,7 @@
     return;
   }
   if (_options & MPMessagePackOptionsFramed) {
-    MPDebug(@"Writing frame: %@", @(data.length));
+    MPDebug(@"[%@] Writing frame size: %@", _name, @(data.length));
     NSData *frameSize = [MPMessagePackWriter writeObject:@(data.length) options:0 error:&error];
     NSAssert(frameSize, @"Error packing frame size");
     [_queue addObject:frameSize];
@@ -141,12 +141,14 @@
 
 - (void)checkReadBuffer {
   MPDebug(@"[%@] Checking read buffer: %d", _name, (int)_readBuffer.length);
+  if (_readBuffer.length == 0) return;
+  
   MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:_readBuffer]; // TODO: Fix init every check
   
   if (_options & MPMessagePackOptionsFramed) {
     NSError *error = nil;
     NSNumber *frameSize = [reader readObject:&error];
-    MPDebug(@"Read frame size: %@", frameSize);
+    MPDebug(@"[%@] Read frame size: %@", _name, frameSize);
     if (error) {
       [self handleError:error fatal:YES];
       return;
@@ -174,20 +176,35 @@
   }
   
   NSArray *message = (NSArray *)obj;
+  MPDebug(@"Read message: %@", message);
   NSInteger type = [message[0] integerValue];
   NSNumber *messageId = message[1];
   
   if (type == 0) {
-    NSString *method = message[2];
-    id params = message[3];
+    NSString *method = MPIfNull(message[2], nil);
+    id params = MPIfNull(message[3], nil);
     self.requestHandler(method, params, ^(NSError *error, id result) {
       [self sendResponseWithResult:result error:error messageId:messageId.unsignedIntegerValue completion:^(NSError *error) {
         if (error) [self.delegate client:self didError:error fatal:YES];
       }];
     });
   } else if (type == 1) {
-    id error = message[2];
-    id result = message[3];
+    id responseError = MPIfNull(message[2], nil);
+    
+    NSError *error = nil;
+    if (responseError) {
+      if ([responseError isKindOfClass:NSString.class]) {
+        error = MPMakeError(-1, @"%@", (NSString *)responseError);
+      } else if ([responseError isKindOfClass:NSDictionary.class]) {
+        NSDictionary *errorDict = (NSDictionary *)responseError;
+        error = MPMakeError([errorDict[@"code"] unsignedIntegerValue], @"%@", errorDict[@"description"]);
+      } else {
+        [self handleError:MPMakeError(501, @"[%@] Unable to parse error object", _name) fatal:YES];
+        return;
+      }
+    }
+    
+    id result = MPIfNull(message[3], nil);
     MPRequestCompletion completion = _requests[messageId];
     if (!completion) {
       [self handleError:MPMakeError(501, @"[%@] Got response for unknown request", _name) fatal:NO];
@@ -196,7 +213,9 @@
       completion(error, result);
     }
   } else if (type == 2) {
-    
+    NSString *method = MPIfNull(message[1], nil);
+    id params = MPIfNull(message[2], nil);
+    [self.delegate client:self didReceiveNotificationWithMethod:method params:params];
   }
   
   _readBuffer = [[_readBuffer subdataWithRange:NSMakeRange(reader.index, _readBuffer.length - reader.index)] mutableCopy]; // TODO: Fix mutable copy

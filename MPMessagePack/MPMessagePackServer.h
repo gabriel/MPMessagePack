@@ -14,6 +14,7 @@
 @interface MPMessagePackServer : NSObject <MPMessagePackClientDelegate>
 
 @property (copy, nonatomic) MPRequestHandler requestHandler;
+@property (copy, nonatomic) MPRequestHandler notificationHandler;
 
 - (instancetype)initWithOptions:(MPMessagePackOptions)options;
 

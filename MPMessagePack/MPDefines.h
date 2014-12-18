@@ -21,3 +21,5 @@
 typedef void (^MPCompletion)(NSError *error);
 
 #define MPMakeError(CODE, fmt, ...) [NSError errorWithDomain:NSStringFromClass(self.class) code:CODE userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:fmt, ##__VA_ARGS__]}]
+
+#define MPIfNull(obj, val) ([obj isEqual:NSNull.null] ? val : obj)

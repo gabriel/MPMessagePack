@@ -30,6 +30,7 @@ typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletio
 @protocol MPMessagePackClientDelegate <NSObject>
 - (void)client:(MPMessagePackClient *)client didError:(NSError *)error fatal:(BOOL)fatal;
 - (void)client:(MPMessagePackClient *)client didChangeStatus:(MPMessagePackClientStatus)status;
+- (void)client:(MPMessagePackClient *)client didReceiveNotificationWithMethod:(NSString *)method params:(id)params;
 @end
 
 @interface MPMessagePackClient : NSObject <NSStreamDelegate>
