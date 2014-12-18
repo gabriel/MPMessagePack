@@ -189,7 +189,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   cmp_init(&ctx, (__bridge void *)self, mp_reader, mp_writer);
   size_t index = _index;
   id obj = [self readFromContext:&ctx error:error];
-  if (error) _index = index;
+  if (error && *error) _index = index;
   return obj;
 }
 

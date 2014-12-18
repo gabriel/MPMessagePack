@@ -34,8 +34,8 @@ NSString *const MPMessagePackServerErrorDomain = @"MPMessagePackServerErrorDomai
 
 - (void)connectionFromAddress:(NSData *)addr inputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream {
   NSAssert(!_client, @"This server only handles a single client"); // TODO
-  
-  MPDebug(@"Connected from: %@", addr);
+
+  MPDebug(@"Client connected");
   
   _client = [[MPMessagePackClient alloc] initWithName:@"Server" options:_options];
   _client.requestHandler = _requestHandler;

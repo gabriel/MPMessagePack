@@ -64,14 +64,16 @@
   GRAssertEqualObjects(obj, read2);
   
   NSData *data3 = [MPMessagePackWriter writeObject:obj options:MPMessagePackWriterOptionsSortDictionaryKeys error:nil];
-  NSDictionary *read3 = [MPMessagePackReader readData:data3 options:0 error:nil];
+  NSError *error = nil;
+  NSDictionary *read3 = [MPMessagePackReader readData:data3 options:0 error:&error];
   GRAssertEqualObjects(obj, read3);
 }
 
 - (void)testMultiple {
-  NSMutableData *data = [NSMutableData dataWithData:[MPMessagePackWriter writeObject:@(1) error:nil]];
-  [data appendData:[MPMessagePackWriter writeObject:@{@"a": @(1)} error:nil]];
-  [data appendData:[MPMessagePackWriter writeObject:@[@(1), @(2)] error:nil]];
+  NSError *error = nil;
+  NSMutableData *data = [NSMutableData dataWithData:[MPMessagePackWriter writeObject:@(1) error:&error]];
+  [data appendData:[MPMessagePackWriter writeObject:@{@"a": @(1)} error:&error]];
+  [data appendData:[MPMessagePackWriter writeObject:@[@(1), @(2)] error:&error]];
   
   NSMutableData *subdata = [[data subdataWithRange:NSMakeRange(0, data.length - 1)] mutableCopy];
   MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:subdata];
@@ -81,7 +83,6 @@
   GRAssertEqualObjects(obj1, @(1));
   GRAssertEqualObjects(obj2, @{@"a": @(1)});
   
-  NSError *error = nil;
   size_t index = reader.index;
   id obj3 = [reader readObject:&error];
   GRAssertNil(obj3);

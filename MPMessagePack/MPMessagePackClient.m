@@ -104,6 +104,7 @@
     return;
   }
   if (_options & MPMessagePackOptionsFramed) {
+    MPDebug(@"Writing frame: %@", @(data.length));
     NSData *frameSize = [MPMessagePackWriter writeObject:@(data.length) options:0 error:&error];
     NSAssert(frameSize, @"Error packing frame size");
     [_queue addObject:frameSize];
@@ -128,7 +129,7 @@
   uint8_t buffer[length];
   [data getBytes:buffer length:length];
   NSInteger bytesLength = [_outputStream write:(const uint8_t *)buffer maxLength:length];
-  //MPDebug(@"[%@] Wrote %d", _name, (int)bytesLength);
+  MPDebug(@"[%@] Wrote %d", _name, (int)bytesLength);
   _writeIndex += bytesLength;
   
   if (_writeIndex == data.length) {
@@ -143,18 +144,32 @@
   MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:_readBuffer]; // TODO: Fix init every check
   
   if (_options & MPMessagePackOptionsFramed) {
-    NSNumber *frameSize = [reader readObject:nil];
+    NSError *error = nil;
+    NSNumber *frameSize = [reader readObject:&error];
+    MPDebug(@"Read frame size: %@", frameSize);
+    if (error) {
+      [self handleError:error fatal:YES];
+      return;
+    }
     if (!frameSize) return;
     if (![frameSize isKindOfClass:NSNumber.class]) {
       [self handleError:MPMakeError(502, @"[%@] Expected number for frame size. You need to have framing on for both sides?", _name) fatal:YES];
       return;
     }
-    if (_readBuffer.length < (frameSize.unsignedIntegerValue + reader.index)) return;
+    if (_readBuffer.length < (frameSize.unsignedIntegerValue + reader.index)) {
+      MPDebug(@"Not enough data for response in frame: %d < %d", (int)_readBuffer.length, (int)(frameSize.unsignedIntegerValue + reader.index));
+      return;
+    }
   }
-  id obj = [reader readObject:nil];
+  NSError *error = nil;
+  id<NSObject> obj = [reader readObject:&error];
+  if (error) {
+    [self handleError:error fatal:YES];
+    return;
+  }
   if (!obj) return;
   if (![obj isKindOfClass:NSArray.class] || [(NSArray *)obj count] != 4) {
-    [self handleError:MPMakeError(500, @"[%@] Received an invalid response: %@", _name, obj) fatal:YES];
+    [self handleError:MPMakeError(500, @"[%@] Received an invalid response: %@ (%@)", _name, obj, NSStringFromClass([obj class])) fatal:YES];
     return;
   }
   
@@ -248,6 +263,7 @@ NSString *MPNSStringFromNSStreamEvent(NSStreamEvent e) {
       break;
     }
     case NSStreamEventErrorOccurred: {
+      MPDebug(@"Stream error");
       if (self.openCompletion) {
         self.openCompletion(stream.streamError);
         self.openCompletion = nil;
@@ -264,6 +280,7 @@ NSString *MPNSStringFromNSStreamEvent(NSStreamEvent e) {
 //        [_readBuffer appendData:data];
 //        [self checkReadBuffer];
 //      }
+      MPDebug(@"Stream end");
       [self close];
       break;
     }
