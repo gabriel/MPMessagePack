@@ -43,6 +43,8 @@ typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletio
 
 - (void)openWithHost:(NSString *)host port:(UInt32)port completion:(MPCompletion)completion;
 
+- (BOOL)openWithSocket:(NSString *)unixSocket error:(NSError **)error;
+
 - (void)setInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream;
 
 - (void)close;
@@ -51,5 +53,7 @@ typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletio
 
 // For servers
 - (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSUInteger)messageId completion:(MPErrorHandler)completion;
+
+- (void)readData:(NSData *)data;
 
 @end
