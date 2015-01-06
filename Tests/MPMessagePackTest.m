@@ -107,4 +107,10 @@
   // Just don't crash
 }
 
+- (void)testMap {
+  NSDictionary *d = @{@"identify": @(YES)};
+  NSData *data = [MPMessagePackWriter writeObject:d options:0 error:nil];
+  GRTestLog(@"Data: %@", [data mp_hexString]);
+}
+
 @end

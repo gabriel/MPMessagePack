@@ -11,6 +11,7 @@
 #include "cmp.h"
 
 #import "MPOrderedDictionary.h"
+#import "MPDefines.h"
 
 @interface MPMessagePackWriter ()
 @property NSMutableData *data;
@@ -87,14 +88,20 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
 
 - (BOOL)writeObject:(id)obj options:(MPMessagePackWriterOptions)options context:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
   if ([obj isKindOfClass:[NSArray class]]) {
-    cmp_write_array(context, (uint32_t)[obj count]);
+    if (!cmp_write_array(context, (uint32_t)[obj count])) {
+      if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: @"Error writing array"}];
+      return NO;
+    }
     for (id element in obj) {
       if (![self writeObject:element options:options context:context error:error]) {
         return NO;
       }
     }
   } else if ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[MPOrderedDictionary class]]) {
-    cmp_write_map(context, (uint32_t)[obj count]);
+    if (!cmp_write_map(context, (uint32_t)[obj count])) {
+      if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: @"Error writing map"}];
+      return NO;
+    }
     
     NSEnumerator *keyEnumerator;
     if ((options & MPMessagePackWriterOptionsSortDictionaryKeys) == MPMessagePackWriterOptionsSortDictionaryKeys) {
@@ -114,13 +121,22 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   } else if ([obj isKindOfClass:[NSString class]]) {
     const char *str = ((NSString*)obj).UTF8String;
     size_t len = strlen(str);
-    cmp_write_str(context, str, (uint32_t)len);
+    if (!cmp_write_str(context, str, (uint32_t)len)) {
+      if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: @"Error writing string"}];
+      return NO;
+    }
   } else if ([obj isKindOfClass:[NSNumber class]]) {
     [self writeNumber:obj context:context error:error];
   } else if ([obj isKindOfClass:[NSNull class]]) {
-    cmp_write_nil(context);
+    if (!cmp_write_nil(context)) {
+      if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: @"Error writing nil"}];
+      return NO;
+    }
   } else if ([obj isKindOfClass:[NSData class]]) {
-    cmp_write_bin(context, [obj bytes], (uint32_t)[obj length]);
+    if (!cmp_write_bin(context, [obj bytes], (uint32_t)[obj length])) {
+      if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: @"Error writing binary"}];
+      return NO;
+    }
   } else {
     NSString *errorDescription = [NSString stringWithFormat:@"Unable to write object: %@", obj];
     if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: errorDescription}];

@@ -11,7 +11,7 @@
 #import "MPMessagePack.h"
 
 typedef NS_ENUM(NSInteger, MPMessagePackClientStatus) {
-  MPMessagePackClientStatusClosed,
+  MPMessagePackClientStatusClosed = 1,
   MPMessagePackClientStatusOpening,
   MPMessagePackClientStatusOpen,
 };
@@ -43,7 +43,7 @@ typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletio
 
 - (void)openWithHost:(NSString *)host port:(UInt32)port completion:(MPCompletion)completion;
 
-- (BOOL)openWithSocket:(NSString *)unixSocket error:(NSError **)error;
+- (BOOL)openWithSocket:(NSString *)unixSocket completion:(MPCompletion)completion;
 
 - (void)setInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream;
 

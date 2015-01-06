@@ -29,6 +29,9 @@
 		006555B61966395500288AE7 /* NSDictionary+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555B41966395500288AE7 /* NSDictionary+MPMessagePack.m */; };
 		006555B91966397500288AE7 /* NSArray+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555B81966397500288AE7 /* NSArray+MPMessagePack.m */; };
 		006555BA1966397500288AE7 /* NSArray+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555B81966397500288AE7 /* NSArray+MPMessagePack.m */; };
+		007110B31A5B68DB005DF8D1 /* NSData+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 007110B21A5B68DB005DF8D1 /* NSData+MPMessagePack.m */; };
+		007110B41A5B68DB005DF8D1 /* NSData+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 007110B21A5B68DB005DF8D1 /* NSData+MPMessagePack.m */; };
+		007110B51A5B68DB005DF8D1 /* NSData+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 007110B21A5B68DB005DF8D1 /* NSData+MPMessagePack.m */; };
 		00FB32CB19661A870060AF33 /* MPMessagePackWriter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00FB32CA19661A860060AF33 /* MPMessagePackWriter.h */; };
 		00FB32CD19661A870060AF33 /* MPMessagePackWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FB32CC19661A870060AF33 /* MPMessagePackWriter.m */; };
 		00FB32E319661B0A0060AF33 /* cmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 00FB32E119661B0A0060AF33 /* cmp.c */; };
@@ -85,6 +88,8 @@
 		006555B71966397500288AE7 /* NSArray+MPMessagePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MPMessagePack.h"; sourceTree = "<group>"; };
 		006555B81966397500288AE7 /* NSArray+MPMessagePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MPMessagePack.m"; sourceTree = "<group>"; };
 		006555BB19663A1600288AE7 /* MPMessagePack.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = MPMessagePack.podspec; sourceTree = "<group>"; };
+		007110B11A5B68DB005DF8D1 /* NSData+MPMessagePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MPMessagePack.h"; sourceTree = "<group>"; };
+		007110B21A5B68DB005DF8D1 /* NSData+MPMessagePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MPMessagePack.m"; sourceTree = "<group>"; };
 		00FB32C719661A860060AF33 /* libMPMessagePack.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMPMessagePack.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00FB32CA19661A860060AF33 /* MPMessagePackWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPMessagePackWriter.h; sourceTree = "<group>"; };
 		00FB32CC19661A870060AF33 /* MPMessagePackWriter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPMessagePackWriter.m; sourceTree = "<group>"; };
@@ -175,6 +180,8 @@
 				004D14A51A3D23B10083888D /* MPMessagePackServer.h */,
 				004D14A61A3D23B10083888D /* MPMessagePackServer.m */,
 				004D14A11A3D1D210083888D /* MPDefines.h */,
+				007110B11A5B68DB005DF8D1 /* NSData+MPMessagePack.h */,
+				007110B21A5B68DB005DF8D1 /* NSData+MPMessagePack.m */,
 			);
 			path = MPMessagePack;
 			sourceTree = "<group>";
@@ -366,6 +373,7 @@
 				004D14D41A3D59F20083888D /* MPOrderedDictionary.m in Sources */,
 				004D14D31A3D59EF0083888D /* NSArray+MPMessagePack.m in Sources */,
 				004D14CE1A3D59C50083888D /* mainosx.m in Sources */,
+				007110B51A5B68DB005DF8D1 /* NSData+MPMessagePack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +389,7 @@
 				0057EE00196CABE500F39536 /* MPOrderedDictionary.m in Sources */,
 				006555AD1966276400288AE7 /* MPMessagePackReader.m in Sources */,
 				004D149A1A3D1B9F0083888D /* MPMessagePackClient.m in Sources */,
+				007110B31A5B68DB005DF8D1 /* NSData+MPMessagePack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +403,7 @@
 				00FB32E6196625BE0060AF33 /* cmp.c in Sources */,
 				004D14A81A3D23B10083888D /* MPMessagePackServer.m in Sources */,
 				3507E750E03F40A29B02939A /* main.m in Sources */,
+				007110B41A5B68DB005DF8D1 /* NSData+MPMessagePack.m in Sources */,
 				006555BA1966397500288AE7 /* NSArray+MPMessagePack.m in Sources */,
 				006555AE1966276400288AE7 /* MPMessagePackReader.m in Sources */,
 				004D14DA1A3F97C70083888D /* MPMessagePackClientTest.m in Sources */,

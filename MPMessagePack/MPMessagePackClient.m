@@ -65,7 +65,6 @@
 }
 
 - (void)openWithHost:(NSString *)host port:(UInt32)port completion:(MPCompletion)completion {
-  _openCompletion = completion;
   if (_status == MPMessagePackClientStatusOpen || _status == MPMessagePackClientStatusOpening) {
     MPErr(@"[%@] Already open", _name);
     completion(nil); // TODO: Maybe something better to do here
@@ -74,10 +73,16 @@
   CFReadStreamRef readStream;
   CFWriteStreamRef writeStream;
   CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)host, port, &readStream, &writeStream);
+  _openCompletion = completion;
   [self setInputStream:(__bridge NSInputStream *)(readStream) outputStream:(__bridge NSOutputStream *)(writeStream)];
 }
 
 - (void)close {
+  if (_openCompletion) {
+    MPErr(@"We had an open completion block set");
+    _openCompletion = nil;
+  }
+  
   [_inputStream close];
   [_inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
   _inputStream = nil;
@@ -100,7 +105,7 @@
 
 - (void)sendRequestWithMethod:(NSString *)method params:(id)params completion:(MPRequestCompletion)completion {
   NSNumber *messageId = @(++_messageId);
-  id request = @[@(0), messageId, method, params];
+  id request = @[@(0), messageId, method, params ? params : NSNull.null];
   _requests[messageId] = completion;
   [self writeObject:request completion:^(NSError *error) { completion(error, nil); }];
 }
@@ -143,6 +148,7 @@
     if (length == 0) break;
     
     uint8_t buffer[length];
+    //MPDebug(@"Write(%@): %@", @(length), [data base64EncodedStringWithOptions:0]); // [data mp_hexString]);
     [data getBytes:buffer length:length];
     NSInteger bytesLength = [_outputStream write:(const uint8_t *)buffer maxLength:length];
     MPDebug(@"[%@] Wrote %d", _name, (int)bytesLength);
@@ -333,13 +339,13 @@ NSString *MPNSStringFromNSStreamEvent(NSStreamEvent e) {
 
 #pragma mark Unix Socket
 
-- (BOOL)openWithSocket:(NSString *)socketName error:(NSError **)error {
+- (BOOL)openWithSocket:(NSString *)socketName completion:(MPCompletion)completion {
   CFSocketContext context = {0, (__bridge void *)self, nil, nil, nil};
   CFSocketCallBackType types = kCFSocketConnectCallBack;
   CFSocketNativeHandle sock = socket(AF_UNIX, SOCK_STREAM, 0);
   _socket = CFSocketCreateWithNative(nil, sock, types, MPSocketClientCallback, &context);
   if (!_socket) {
-    if (error) *error = MPMakeError(-5, @"Couldn't create native socket to: %@", socketName);
+    completion(MPMakeError(-5, @"Couldn't create native socket to: %@", socketName));
     return NO;
   }
 
@@ -350,10 +356,11 @@ NSString *MPNSStringFromNSStreamEvent(NSStreamEvent e) {
   NSData *address = [NSData dataWithBytes:&sun length:sizeof(sun)];
   
   if (CFSocketConnectToAddress(_socket, (__bridge CFDataRef)address, (CFTimeInterval)-1) != kCFSocketSuccess) {
-    if (error) *error = MPMakeError(-5, @"Couldn't open socket: %@", socketName);
+    completion(MPMakeError(-5, @"Couldn't open socket: %@", socketName));
     return NO; 
   }
   
+  _openCompletion = completion;
   CFRunLoopSourceRef sourceRef = CFSocketCreateRunLoopSource(kCFAllocatorDefault, _socket, 0);
   CFRunLoopAddSource(CFRunLoopGetCurrent(), sourceRef, kCFRunLoopCommonModes);
   CFRelease(sourceRef);
