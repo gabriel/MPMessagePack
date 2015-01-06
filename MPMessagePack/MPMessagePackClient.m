@@ -103,7 +103,7 @@
   self.status = MPMessagePackClientStatusClosed;
 }
 
-- (void)sendRequestWithMethod:(NSString *)method params:(id)params completion:(MPRequestCompletion)completion {
+- (void)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion {
   NSNumber *messageId = @(++_messageId);
   id request = @[@(0), messageId, method, params ? params : NSNull.null];
   _requests[messageId] = completion;

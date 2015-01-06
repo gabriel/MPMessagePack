@@ -49,7 +49,7 @@ typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletio
 
 - (void)close;
 
-- (void)sendRequestWithMethod:(NSString *)method params:(id)params completion:(MPRequestCompletion)completion;
+- (void)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion;
 
 // For servers
 - (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSUInteger)messageId completion:(MPErrorHandler)completion;
