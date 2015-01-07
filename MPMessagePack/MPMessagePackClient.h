@@ -24,13 +24,13 @@ typedef NS_ENUM(NSInteger, MPMessagePackOptions) {
 
 typedef void (^MPErrorHandler)(NSError *error);
 typedef void (^MPRequestCompletion)(NSError *error, id result);
-typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletion completion);
+typedef void (^MPRequestHandler)(NSString *method, NSArray *params, MPRequestCompletion completion);
 
 
 @protocol MPMessagePackClientDelegate <NSObject>
 - (void)client:(MPMessagePackClient *)client didError:(NSError *)error fatal:(BOOL)fatal;
 - (void)client:(MPMessagePackClient *)client didChangeStatus:(MPMessagePackClientStatus)status;
-- (void)client:(MPMessagePackClient *)client didReceiveNotificationWithMethod:(NSString *)method params:(id)params;
+- (void)client:(MPMessagePackClient *)client didReceiveNotificationWithMethod:(NSString *)method params:(NSArray *)params;
 @end
 
 @interface MPMessagePackClient : NSObject <NSStreamDelegate>
@@ -52,7 +52,7 @@ typedef void (^MPRequestHandler)(NSString *method, id params, MPRequestCompletio
 - (void)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion;
 
 // For servers
-- (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSUInteger)messageId completion:(MPErrorHandler)completion;
+- (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSInteger)messageId;
 
 - (void)readData:(NSData *)data;
 

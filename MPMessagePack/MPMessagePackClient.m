@@ -58,7 +58,7 @@
   _outputStream.delegate = self;
   [_inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
   [_outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-  MPDebug(@"[%@] Opening streams", _name);
+  //MPDebug(@"[%@] Opening streams", _name);
   self.status = MPMessagePackClientStatusOpening;
   [_inputStream open];
   [_outputStream open];
@@ -105,28 +105,33 @@
 
 - (void)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion {
   NSNumber *messageId = @(++_messageId);
-  id request = @[@(0), messageId, method, params ? params : NSNull.null];
+  NSArray *request = @[@(0), messageId, method, params ? params : NSNull.null];
   _requests[messageId] = completion;
-  [self writeObject:request completion:^(NSError *error) { completion(error, nil); }];
+  //MPDebug(@"Send: %@", [request componentsJoinedByString:@", "]);
+  [self writeObject:request];
 }
 
-- (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSUInteger)messageId completion:(MPErrorHandler)completion {
-  id request = @[@(1), @(messageId), error ? error : NSNull.null, result ? result : NSNull.null];
-  [self writeObject:request completion:completion];
-}
-
-- (void)writeObject:(id)object completion:(MPErrorHandler)completion {
-  NSError *error = nil;
-  MPDebug(@"Sending message: %@", object);
-  NSData *data = [MPMessagePackWriter writeObject:object options:0 error:&error];
-  if (error) {
-    completion(error);
-    return;
+- (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSInteger)messageId {
+  if ([error isKindOfClass:NSError.class]) {
+    NSError *responseError = error;
+    error = @{@"code": @(responseError.code), @"desc": responseError.localizedDescription};
   }
+  
+  NSArray *response = @[@(1), @(messageId), error ? error : NSNull.null, result ? result : NSNull.null];
+  [self writeObject:response];
+}
+
+- (void)writeObject:(id)object {
+  NSError *error = nil;
+  
+  //MPDebug(@"Sending message: %@", object);
+  NSData *data = [MPMessagePackWriter writeObject:object options:0 error:&error];
+  NSAssert(!error, @"Unable to serialize object: %@", error);
+
   if (_options & MPMessagePackOptionsFramed) {
     //MPDebug(@"[%@] Writing frame size: %@", _name, @(data.length));
     NSData *frameSize = [MPMessagePackWriter writeObject:@(data.length) options:0 error:&error];
-    NSAssert(frameSize, @"Error packing frame size");
+    NSAssert(frameSize, @"Error packing frame size: %@", error);
     [_queue addObject:frameSize];
   }
   NSAssert(data.length > 0, @"Data was empty");
@@ -135,7 +140,7 @@
 }
 
 - (void)checkQueue {
-  MPDebug(@"[%@] Checking write; hasSpaceAvailable:%d, queue.count:%d, writeIndex:%d", _name, (int)[_outputStream hasSpaceAvailable], (int)_queue.count, (int)_writeIndex);
+  //MPDebug(@"[%@] Checking write; hasSpaceAvailable:%d, queue.count:%d, writeIndex:%d", _name, (int)[_outputStream hasSpaceAvailable], (int)_queue.count, (int)_writeIndex);
   
   while (YES) {
     if (![_outputStream hasSpaceAvailable]) break;
@@ -151,7 +156,7 @@
     //MPDebug(@"Write(%@): %@", @(length), [data base64EncodedStringWithOptions:0]); // [data mp_hexString]);
     [data getBytes:buffer length:length];
     NSInteger bytesLength = [_outputStream write:(const uint8_t *)buffer maxLength:length];
-    MPDebug(@"[%@] Wrote %d", _name, (int)bytesLength);
+    //MPDebug(@"[%@] Wrote %d", _name, (int)bytesLength);
     _writeIndex += bytesLength;
     
     if (_writeIndex == data.length) {
@@ -162,12 +167,16 @@
 }
 
 - (void)readInputStream {
+  if (![_inputStream hasBytesAvailable]) return;
+  
   // TODO: Buffer size
   uint8_t buffer[1024];
   NSInteger length = [_inputStream read:buffer maxLength:1024];
-  MPDebug(@"[%@] Bytes: %d", _name, (int)length);
-  [_readBuffer appendBytes:buffer length:length];
-  [self checkReadBuffer];
+  //MPDebug(@"[%@] Bytes: %d", _name, (int)length);
+  if (length > 0) {
+    [_readBuffer appendBytes:buffer length:length];
+    [self checkReadBuffer];
+  }
 }
 
 - (void)readData:(NSData *)data {
@@ -176,7 +185,7 @@
 }
 
 - (void)checkReadBuffer {
-  MPDebug(@"[%@] Checking read buffer: %d", _name, (int)_readBuffer.length);
+  //MPDebug(@"[%@] Checking read buffer: %d", _name, (int)_readBuffer.length);
   if (_readBuffer.length == 0) return;
   
   MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:_readBuffer]; // TODO: Fix init every check
@@ -184,7 +193,7 @@
   if (_options & MPMessagePackOptionsFramed) {
     NSError *error = nil;
     NSNumber *frameSize = [reader readObject:&error];
-    MPDebug(@"[%@] Read frame size: %@", _name, frameSize);
+    //MPDebug(@"[%@] Read frame size: %@", _name, frameSize);
     if (error) {
       [self handleError:error fatal:YES];
       return;
@@ -212,37 +221,29 @@
   }
   
   NSArray *message = (NSArray *)obj;
-  MPDebug(@"Read message: %@", message);
+  //MPDebug(@"Read message: %@", [message componentsJoinedByString:@", "]);
   NSInteger type = [message[0] integerValue];
   NSNumber *messageId = message[1];
   
   if (type == 0) {
     NSString *method = MPIfNull(message[2], nil);
-    id params = MPIfNull(message[3], nil);
+    NSArray *params = MPIfNull(message[3], nil);
+    NSAssert(self.requestHandler, @"No request handler");
     self.requestHandler(method, params, ^(NSError *error, id result) {
-      [self sendResponseWithResult:result error:error messageId:messageId.unsignedIntegerValue completion:^(NSError *error) {
-        if (error) [self.delegate client:self didError:error fatal:YES];
-      }];
+      [self sendResponseWithResult:result error:error messageId:messageId.integerValue];
     });
   } else if (type == 1) {
-    id responseError = MPIfNull(message[2], nil);
-    
+    NSDictionary *responseError = MPIfNull(message[2], nil);
     NSError *error = nil;
     if (responseError) {
-      if ([responseError isKindOfClass:NSString.class]) {
-        error = MPMakeError(-1, @"%@", (NSString *)responseError);
-      } else if ([responseError isKindOfClass:NSDictionary.class]) {
-        NSDictionary *errorDict = (NSDictionary *)responseError;
-        error = MPMakeError([errorDict[@"code"] unsignedIntegerValue], @"%@", errorDict[@"description"]);
-      } else {
-        [self handleError:MPMakeError(501, @"[%@] Unable to parse error object", _name) fatal:YES];
-        return;
-      }
+      NSInteger code = [responseError[@"code"] integerValue];
+      if (code != 0) error = MPMakeError(code, @"%@", responseError[@"desc"]);
     }
     
     id result = MPIfNull(message[3], nil);
     MPRequestCompletion completion = _requests[messageId];
     if (!completion) {
+      MPErr(@"No completion block for request: %@", messageId);
       [self handleError:MPMakeError(501, @"[%@] Got response for unknown request", _name) fatal:NO];
     } else {
       [_requests removeObjectForKey:messageId];
@@ -250,11 +251,11 @@
     }
   } else if (type == 2) {
     NSString *method = MPIfNull(message[1], nil);
-    id params = MPIfNull(message[2], nil);
+    NSArray *params = MPIfNull(message[2], nil);
     [self.delegate client:self didReceiveNotificationWithMethod:method params:params];
   }
   
-  _readBuffer = [[_readBuffer subdataWithRange:NSMakeRange(reader.index, _readBuffer.length - reader.index)] mutableCopy]; // TODO: Fix mutable copy
+  _readBuffer = [[_readBuffer subdataWithRange:NSMakeRange(reader.index, _readBuffer.length - reader.index)] mutableCopy]; // TODO: Fix mutable copy (this might actually no-op tho)
   [self checkReadBuffer];
 }
 
@@ -382,7 +383,7 @@ static void MPSocketClientCallback(CFSocketRef socket, CFSocketCallBackType type
 }
 
 - (void)connectSocketStreams {
-  MPDebug(@"Connecting streams");
+  //MPDebug(@"Connecting streams");
   _nativeSocket = CFSocketGetNative(_socket);
   
   //
