@@ -128,11 +128,11 @@
     if ([object isKindOfClass:NSArray.class]) {
       NSMutableArray *encoded = [NSMutableArray array];
       for (id obj in (NSArray *)object) {
-        [encoded addObject:[_coder encodeModel:obj]];
+        [encoded addObject:[_coder encodeObject:obj]];
       }
       object = encoded;
     } else {
-      object = [_coder encodeModel:object];
+      object = [_coder encodeObject:object];
     }
   }
   

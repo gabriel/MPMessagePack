@@ -109,9 +109,8 @@ If you are using Mantle to encode to JSON (and then msgpack), you can specify a 
 @end
 
 @implementation KBMantleCoder
-- (NSDictionary *)encodeModel:(id)model {
-  if ([model respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) return [MTLJSONAdapter JSONDictionaryFromModel:model];
-  return model;
+- (NSDictionary *)encodeModel:(id)obj {
+  return [obj conformsToProtocol:@protocol(MTLJSONSerializing)] ? [MTLJSONAdapter JSONDictionaryFromModel:obj] : obj;
 }
 @end
 ```
