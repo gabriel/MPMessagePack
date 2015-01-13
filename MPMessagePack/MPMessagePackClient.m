@@ -123,6 +123,18 @@
 
 - (void)writeObject:(id)object {
   NSError *error = nil;
+
+  if (_coder) {
+    if ([object isKindOfClass:NSArray.class]) {
+      NSMutableArray *encoded = [NSMutableArray array];
+      for (id obj in (NSArray *)object) {
+        [encoded addObject:[_coder encodeModel:obj]];
+      }
+      object = encoded;
+    } else {
+      object = [_coder encodeModel:object];
+    }
+  }
   
   //MPDebug(@"Sending message: %@", object);
   NSData *data = [MPMessagePackWriter writeObject:object options:0 error:&error];

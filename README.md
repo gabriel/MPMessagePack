@@ -100,3 +100,26 @@ if (![server openWithPort:93434 error:&error]) {
 }
 ```
 
+## Mantle Encoding
+
+If you are using Mantle to encode to JSON (and then msgpack), you can specify a coder for the MPMessagePackClient:
+
+```objc
+@interface KBMantleCoder : NSObject <MPMessagePackCoder>
+@end
+
+@implementation KBMantleCoder
+- (NSDictionary *)encodeModel:(id)model {
+  if ([model respondsToSelector:@selector(JSONKeyPathsByPropertyKey)]) return [MTLJSONAdapter JSONDictionaryFromModel:model];
+  return model;
+}
+@end
+```
+
+Then in the client:
+
+```objc
+_client = [[MPMessagePackClient alloc] init];
+_client.coder = [[KBMantleCoder alloc] init];
+```
+

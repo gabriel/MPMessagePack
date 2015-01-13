@@ -20,6 +20,11 @@ typedef NS_ENUM(NSInteger, MPMessagePackOptions) {
   MPMessagePackOptionsFramed = 1 << 0,
 };
 
+@protocol MPMessagePackCoder
+- (NSDictionary *)encodeModel:(id)model;
+- (NSArray *)encodeModels:(NSArray *)models;
+@end
+
 @class MPMessagePackClient;
 
 typedef void (^MPErrorHandler)(NSError *error);
@@ -38,6 +43,7 @@ typedef void (^MPRequestHandler)(NSString *method, NSArray *params, MPRequestCom
 @property (weak) id<MPMessagePackClientDelegate> delegate;
 @property (copy) MPRequestHandler requestHandler;
 @property (readonly, nonatomic) MPMessagePackClientStatus status;
+@property id<MPMessagePackCoder> coder;
 
 - (instancetype)initWithName:(NSString *)name options:(MPMessagePackOptions)options;
 
