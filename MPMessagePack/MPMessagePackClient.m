@@ -105,10 +105,34 @@
 
 - (void)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion {
   NSNumber *messageId = @(++_messageId);
+  params = [self encodeObject:params];
   NSArray *request = @[@(0), messageId, method, params ? params : NSNull.null];
   _requests[messageId] = completion;
   //MPDebug(@"Send: %@", [request componentsJoinedByString:@", "]);
   [self writeObject:request];
+}
+
+- (id)encodeObject:(id)object {
+  if (!object) return nil;
+  if (_coder) {
+    if ([object isKindOfClass:NSArray.class]) {
+      NSMutableArray *encoded = [NSMutableArray array];
+      for (id obj in (NSArray *)object) {
+        [encoded addObject:[self encodeObject:obj]];
+      }
+      object = encoded;
+    } else if ([object isKindOfClass:NSDictionary.class]) {
+      NSMutableDictionary *encoded = [NSMutableDictionary dictionary];
+      for (id key in (NSDictionary *)object) {
+        id value = ((NSDictionary *)object)[key];
+        encoded[key] = [self encodeObject:value];
+      }
+      object = encoded;
+    } else {
+      object = [_coder encodeObject:object];
+    }
+  }
+  return object;
 }
 
 - (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSInteger)messageId {
@@ -116,7 +140,9 @@
     NSError *responseError = error;
     error = @{@"code": @(responseError.code), @"desc": responseError.localizedDescription};
   }
-  
+
+  result = [self encodeObject:result];
+
   NSArray *response = @[@(1), @(messageId), error ? error : NSNull.null, result ? result : NSNull.null];
   [self writeObject:response];
 }
@@ -124,18 +150,6 @@
 - (void)writeObject:(id)object {
   NSError *error = nil;
 
-  if (_coder) {
-    if ([object isKindOfClass:NSArray.class]) {
-      NSMutableArray *encoded = [NSMutableArray array];
-      for (id obj in (NSArray *)object) {
-        [encoded addObject:[_coder encodeObject:obj]];
-      }
-      object = encoded;
-    } else {
-      object = [_coder encodeObject:object];
-    }
-  }
-  
   //MPDebug(@"Sending message: %@", object);
   NSData *data = [MPMessagePackWriter writeObject:object options:0 error:&error];
   NSAssert(!error, @"Unable to serialize object: %@", error);
@@ -238,10 +252,12 @@
   NSNumber *messageId = message[1];
   
   if (type == 0) {
+    //MPDebug(@"Request, messageId=%@", messageId);
     NSString *method = MPIfNull(message[2], nil);
     NSArray *params = MPIfNull(message[3], nil);
     NSAssert(self.requestHandler, @"No request handler");
     self.requestHandler(method, params, ^(NSError *error, id result) {
+      //MPDebug(@"Sending response, messageId=%@", messageId);
       [self sendResponseWithResult:result error:error messageId:messageId.integerValue];
     });
   } else if (type == 1) {
