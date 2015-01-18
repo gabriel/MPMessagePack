@@ -54,7 +54,10 @@
         return [self returnNilWithErrorCode:298 description:@"Invalid data length, data might be malformed" error:error];
       }
       NSMutableData *data = [NSMutableData dataWithLength:length];
-      context->read(context, [data mutableBytes], length);
+      bool readSuccess = context->read(context, [data mutableBytes], length);
+      if (!readSuccess) {
+        return [self returnNilWithErrorCode:202 description:@"Unable to read object" error:error];
+      }
       return data;
     }
 
@@ -81,7 +84,10 @@
         return [self returnNilWithErrorCode:298 description:@"Invalid data length, data might be malformed" error:error];
       }
       NSMutableData *data = [NSMutableData dataWithLength:length];
-      context->read(context, [data mutableBytes], length);
+      bool readSuccess = context->read(context, [data mutableBytes], length);
+      if (!readSuccess) {
+        return [self returnNilWithErrorCode:202 description:@"Unable to read object" error:error];
+      }
       NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
       if (!str) {
         // Invalid string encoding
