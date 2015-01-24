@@ -196,18 +196,13 @@
   if (![_inputStream hasBytesAvailable]) return;
   
   // TODO: Buffer size
-  uint8_t buffer[1024];
-  NSInteger length = [_inputStream read:buffer maxLength:1024];
-  //MPDebug(@"[%@] Bytes: %d", _name, (int)length);
+  uint8_t buffer[4096];
+  NSInteger length = [_inputStream read:buffer maxLength:4096];
   if (length > 0) {
+    //MPDebug(@"[%@] Bytes: (%@)", _name, @(length));
     [_readBuffer appendBytes:buffer length:length];
     [self checkReadBuffer];
   }
-}
-
-- (void)readData:(NSData *)data {
-  [_readBuffer appendData:data];
-  [self checkReadBuffer];
 }
 
 - (void)checkReadBuffer {
@@ -230,10 +225,15 @@
       return;
     }
     if (_readBuffer.length < (frameSize.unsignedIntegerValue + reader.index)) {
-      MPDebug(@"Not enough data for response in frame: %d < %d", (int)_readBuffer.length, (int)(frameSize.unsignedIntegerValue + reader.index));
+      //MPDebug(@"Not enough data for response in frame: %d < %d", (int)_readBuffer.length, (int)(frameSize.unsignedIntegerValue + reader.index));
       return;
     }
+
+    // To debug the message
+    //NSData *data = [_readBuffer subdataWithRange:NSMakeRange(reader.index, frameSize.unsignedIntegerValue)];
+    //MPDebug(@"Data: %@", [data base64EncodedStringWithOptions:0]);
   }
+
   NSError *error = nil;
   id<NSObject> obj = [reader readObject:&error];
   if (error) {
@@ -247,7 +247,8 @@
   }
   
   NSArray *message = (NSArray *)obj;
-  //MPDebug(@"Read message: %@", [message componentsJoinedByString:@", "]);
+  //MPDebug(@"Read message: %@", [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:message options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding]);
+
   NSInteger type = [message[0] integerValue];
   NSNumber *messageId = message[1];
   
@@ -342,7 +343,7 @@ NSString *MPNSStringFromNSStreamEvent(NSStreamEvent e) {
       break;
     }
     case NSStreamEventErrorOccurred: {
-      MPDebug(@"[%@] Stream error", _name);
+      MPErr(@"[%@] Stream error", _name);
       if (self.openCompletion) {
         self.openCompletion(stream.streamError);
         self.openCompletion = nil;
@@ -359,7 +360,7 @@ NSString *MPNSStringFromNSStreamEvent(NSStreamEvent e) {
 //        [_readBuffer appendData:data];
 //        [self checkReadBuffer];
 //      }
-      MPDebug(@"[%@] Stream end", _name);
+      //MPDebug(@"[%@] Stream end", _name);
       [self close];
       break;
     }

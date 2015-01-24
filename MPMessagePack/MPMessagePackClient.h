@@ -59,6 +59,4 @@ typedef void (^MPRequestHandler)(NSString *method, NSArray *params, MPRequestCom
 // For servers
 - (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSInteger)messageId;
 
-- (void)readData:(NSData *)data;
-
 @end
