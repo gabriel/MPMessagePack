@@ -14,6 +14,7 @@
 
 - (instancetype)initWithCapacity:(NSUInteger)capacity;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
++ (instancetype)dictionary;
 
 - (void)setObject:(id)object forKey:(id)key;
 - (id)objectForKey:(id)key;
@@ -32,5 +33,7 @@
 - (NSData *)mp_messagePack;
 
 - (NSDictionary *)toDictionary;
+
+- (void)addObject:(id)object forKey:(id)key;
 
 @end

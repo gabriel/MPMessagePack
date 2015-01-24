@@ -36,6 +36,10 @@
   return self;
 }
 
++ (instancetype)dictionary {
+  return [[self alloc] init];
+}
+
 - (id)mutableCopyWithZone:(NSZone *)zone {
   MPOrderedDictionary *mutableCopy = [[MPOrderedDictionary allocWithZone:zone] init];
   mutableCopy.array = [_array mutableCopy];
@@ -128,6 +132,15 @@
 - (void)addEntriesFromDictionary:(NSDictionary *)dictionary {
   [_array addObjectsFromArray:[dictionary allKeys]];
   [_dictionary addEntriesFromDictionary:dictionary];
+}
+
+- (void)addObject:(id)object forKey:(id)key {
+  NSMutableArray *values = self[key];
+  if (!values) {
+    values = [NSMutableArray array];
+    self[key] = values;
+  }
+  [values addObject:object];
 }
 
 - (NSData *)mp_messagePack {

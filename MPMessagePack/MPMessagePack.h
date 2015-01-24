@@ -15,3 +15,5 @@
 #import "NSDictionary+MPMessagePack.h"
 #import "NSArray+MPMessagePack.h"
 #import "NSData+MPMessagePack.h"
+
+#import "MPOrderedDictionary.h"
