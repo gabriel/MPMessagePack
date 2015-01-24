@@ -9,6 +9,7 @@
 #import "MPMessagePackReader.h"
 
 #include "cmp.h"
+#import "MPDefines.h"
 
 #import "MPOrderedDictionary.h"
 
@@ -39,9 +40,8 @@
   if (!cmp_read_object(context, &obj)) {
     return [self returnNilWithErrorCode:200 description:@"Unable to read object" error:error];
   }
-  
-  switch (obj.type) {
 
+  switch (obj.type) {
     case CMP_TYPE_NIL: return [NSNull null];
     case CMP_TYPE_BOOLEAN: return @(obj.as.boolean);
       
@@ -91,8 +91,10 @@
       NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
       if (!str) {
         // Invalid string encoding
-        // Or returnNilWithErrorCode?
-        return [NSNull null];
+        // Other languages have a raw byte string but not Objective-C
+        MPErr(@"Invalid string encoding (type=%@), using str instead of bin? We'll have to return an NSData. (%@)", @(obj.type), data);
+        return data;
+        //return [NSNull null];
       }
       return str;
     }
