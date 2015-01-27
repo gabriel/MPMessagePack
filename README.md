@@ -7,11 +7,7 @@ MessagePack is an efficient binary serialization format. It lets you exchange da
 
 MPMessagePack uses [gabriel/GRUnit](https://github.com/gabriel/GRUnit) for unit testing.
 
-# Install
-
-[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries in your projects.
-
-## Podfile
+# Podfile
 
 ```ruby
 pod "MPMessagePack"
