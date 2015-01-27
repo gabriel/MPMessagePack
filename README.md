@@ -48,7 +48,7 @@ If you need to use an ordered dictionary.
 MPOrderedDictionary *dict = [[MPOrderedDictionary alloc] init];
 [dict addEntriesFromDictionary:@{@"c": @(1), @"b": @(2), @"a": @(3)}];
 [dict sortKeysUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-[dict mp_messagePack];
+NSData *data = [dict mp_messagePack];
 ```
 
 ## Reading
@@ -87,7 +87,7 @@ MPMessagePackClient *client = [[MPMessagePackClient alloc] init];
 MPMessagePackServer *server = [[MPMessagePackServer alloc] initWithOptions:MPMessagePackOptionsFramed];
 
 server.requestHandler = ^(NSString *method, id params, MPRequestCompletion completion) {
-  if ([method isEqualToString:@"test"]) {
+  if ([method isEqualToString:@"echo"]) {
     completion(nil, params);
   } else {
     completion(@{@"error": {@"description": @"Method not found"}}, nil);
@@ -102,7 +102,7 @@ if (![server openWithPort:93434 error:&error]) {
 
 ## Mantle Encoding
 
-If you are using Mantle to encode to JSON (and then msgpack), you can specify a coder for the MPMessagePackClient:
+If you are using Mantle to encode objects to JSON (and then msgpack), you can specify a coder for the MPMessagePackClient:
 
 ```objc
 @interface KBMantleCoder : NSObject <MPMessagePackCoder>
@@ -118,7 +118,6 @@ If you are using Mantle to encode to JSON (and then msgpack), you can specify a 
 Then in the client:
 
 ```objc
-_client = [[MPMessagePackClient alloc] init];
-_client.coder = [[KBMantleCoder alloc] init];
+MPMessagePackClient *client = [[MPMessagePackClient alloc] init];
+client.coder = [[KBMantleCoder alloc] init];
 ```
-
