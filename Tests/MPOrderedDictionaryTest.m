@@ -7,7 +7,7 @@
 
 @implementation MPOrderedDictionaryTest
 
-- (void)test {
+- (void)testDict {
   MPOrderedDictionary *dict = [[MPOrderedDictionary alloc] init];
   NSMutableArray *keys = [NSMutableArray array];
   for (NSInteger i = 0; i < 1024; i++) {

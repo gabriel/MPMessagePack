@@ -10,7 +10,7 @@
 
 @implementation MPMessagePackClientTest
 
-- (void)test:(dispatch_block_t)completion {
+- (void)_test:(dispatch_block_t)completion {
   MPMessagePackServer *server = [[MPMessagePackServer alloc] initWithOptions:MPMessagePackOptionsFramed];
   
   server.requestHandler = ^(NSString *method, id params, MPRequestCompletion completion) {
@@ -30,7 +30,7 @@
   [client openWithHost:@"localhost" port:port completion:^(NSError *error) {
     if (error) GRErrorHandler(error);
     GRTestLog(@"Sending request");
-    [client sendRequestWithMethod:@"test" params:@{@"param1": @(1)} completion:^(NSError *error, id result) {
+    [client sendRequestWithMethod:@"test" params:@[@{@"param1": @(1)}] completion:^(NSError *error, id result) {
       
       GRTestLog(@"Result: %@", result);
       

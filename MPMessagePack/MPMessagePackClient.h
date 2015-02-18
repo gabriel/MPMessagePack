@@ -10,6 +10,8 @@
 
 #import "MPMessagePack.h"
 
+extern NSString *const MPErrorInfoKey;
+
 typedef NS_ENUM(NSInteger, MPMessagePackClientStatus) {
   MPMessagePackClientStatusClosed = 1,
   MPMessagePackClientStatusOpening,
@@ -27,6 +29,7 @@ typedef NS_ENUM(NSInteger, MPMessagePackOptions) {
 @class MPMessagePackClient;
 
 typedef void (^MPErrorHandler)(NSError *error);
+// Callback after we send request
 typedef void (^MPRequestCompletion)(NSError *error, id result);
 typedef void (^MPRequestHandler)(NSString *method, NSArray *params, MPRequestCompletion completion);
 
@@ -54,9 +57,22 @@ typedef void (^MPRequestHandler)(NSString *method, NSArray *params, MPRequestCom
 
 - (void)close;
 
-- (void)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion;
+/*!
+ Send RPC request.
+ 
+ @param method Method name
+ @param params Params Method params. If coder is set on client will encode params.
+ @param completion Response
+ */
+- (NSArray *)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion;
 
-// For servers
+/*!
+ If you are using the requestHandler, use this method to send a response.
+
+ @param result Result
+ @param error Error
+ @param messageId Message id (should match request message id)
+ */
 - (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSInteger)messageId;
 
 @end

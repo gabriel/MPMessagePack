@@ -12,6 +12,8 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
+NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
+
 @interface MPMessagePackClient ()
 @property NSString *name;
 @property MPMessagePackOptions options;
@@ -103,13 +105,14 @@
   self.status = MPMessagePackClientStatusClosed;
 }
 
-- (void)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion {
+- (NSArray *)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion {
   NSNumber *messageId = @(++_messageId);
   params = [self encodeObject:params];
   NSArray *request = @[@(0), messageId, method, params ? params : NSNull.null];
   _requests[messageId] = completion;
   //MPDebug(@"Send: %@", [request componentsJoinedByString:@", "]);
   [self writeObject:request];
+  return request;
 }
 
 - (id)encodeObject:(id)object {
@@ -138,7 +141,13 @@
 - (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSInteger)messageId {
   if ([error isKindOfClass:NSError.class]) {
     NSError *responseError = error;
-    error = @{@"code": @(responseError.code), @"desc": responseError.localizedDescription};
+
+    NSMutableArray *messages = [NSMutableArray array];
+    if (responseError.localizedDescription) [messages addObject:responseError.localizedDescription];
+    if (responseError.localizedFailureReason) [messages addObject:responseError.localizedFailureReason];
+    if (responseError.localizedRecoverySuggestion) [messages addObject:responseError.localizedRecoverySuggestion];
+
+    error = @{@"code": @(responseError.code), @"desc": [messages componentsJoinedByString:@". "]};
   }
 
   result = [self encodeObject:result];
@@ -265,8 +274,9 @@
     NSDictionary *responseError = MPIfNull(message[2], nil);
     NSError *error = nil;
     if (responseError) {
-      NSInteger code = [responseError[@"code"] integerValue];
-      if (code != 0) error = MPMakeError(code, @"%@", responseError[@"desc"]);
+      NSInteger code = -1;
+      if (responseError[@"code"]) code = [responseError[@"code"] integerValue];
+      error = [NSError errorWithDomain:@"MPMessagePack" code:code userInfo:@{MPErrorInfoKey:responseError}];
     }
     
     id result = MPIfNull(message[3], nil);
