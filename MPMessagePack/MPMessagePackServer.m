@@ -131,7 +131,7 @@ static void MPMessagePackServerAcceptCallBack(CFSocketRef socket, CFSocketCallBa
 }
 
 - (void)client:(MPMessagePackClient *)client didReceiveNotificationWithMethod:(NSString *)method params:(id)params {
-  if (self.notificationHandler) self.notificationHandler(method, params, nil);
+  if (self.notificationHandler) self.notificationHandler(nil, method, params, nil);
 }
 
 - (void)client:(MPMessagePackClient *)client didChangeStatus:(MPMessagePackClientStatus)status {

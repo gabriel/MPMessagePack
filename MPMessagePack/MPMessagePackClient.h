@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, MPMessagePackOptions) {
 typedef void (^MPErrorHandler)(NSError *error);
 // Callback after we send request
 typedef void (^MPRequestCompletion)(NSError *error, id result);
-typedef void (^MPRequestHandler)(NSString *method, NSArray *params, MPRequestCompletion completion);
+typedef void (^MPRequestHandler)(NSNumber *messageId, NSString *method, NSArray *params, MPRequestCompletion completion);
 
 
 @protocol MPMessagePackClientDelegate <NSObject>

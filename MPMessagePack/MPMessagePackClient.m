@@ -266,7 +266,7 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
     NSString *method = MPIfNull(message[2], nil);
     NSArray *params = MPIfNull(message[3], nil);
     NSAssert(self.requestHandler, @"No request handler");
-    self.requestHandler(method, params, ^(NSError *error, id result) {
+    self.requestHandler(messageId, method, params, ^(NSError *error, id result) {
       //MPDebug(@"Sending response, messageId=%@", messageId);
       [self sendResponseWithResult:result error:error messageId:messageId.integerValue];
     });
