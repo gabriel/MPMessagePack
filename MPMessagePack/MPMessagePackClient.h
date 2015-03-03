@@ -62,9 +62,10 @@ typedef void (^MPRequestHandler)(NSNumber *messageId, NSString *method, NSArray 
  
  @param method Method name
  @param params Params Method params. If coder is set on client will encode params.
+ @param messageId Unique message identifier
  @param completion Response
  */
-- (NSArray *)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion;
+- (NSArray *)sendRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSInteger)messageId completion:(MPRequestCompletion)completion;
 
 /*!
  If you are using the requestHandler, use this method to send a response.

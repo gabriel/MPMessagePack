@@ -28,7 +28,6 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
 @property NSMutableDictionary *requests;
 
 @property NSMutableData *readBuffer;
-@property NSUInteger messageId;
 
 @property (copy) MPCompletion openCompletion;
 
@@ -105,11 +104,10 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
   self.status = MPMessagePackClientStatusClosed;
 }
 
-- (NSArray *)sendRequestWithMethod:(NSString *)method params:(NSArray *)params completion:(MPRequestCompletion)completion {
-  NSNumber *messageId = @(++_messageId);
+- (NSArray *)sendRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSInteger)messageId completion:(MPRequestCompletion)completion {
   params = [self encodeObject:params];
-  NSArray *request = @[@(0), messageId, method, params ? params : NSNull.null];
-  _requests[messageId] = completion;
+  NSArray *request = @[@(0), @(messageId), method, params ? params : NSNull.null];
+  _requests[@(messageId)] = completion;
   //MPDebug(@"Send: %@", [request componentsJoinedByString:@", "]);
   [self writeObject:request];
   return request;
