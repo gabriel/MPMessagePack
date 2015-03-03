@@ -19,6 +19,8 @@
 - (void)setObject:(id)object forKey:(id)key;
 - (id)objectForKey:(id)key;
 
+- (void)removeObjectForKey:(id)key;
+
 - (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key;
 - (id)objectForKeyedSubscript:(id)key;
 
