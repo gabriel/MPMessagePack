@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, MPMessagePackOptions) {
 };
 
 @protocol MPMessagePackCoder
-- (NSDictionary *)encodeObject:(id)obj;
+- (id)encodeObject:(id)obj;
 @end
 
 @class MPMessagePackClient;
