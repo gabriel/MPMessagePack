@@ -40,7 +40,7 @@ typedef void (^MPRequestHandler)(NSNumber *messageId, NSString *method, NSArray 
 - (void)client:(MPMessagePackClient *)client didReceiveNotificationWithMethod:(NSString *)method params:(NSArray *)params;
 @end
 
-@interface MPMessagePackClient : NSObject <NSStreamDelegate>
+@interface MPMessagePackClient : NSObject <NSStreamDelegate, MPMessagePackCoder>
 
 @property (weak) id<MPMessagePackClientDelegate> delegate;
 @property (copy) MPRequestHandler requestHandler;
