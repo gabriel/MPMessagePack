@@ -42,8 +42,10 @@
   }
 
   switch (obj.type) {
-    case CMP_TYPE_NIL: return [NSNull null];
-    case CMP_TYPE_BOOLEAN: return @(obj.as.boolean);
+    case CMP_TYPE_NIL:
+      return [NSNull null];
+    case CMP_TYPE_BOOLEAN:
+      return obj.as.boolean ? @YES : @NO;
       
     case CMP_TYPE_BIN8:
     case CMP_TYPE_BIN16:

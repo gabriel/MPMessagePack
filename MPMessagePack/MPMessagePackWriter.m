@@ -57,7 +57,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
 }
 
 - (BOOL)writeNumber:(NSNumber *)number context:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
-  if (strcmp([number objCType], @encode(BOOL)) == 0) {
+  if ((id)number == (id)kCFBooleanTrue || (id)number == (id)kCFBooleanFalse) {
     cmp_write_bool(context, number.boolValue);
     return YES;
   }

@@ -49,7 +49,6 @@
     @"n16": @(INT16_MIN),
     @"n32": @(INT32_MIN),
     @"n64": @(INT64_MIN),
-    @"bool": [NSNumber numberWithBool:YES],
     @"arrayFloatDouble": @[@(1.1f), @(2.1)],
     @"dataEmpty": [NSData data],
     @"dataShort": [self dataFromHexString:@"ff"],
@@ -67,6 +66,18 @@
   NSError *error = nil;
   NSDictionary *read3 = [MPMessagePackReader readData:data3 options:0 error:&error];
   GRAssertEqualObjects(obj, read3);
+}
+
+- (void)testBool {
+  NSArray *obj = @[@(YES), @YES, @(NO), @NO, [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO]];
+  NSData *data = [obj mp_messagePack];
+  NSArray *read = [MPMessagePackReader readData:data options:0 error:nil];
+  GRTestLog(@"Bools: %@", read);
+  GRAssertEqualObjects(obj, read);
+  GRAssertEquals(read[0], @(YES));
+  GRAssertEquals(read[1], @YES);
+  GRAssertEquals(read[2], @(NO));
+  GRAssertEquals(read[3], @NO);
 }
 
 - (void)testMultiple {
