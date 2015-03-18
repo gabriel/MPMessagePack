@@ -184,7 +184,7 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
     uint8_t buffer[length];
     //MPDebug(@"Write(%@): %@", @(length), [data base64EncodedStringWithOptions:0]); // [data mp_hexString]);
     [data getBytes:buffer length:length];
-    NSInteger bytesLength = [_outputStream write:(const uint8_t *)buffer maxLength:length];
+    [_outputStream write:(const uint8_t *)buffer maxLength:length];
     //MPDebug(@"[%@] Wrote %d", _name, (int)bytesLength);
 
     [_queue removeObjectAtIndex:0];
