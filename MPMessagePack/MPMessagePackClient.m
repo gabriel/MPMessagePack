@@ -23,7 +23,6 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
 @property NSOutputStream *outputStream;
 
 @property NSMutableArray *queue;
-@property NSUInteger writeIndex;
 
 @property NSMutableDictionary *requests;
 
@@ -173,16 +172,13 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
 }
 
 - (void)checkQueue {
-  //MPDebug(@"[%@] Checking write; hasSpaceAvailable:%d, queue.count:%d, writeIndex:%d", _name, (int)[_outputStream hasSpaceAvailable], (int)_queue.count, (int)_writeIndex);
-  
   while (YES) {
     if (![_outputStream hasSpaceAvailable]) break;
     
     NSMutableData *data = [_queue firstObject];
     if (!data) break;
     
-    // TODO: Buffer size
-    NSUInteger length = (((data.length - _writeIndex) >= 1024) ? 1024 : (data.length - _writeIndex));
+    NSUInteger length = data.length;
     if (length == 0) break;
     
     uint8_t buffer[length];
@@ -190,12 +186,8 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
     [data getBytes:buffer length:length];
     NSInteger bytesLength = [_outputStream write:(const uint8_t *)buffer maxLength:length];
     //MPDebug(@"[%@] Wrote %d", _name, (int)bytesLength);
-    _writeIndex += bytesLength;
-    
-    if (_writeIndex == data.length) {
-      [_queue removeObjectAtIndex:0];
-      _writeIndex = 0;
-    }
+
+    [_queue removeObjectAtIndex:0];
   }
 }
 
