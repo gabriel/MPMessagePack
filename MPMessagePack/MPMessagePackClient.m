@@ -51,6 +51,11 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
   return self;
 }
 
+- (void)dealloc {
+    _inputStream.delegate = nil;
+    _outputStream.delegate = nil;
+}
+
 - (void)setInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream {
   _inputStream = inputStream;
   _outputStream = outputStream;
