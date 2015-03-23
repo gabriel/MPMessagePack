@@ -83,10 +83,12 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
     MPErr(@"We had an open completion block set");
     _openCompletion = nil;
   }
-  
+
+  _inputStream.delegate = nil;
   [_inputStream close];
   [_inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
   _inputStream = nil;
+  _outputStream.delegate = nil;
   [_outputStream close];
   [_outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
   _outputStream = nil;
