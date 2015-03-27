@@ -191,8 +191,8 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
     
     uint8_t buffer[length];
     //MPDebug(@"Write(%@): %@", @(length), [data base64EncodedStringWithOptions:0]); // [data mp_hexString]);
-    [data getBytes:buffer + _writeIndex length:length];
-    NSInteger bytesWritten = [_outputStream write:(const uint8_t *)buffer  maxLength:length];
+    [data getBytes:buffer range:NSMakeRange(_writeIndex, length)];
+    NSInteger bytesWritten = [_outputStream write:(const uint8_t *)buffer maxLength:length];
     //MPDebug(@"[%@] Wrote %d", _name, (int)bytesWritten);
     if (bytesWritten == 0) {
       __weak MPMessagePackClient *gself = self;
@@ -200,10 +200,10 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
         [gself checkQueue];
       });
     } else if (bytesWritten != length) {
-      // TODO Support partial writes
-      [NSException raise:NSPortSendException format:@"Partial write currently unsupported"];
+      _writeIndex += bytesWritten;
     } else {
       [_queue removeObjectAtIndex:0];
+      _writeIndex = 0;
     }
   }
 }
