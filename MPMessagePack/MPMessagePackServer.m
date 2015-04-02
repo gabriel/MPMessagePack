@@ -89,7 +89,9 @@ static void MPMessagePackServerAcceptCallBack(CFSocketRef socket, CFSocketCallBa
   if (!_socket) {
     if (_socket) CFRelease(_socket);
     _socket = NULL;
-    *error = MPMakeError(errno, @"Couldn't create socket");
+    if (error) {
+       *error = MPMakeError(errno, @"Couldn't create socket");
+    }
     return NO;
   }
   
@@ -102,7 +104,9 @@ static void MPMessagePackServerAcceptCallBack(CFSocketRef socket, CFSocketCallBa
       CFRelease(_socket);
       _socket = NULL;
     }
-    *error = MPMakeError(501, @"Couldn't bind socket");
+    if (error) {
+       *error = MPMakeError(501, @"Couldn't bind socket");
+    }
     return NO;
   }
   
