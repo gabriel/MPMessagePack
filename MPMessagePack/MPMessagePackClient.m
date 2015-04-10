@@ -202,7 +202,7 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
     } else if (bytesWritten != length) {
       _writeIndex += bytesWritten;
     } else {
-      [_queue removeObjectAtIndex:0];
+      if ([_queue count] > 0) [_queue removeObjectAtIndex:0];
       _writeIndex = 0;
     }
   }
