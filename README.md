@@ -69,7 +69,7 @@ Should be compatible with [msgpack-rpc](https://github.com/msgpack-rpc/msgpack-r
 MPMessagePackClient *client = [[MPMessagePackClient alloc] init];
 [client openWithHost:@"localhost" port:93434 completion:^(NSError *error) {
   // If error we failed
-  [_client sendRequestWithMethod:@"test" params:@{@"param1": @(1)} completion:^(NSError *error, id result) {
+  [client sendRequestWithMethod:@"test" params:@{@"param1": @(1)} completion:^(NSError *error, id result) {
     // If error we failed
     // Otherwise the result
   }];
