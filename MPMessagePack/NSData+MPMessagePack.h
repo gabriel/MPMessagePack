@@ -12,4 +12,8 @@
 
 - (NSString *)mp_hexString;
 
+- (NSArray *)mp_array:(NSError **)error;
+
+- (NSDictionary *)mp_dict:(NSError **)error;
+
 @end

@@ -16,4 +16,6 @@
 
 - (NSData *)mp_messagePack:(MPMessagePackWriterOptions)options;
 
+- (NSData *)mp_messagePack:(MPMessagePackWriterOptions)options error:(NSError **)error;
+
 @end

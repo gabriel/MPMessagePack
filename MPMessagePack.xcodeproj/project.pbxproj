@@ -76,7 +76,6 @@
 		004D14A91A3D59950083888D /* mainosx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mainosx.m; sourceTree = "<group>"; };
 		004D14AE1A3D59B30083888D /* TestsOSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestsOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0057EDD519664B7E00F39536 /* msgpack.org.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = msgpack.org.md; sourceTree = "<group>"; };
-		0057EDFD196CAB7E00F39536 /* CHANGES */ = {isa = PBXFileReference; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
 		0057EDFE196CABE500F39536 /* MPOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPOrderedDictionary.h; sourceTree = "<group>"; };
 		0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPOrderedDictionary.m; sourceTree = "<group>"; };
 		0057EE03196CAE6300F39536 /* MPOrderedDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPOrderedDictionaryTest.m; path = Tests/MPOrderedDictionaryTest.m; sourceTree = "<group>"; };
@@ -138,7 +137,6 @@
 			children = (
 				006555BB19663A1600288AE7 /* MPMessagePack.podspec */,
 				00FB32E41966240B0060AF33 /* Podfile */,
-				0057EDFD196CAB7E00F39536 /* CHANGES */,
 				00FB32E51966240B0060AF33 /* README.md */,
 				0057EDD519664B7E00F39536 /* msgpack.org.md */,
 				00FB32C919661A860060AF33 /* MPMessagePack */,

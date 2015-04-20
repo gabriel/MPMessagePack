@@ -18,4 +18,8 @@
   return [MPMessagePackWriter writeObject:self options:options error:nil];
 }
 
+- (NSData *)mp_messagePack:(MPMessagePackWriterOptions)options error:(NSError **)error {
+  return [MPMessagePackWriter writeObject:self options:options error:error];
+}
+
 @end
