@@ -22,6 +22,7 @@
 
 - (NSDictionary *)mp_dict:(NSError **)error {
   id obj = [MPMessagePackReader readData:self error:error];
+  if (!obj) return nil;
   if (![obj isKindOfClass:NSDictionary.class]) {
     if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Object was not of type NSDictionary", @"MPObject": obj}];
     return nil;
@@ -31,6 +32,7 @@
 
 - (NSArray *)mp_array:(NSError **)error {
   id obj = [MPMessagePackReader readData:self error:error];
+  if (!obj) return nil;
   if (![obj isKindOfClass:NSArray.class]) {
     if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Object was not of type NSArray", @"MPObject": obj}];
     return nil;
