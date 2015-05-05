@@ -35,7 +35,7 @@
   return self;
 }
 
-- (id)readFromContext:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
+- (id)readFromContext:(cmp_ctx_t *)context error:(NSError **)error {
   cmp_object_t obj;
   if (!cmp_read_object(context, &obj)) {
     return [self returnNilWithErrorCode:200 description:@"Unable to read object" error:error];
@@ -130,7 +130,7 @@
   }
 }
 
-- (NSMutableArray *)readArrayFromContext:(cmp_ctx_t *)context length:(uint32_t)length error:(NSError * __autoreleasing *)error {
+- (NSMutableArray *)readArrayFromContext:(cmp_ctx_t *)context length:(uint32_t)length error:(NSError **)error {
   NSUInteger capacity = length < 1000 ? length : 1000;
   NSMutableArray *array = [NSMutableArray arrayWithCapacity:capacity];
   for (NSInteger i = 0; i < length; i++) {
@@ -143,7 +143,7 @@
   return array;
 }
 
-- (NSMutableDictionary *)readDictionaryFromContext:(cmp_ctx_t *)context length:(uint32_t)length error:(NSError * __autoreleasing *)error {
+- (NSMutableDictionary *)readDictionaryFromContext:(cmp_ctx_t *)context length:(uint32_t)length error:(NSError **)error {
   NSUInteger capacity = length < 1000 ? length : 1000;
 
   id dict = nil;
@@ -167,7 +167,7 @@
   return dict;
 }
 
-- (id)returnNilWithErrorCode:(NSInteger)errorCode description:(NSString *)description error:(NSError * __autoreleasing *)error {
+- (id)returnNilWithErrorCode:(NSInteger)errorCode description:(NSString *)description error:(NSError **)error {
   if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:errorCode userInfo:@{NSLocalizedDescriptionKey: description}];
   return nil;
 }
@@ -194,7 +194,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return 0;
 }
 
-- (id)readObject:(NSError * __autoreleasing *)error {
+- (id)readObject:(NSError **)error {
   cmp_ctx_t ctx;
   cmp_init(&ctx, (__bridge void *)self, mp_reader, mp_writer);
   size_t index = _index;
@@ -203,11 +203,11 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return obj;
 }
 
-+ (id)readData:(NSData *)data error:(NSError * __autoreleasing *)error {
++ (id)readData:(NSData *)data error:(NSError **)error {
   return [self readData:data options:0 error:error];
 }
 
-+ (id)readData:(NSData *)data options:(MPMessagePackReaderOptions)options error:(NSError * __autoreleasing *)error {
++ (id)readData:(NSData *)data options:(MPMessagePackReaderOptions)options error:(NSError **)error {
   MPMessagePackReader *messagePackReader = [[MPMessagePackReader alloc] initWithData:data options:options];
   id obj = [messagePackReader readObject:error];
   

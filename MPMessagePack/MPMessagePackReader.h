@@ -20,10 +20,10 @@ typedef NS_ENUM(NSInteger, MPMessagePackReaderOptions) {
 - (instancetype)initWithData:(NSData *)data;
 - (instancetype)initWithData:(NSData *)data options:(MPMessagePackReaderOptions)options;
 
-- (id)readObject:(NSError * __autoreleasing *)error;
+- (id)readObject:(NSError **)error;
 
-+ (id)readData:(NSData *)data error:(NSError * __autoreleasing *)error;
++ (id)readData:(NSData *)data error:(NSError **)error;
 
-+ (id)readData:(NSData *)data options:(MPMessagePackReaderOptions)options error:(NSError * __autoreleasing *)error;
++ (id)readData:(NSData *)data options:(MPMessagePackReaderOptions)options error:(NSError **)error;
 
 @end

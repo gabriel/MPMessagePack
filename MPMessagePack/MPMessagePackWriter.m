@@ -33,7 +33,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return [mp write:data count:count];
 }
 
-- (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error {
+- (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError **)error {
   _data = [NSMutableData data];
   
   cmp_ctx_t ctx;
@@ -46,17 +46,17 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   return _data;
 }
 
-+ (NSMutableData *)writeObject:(id)obj error:(NSError * __autoreleasing *)error {
++ (NSMutableData *)writeObject:(id)obj error:(NSError **)error {
   return [self writeObject:obj options:0 error:error];
 }
 
-+ (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError * __autoreleasing *)error {
++ (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError **)error {
   MPMessagePackWriter *messagePack = [[MPMessagePackWriter alloc] init];
   [messagePack writeObject:obj options:options error:error];
   return messagePack.data;
 }
 
-- (BOOL)writeNumber:(NSNumber *)number context:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
+- (BOOL)writeNumber:(NSNumber *)number context:(cmp_ctx_t *)context error:(NSError **)error {
   if ((id)number == (id)kCFBooleanTrue || (id)number == (id)kCFBooleanFalse) {
     cmp_write_bool(context, number.boolValue);
     return YES;
@@ -86,7 +86,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   }
 }
 
-- (BOOL)writeObject:(id)obj options:(MPMessagePackWriterOptions)options context:(cmp_ctx_t *)context error:(NSError * __autoreleasing *)error {
+- (BOOL)writeObject:(id)obj options:(MPMessagePackWriterOptions)options context:(cmp_ctx_t *)context error:(NSError **)error {
   if ([obj isKindOfClass:[NSArray class]]) {
     if (!cmp_write_array(context, (uint32_t)[obj count])) {
       if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: @"Error writing array"}];
