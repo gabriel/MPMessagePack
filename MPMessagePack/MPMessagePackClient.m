@@ -261,7 +261,12 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
     [self handleError:MPMakeError(500, @"[%@] Received an invalid response: %@ (%@)", _name, obj, NSStringFromClass([obj class])) fatal:YES];
     return;
   }
-  
+
+  if (!MPVerifyMessage(obj, &error)) {
+    [self handleError:error fatal:YES];
+    return;
+  }
+
   NSArray *message = (NSArray *)obj;
   //MPDebug(@"Read message: %@", [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:message options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding]);
 
@@ -269,6 +274,10 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
   NSNumber *messageId = message[1];
   
   if (type == 0) {
+    if (!MPVerifyRequest(message, &error)) {
+      [self handleError:error fatal:YES];
+      return;
+    }
     //MPDebug(@"Request, messageId=%@", messageId);
     NSString *method = MPIfNull(message[2], nil);
     NSArray *params = MPIfNull(message[3], nil);
@@ -278,12 +287,15 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
       [self sendResponseWithResult:result error:error messageId:messageId.integerValue];
     });
   } else if (type == 1) {
+    if (!MPVerifyResponse(message, &error)) {
+      [self handleError:error fatal:YES];
+      return;
+    }
+
     NSDictionary *responseError = MPIfNull(message[2], nil);
     NSError *error = nil;
     if (responseError) {
-      NSInteger code = -1;
-      if (responseError[@"code"]) code = [responseError[@"code"] integerValue];
-      error = [NSError errorWithDomain:@"MPMessagePack" code:code userInfo:@{MPErrorInfoKey:responseError}];
+      error = MPErrorFromErrorDict(@"MPMessagePack", responseError);
     }
     
     id result = MPIfNull(message[3], nil);
@@ -483,3 +495,97 @@ static void MPSocketClientCallback(CFSocketRef socket, CFSocketCallBackType type
 }
 
 @end
+
+BOOL MPVerifyMessage(id message, NSError **error) {
+  if (![message isKindOfClass:NSArray.class]) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; Not NSArray type");
+    return NO;
+  }
+
+  if ([message count] != 4) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; Request should have 4 elements");
+    return NO;
+  }
+
+  id typeObj = MPIfNull(message[0], nil);
+  if (!typeObj) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; First element (type) can't be null");
+    return NO;
+  }
+  if (![typeObj isKindOfClass:NSNumber.class]) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; First element (type) is not a number");
+    return NO;
+  }
+
+  id messageIdObj = MPIfNull(message[1], nil);
+  if (!messageIdObj) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; Second element (messageId) can't be null");
+    return NO;
+  }
+  if (![messageIdObj isKindOfClass:NSNumber.class]) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; Second element (messageId) is not a number");
+    return NO;
+  }
+
+  return YES;
+}
+
+BOOL MPVerifyRequest(NSArray *request, NSError **error) {
+  NSInteger type = [request[0] integerValue];
+  if (type != 0) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; First element (type) is not 0: %@", @(type)); // Request type=0
+    return NO;
+  }
+
+  id methodObj = MPIfNull(request[2], nil);
+  if (!methodObj) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; Third element (method) can't be null");
+    return NO;
+  }
+  if (![methodObj isKindOfClass:NSString.class]) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; Third element (method) is not a string");
+    return NO;
+  }
+
+  id paramsObj = MPIfNull(request[3], nil);
+  if (paramsObj && ![paramsObj isKindOfClass:NSArray.class]) {
+    if (error) *error = MPMakeError(-1, @"Invalid request; Fourth element (params) is not an array");
+    return NO;
+  }
+
+  return YES;
+}
+
+BOOL MPVerifyResponse(NSArray *response, NSError **error) {
+  NSInteger type = [response[0] integerValue];
+  if (type != 1) {
+    if (error) *error = MPMakeError(-1, @"Invalid response; First element (type) is not 1"); // Request type=1
+    return NO;
+  }
+
+  id messageIdObj = MPIfNull(response[1], nil);
+  if (!messageIdObj) {
+    if (error) *error = MPMakeError(-1, @"Invalid response; Second element (messageId) can't be null");
+    return NO;
+  }
+  if (![messageIdObj isKindOfClass:NSNumber.class]) {
+    if (error) *error = MPMakeError(-1, @"Invalid response; Second element (messageId) is not a number");
+    return NO;
+  }
+
+  id errorObj = MPIfNull(response[2], nil);
+  if (errorObj && ![errorObj isKindOfClass:NSDictionary.class]) {
+    if (error) *error = MPMakeError(-1, @"Invalid response; Third element (error) is not a dictionary");
+    return NO;
+  }
+
+  return YES;
+}
+
+NSError *MPErrorFromErrorDict(NSString *domain, NSDictionary *dict) {
+  NSInteger code = -1;
+  if (dict[@"code"]) code = [dict[@"code"] integerValue];
+  NSString *desc = @"Oops, something wen't wrong";
+  if (dict[@"desc"]) desc = [dict[@"desc"] description];
+  return [NSError errorWithDomain:domain code:code userInfo:@{NSLocalizedDescriptionKey: desc, MPErrorInfoKey: dict}];
+}

@@ -77,3 +77,15 @@ typedef void (^MPRequestHandler)(NSNumber *messageId, NSString *method, NSArray 
 - (void)sendResponseWithResult:(id)result error:(id)error messageId:(NSInteger)messageId;
 
 @end
+
+// Verify the object is a valid msgpack rpc message
+BOOL MPVerifyMessage(id request, NSError **error);
+
+// Verify the object is a valid msgpack rpc request
+BOOL MPVerifyRequest(NSArray *request, NSError **error);
+
+// Verify the object is a valid msgpack rpc response
+BOOL MPVerifyResponse(NSArray *response, NSError **error);
+
+// NSError from error dict
+NSError *MPErrorFromErrorDict(NSString *domain, NSDictionary *dict);
