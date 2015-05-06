@@ -37,7 +37,7 @@
 		002A2C151AF98AB1006DFB51 /* MPXPCClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 002A2C131AF98AB1006DFB51 /* MPXPCClient.m */; };
 		002A2C181AF98BB6006DFB51 /* MPXPCProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 002A2C161AF98BB6006DFB51 /* MPXPCProtocol.h */; };
 		002A2C191AF98BB6006DFB51 /* MPXPCProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 002A2C171AF98BB6006DFB51 /* MPXPCProtocol.m */; };
-		002A2C1C1AF98D6B006DFB51 /* MPXPCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 002A2C1B1AF98D6B006DFB51 /* MPXPCTest.m */; };
+		002A2C1E1AF99D93006DFB51 /* MPXPCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 002A2C1D1AF99D93006DFB51 /* MPXPCTest.m */; };
 		004D149A1A3D1B9F0083888D /* MPMessagePackClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14991A3D1B9F0083888D /* MPMessagePackClient.m */; };
 		004D14A71A3D23B10083888D /* MPMessagePackServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 004D14A61A3D23B10083888D /* MPMessagePackServer.m */; };
 		0057EE00196CABE500F39536 /* MPOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0057EDFF196CABE500F39536 /* MPOrderedDictionary.m */; };
@@ -82,7 +82,7 @@
 		002A2C131AF98AB1006DFB51 /* MPXPCClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPXPCClient.m; sourceTree = "<group>"; };
 		002A2C161AF98BB6006DFB51 /* MPXPCProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPXPCProtocol.h; sourceTree = "<group>"; };
 		002A2C171AF98BB6006DFB51 /* MPXPCProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPXPCProtocol.m; sourceTree = "<group>"; };
-		002A2C1B1AF98D6B006DFB51 /* MPXPCTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPXPCTest.m; sourceTree = "<group>"; };
+		002A2C1D1AF99D93006DFB51 /* MPXPCTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPXPCTest.m; path = Tests/MPXPCTest.m; sourceTree = "<group>"; };
 		004D14981A3D1B9F0083888D /* MPMessagePackClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePackClient.h; sourceTree = "<group>"; };
 		004D14991A3D1B9F0083888D /* MPMessagePackClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMessagePackClient.m; sourceTree = "<group>"; };
 		004D149D1A3D1BE60083888D /* MPMessagePackClientTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPMessagePackClientTest.m; path = Tests/MPMessagePackClientTest.m; sourceTree = "<group>"; };
@@ -215,7 +215,7 @@
 				350EDB33056543CEB251CD88 /* MPMessagePackTest.m */,
 				0057EE03196CAE6300F39536 /* MPOrderedDictionaryTest.m */,
 				004D149D1A3D1BE60083888D /* MPMessagePackClientTest.m */,
-				002A2C1B1AF98D6B006DFB51 /* MPXPCTest.m */,
+				002A2C1D1AF99D93006DFB51 /* MPXPCTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -409,7 +409,7 @@
 			files = (
 				002A2C0F1AF98977006DFB51 /* MPOrderedDictionaryTest.m in Sources */,
 				002A2C0E1AF98975006DFB51 /* MPMessagePackTest.m in Sources */,
-				002A2C1C1AF98D6B006DFB51 /* MPXPCTest.m in Sources */,
+				002A2C1E1AF99D93006DFB51 /* MPXPCTest.m in Sources */,
 				002A2C111AF98A1B006DFB51 /* MPMessagePackClientTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
