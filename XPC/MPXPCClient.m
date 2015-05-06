@@ -78,27 +78,36 @@
 
   xpc_connection_send_message_with_reply(_connection, message, dispatch_get_main_queue(), ^(xpc_object_t event) {
     //DDLogDebug(@"Reply: %@", event);
-    NSError *error = nil;
-    size_t length = 0;
-    const void *buffer = xpc_dictionary_get_data(event, "data", &length);
-    NSData *dataResponse = [NSData dataWithBytes:buffer length:length];
 
-    id response = [dataResponse mp_array:&error];
+    if (xpc_get_type(event) == XPC_TYPE_ERROR) {
 
-    if (!response) {
-      completion(error, nil);
-      return;
-    }
-    if (!MPVerifyResponse(response, &error)) {
-      completion(error, nil);
-      return;
-    }
-    NSDictionary *errorDict = MPIfNull(response[2], nil);
-    if (errorDict) {
-      error = MPErrorFromErrorDict(_serviceName, errorDict);
-      completion(error, nil);
-    } else {
-      completion(nil, MPIfNull(response[3], nil));
+      const char *description = xpc_dictionary_get_string(event, "XPCErrorDescription");
+      NSString *errorMessage = [NSString stringWithCString:description encoding:NSUTF8StringEncoding];
+      completion(MPMakeError(2001, @"XPC Error: %@", errorMessage), nil);
+
+    } else if (xpc_get_type(event) == XPC_TYPE_DICTIONARY) {
+      NSError *error = nil;
+      size_t length = 0;
+      const void *buffer = xpc_dictionary_get_data(event, "data", &length);
+      NSData *dataResponse = [NSData dataWithBytes:buffer length:length];
+
+      id response = [dataResponse mp_array:&error];
+
+      if (!response) {
+        completion(error, nil);
+        return;
+      }
+      if (!MPVerifyResponse(response, &error)) {
+        completion(error, nil);
+        return;
+      }
+      NSDictionary *errorDict = MPIfNull(response[2], nil);
+      if (errorDict) {
+        error = MPErrorFromErrorDict(_serviceName, errorDict);
+        completion(error, nil);
+      } else {
+        completion(nil, MPIfNull(response[3], nil));
+      }
     }
   });
 }
