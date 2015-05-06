@@ -1,8 +1,16 @@
-#import <GRUnit/GRUnit.h>
+//
+//  MPMessagePack
+//
+//  Created by Gabriel on 5/5/15.
+//  Copyright (c) 2015 Gabriel Handford. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
 
 #import "MPOrderedDictionary.h"
 
-@interface MPOrderedDictionaryTest : GRTestCase
+@interface MPOrderedDictionaryTest : XCTestCase
 @end
 
 @implementation MPOrderedDictionaryTest
@@ -20,7 +28,7 @@
     [keysIterated addObject:key];
   }
   
-  GRAssertEqualObjects(keysIterated, keys);
+  XCTAssertEqualObjects(keysIterated, keys);
   
   MPOrderedDictionary *dictCopy = [dict copy];
   dictCopy[@(1)] = @"test";
@@ -44,13 +52,13 @@
   
   NSArray *expected = @[@"a", @"b", @"c", @"d", @"e", @"sub"];
   NSArray *expected2 = @[@"x", @"y", @"z"];
-  GRTestLog(@"Dict: %@", dict);
+  NSLog(@"Dict: %@", dict);
   
-  GRAssertNotEqualObjects(expected, [dict allKeys]);
+  XCTAssertNotEqualObjects(expected, [dict allKeys]);
   [dict sortKeysUsingSelector:@selector(localizedCaseInsensitiveCompare:) deepSort:YES];
-  GRAssertEqualObjects(expected, [dict allKeys]);
-  GRAssertEqualObjects(expected, [[dict keyEnumerator] allObjects]);
-  GRAssertEqualObjects(expected2, [dict[@"sub"] allKeys]);
+  XCTAssertEqualObjects(expected, [dict allKeys]);
+  XCTAssertEqualObjects(expected, [[dict keyEnumerator] allObjects]);
+  XCTAssertEqualObjects(expected2, [dict[@"sub"] allKeys]);
 }
 
 @end

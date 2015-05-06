@@ -20,6 +20,12 @@
 
 typedef void (^MPCompletion)(NSError *error);
 
-#define MPMakeError(CODE, fmt, ...) [NSError errorWithDomain:@"MPMessagePack" code:CODE userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:fmt, ##__VA_ARGS__]}]
+#define MPMakeError(CODE, MSG, ...) [NSError errorWithDomain:@"Keybase" code:CODE userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:MSG, ##__VA_ARGS__], NSLocalizedRecoveryOptionsErrorKey: @[@"OK"]}]
+
+#define MPMakeErrorWithRecovery(CODE, MSG, RECOVERY, ...) [NSError errorWithDomain:@"Keybase" code:CODE userInfo:@{NSLocalizedDescriptionKey: MSG, NSLocalizedRecoveryOptionsErrorKey: @[@"OK"], NSLocalizedRecoverySuggestionErrorKey:[NSString stringWithFormat:RECOVERY, ##__VA_ARGS__]}]
+
 
 #define MPIfNull(obj, val) ([obj isEqual:NSNull.null] ? val : obj)
+
+#define MPWeakObject(o) __typeof__(o) __weak
+#define MPWeakSelf MPWeakObject(self)

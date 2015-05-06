@@ -1,11 +1,20 @@
 //
-//  MPMessagePackTest.m
+//  MPMessagePack
 //
-#import <GRUnit/GRUnit.h>
+//  Created by Gabriel on 5/5/15.
+//  Copyright (c) 2015 Gabriel Handford. All rights reserved.
+//
 
-#import "MPMessagePack.h"
+#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
 
-@interface MPMessagePackTest : GRTestCase
+#import "MPMessagePackWriter.h"
+#import "MPMessagePackReader.h"
+#import "NSData+MPMessagePack.h"
+#import "NSArray+MPMessagePack.h"
+#import "NSDictionary+MPMessagePack.h"
+
+@interface MPMessagePackTest : XCTestCase
 @end
 
 @implementation MPMessagePackTest
@@ -28,7 +37,7 @@
 - (void)testEmpty {
   NSData *data1 = [MPMessagePackWriter writeObject:@[] error:nil];
   NSArray *read1 = [MPMessagePackReader readData:data1 options:0 error:nil];
-  GRAssertEqualObjects(@[], read1);
+  XCTAssertEqualObjects(@[], read1);
 }
 
 - (void)testPackUnpack {
@@ -56,28 +65,28 @@
     @"null": [NSNull null],
     @"str": @"🍆😗😂😰",
     };
-  GRTestLog(@"Obj: %@", obj);
+  NSLog(@"Obj: %@", obj);
   
   NSData *data2 = [obj mp_messagePack];
   NSDictionary *read2 = [MPMessagePackReader readData:data2 options:0 error:nil];
-  GRAssertEqualObjects(obj, read2);
+  XCTAssertEqualObjects(obj, read2);
   
   NSData *data3 = [MPMessagePackWriter writeObject:obj options:MPMessagePackWriterOptionsSortDictionaryKeys error:nil];
   NSError *error = nil;
   NSDictionary *read3 = [MPMessagePackReader readData:data3 options:0 error:&error];
-  GRAssertEqualObjects(obj, read3);
+  XCTAssertEqualObjects(obj, read3);
 }
 
 - (void)testBool {
   NSArray *obj = @[@(YES), @YES, @(NO), @NO, [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO]];
   NSData *data = [obj mp_messagePack];
   NSArray *read = [MPMessagePackReader readData:data options:0 error:nil];
-  GRTestLog(@"Bools: %@", read);
-  GRAssertEqualObjects(obj, read);
-  GRAssertEquals(read[0], @(YES));
-  GRAssertEquals(read[1], @YES);
-  GRAssertEquals(read[2], @(NO));
-  GRAssertEquals(read[3], @NO);
+  NSLog(@"Bools: %@", read);
+  XCTAssertEqualObjects(obj, read);
+  XCTAssertEqual(read[0], @(YES));
+  XCTAssertEqual(read[1], @YES);
+  XCTAssertEqual(read[2], @(NO));
+  XCTAssertEqual(read[3], @NO);
 }
 
 - (void)testMultiple {
@@ -91,20 +100,20 @@
   id obj1 = [reader readObject:nil];
   id obj2 = [reader readObject:nil];
   
-  GRAssertEqualObjects(obj1, @(1));
-  GRAssertEqualObjects(obj2, @{@"a": @(1)});
+  XCTAssertEqualObjects(obj1, @(1));
+  XCTAssertEqualObjects(obj2, @{@"a": @(1)});
   
   size_t index = reader.index;
   id obj3 = [reader readObject:&error];
-  GRAssertNil(obj3);
-  GRAssertNotNil(error);
-  GRAssertEquals(error.code, (NSInteger)202);
-  GRAssertEquals(reader.index, (size_t)index); // Make sure error resets index
+  XCTAssertNil(obj3);
+  XCTAssertNotNil(error);
+  XCTAssertEqual(error.code, (NSInteger)202);
+  XCTAssertEqual(reader.index, (size_t)index); // Make sure error resets index
   
   [subdata appendData:[data subdataWithRange:NSMakeRange(data.length - 1, 1)]];
   obj3 = [reader readObject:nil];
   id expected3 = @[@(1), @(2)];
-  GRAssertEqualObjects(obj3, expected3);
+  XCTAssertEqualObjects(obj3, expected3);
 }
 
 - (void)testRandomData {
@@ -114,14 +123,14 @@
   
   NSError *error = nil;
   [MPMessagePackReader readData:data options:0 error:&error];
-  GRTestLog(@"Error: %@", error);
+  NSLog(@"Error: %@", error);
   // Just don't crash
 }
 
 - (void)testMap {
   NSDictionary *d = @{@"identify": @(YES)};
   NSData *data = [MPMessagePackWriter writeObject:d options:0 error:nil];
-  GRTestLog(@"Data: %@", [data mp_hexString]);
+  NSLog(@"Data: %@", [data mp_hexString]);
 }
 
 - (void)testUnsignedLongLong {
@@ -130,7 +139,7 @@
 
   NSData *data = [MPMessagePackWriter writeObject:numberIn options:0 error:nil];
   NSNumber *numberOut = [MPMessagePackReader readData:data error:nil];
-  GRAssertTrue([numberOut longLongValue] == n);
+  XCTAssertTrue([numberOut longLongValue] == n);
 }
 
 - (void)testLongLong {
@@ -139,31 +148,31 @@
 
   NSData *data = [MPMessagePackWriter writeObject:numberIn options:0 error:nil];
   NSNumber *numberOut = [MPMessagePackReader readData:data error:nil];
-  GRAssertTrue([numberOut longLongValue] == n);
+  XCTAssertTrue([numberOut longLongValue] == n);
 }
 
 - (void)testInvalidDictData {
   NSData *data = [self dataFromHexString:@"deadbeef"];
   NSError *error = nil;
-  GRAssertFalse({ [data mp_dict:&error]; });
-  GRAssertNotNil(error);
+  XCTAssertFalse({ [data mp_dict:&error]; });
+  XCTAssertNotNil(error);
 }
 
 - (void)testInvalidArrayData {
   NSData *data = [self dataFromHexString:@"deadbeef"];
   NSError *error = nil;
-  GRAssertFalse({ [data mp_array:&error]; });
-  GRAssertNotNil(error);
+  XCTAssertFalse({ [data mp_array:&error]; });
+  XCTAssertNotNil(error);
 }
 
 // For testing a compatibility issue with go msgpack
 //- (void)testMessage {
-//  NSString *s = @"lAAE2gAra2V5YmFzZS4xLmlkZW50aWZ5VWkuZmluaXNoU29jaWFsUHJvb2ZDaGVja5GDo2xjcoSmY2FjaGVkg61kaXNwbGF5TWFya3Vw2gAgW2NhY2hlZCAyMDE1LTAxLTIzIDE0OjU0OjM0IFBTVF2rcHJvb2ZTdGF0dXODpGRlc2OgpXN0YXRlAaZzdGF0dXMBqXRpbWVzdGFtcM5UwtEqpGhpbnSEpmFwaVVybNoAKGh0dHBzOi8vY29pbmJhc2UuY29tL2JpdGNveW5lL3B1YmxpYy1rZXmpY2hlY2tUZXh02gVgCgpvd0Z0VW10TUhGVVk1UTN5RUNKcWtTRHFpTFl4cTl5Wm5kbVoyVGJxVW1pcFNFT1cybXBvMmQ0N2N3ZUd4eTdNCjdsSVJhcXBFTGR0YUlLMEYydkFRSktRVUFhMHRkV3VKUWhFSVlBa0trWnBZdHRES1E2bzEwRkJRZEpiWUh5YmUKUHpmM3UrZWM3NXd2WDNtSXQwZWc1MmlNWVhQVWlsanVPVGlMUEZLdmR5WVVFY2dpRmhMNklpSWJyMStTYk03QQpTcDRpbTIyRW51QnBDTFdRUVNJU2FZQWhRL01DUkZEaUpTUUFWdFJCbmdXa1RrQmFRa05rV3F4dWhpcURvQlcvCklGdlVtdm93eWFKYS9SKzhmZjJEMGxJNklGQUNKbm1hQWhMUElvWVRXWkZua0k0VElBQnVvQlVyWnBpTFZiU1EKcWNoVzRxQ0dVSENCSlJ1Ny9WcmxETFdGbGRDbkVhTEVhRG5FNlJBQ1VPQkpnSGtKMGtoaUVNVXhBSEk4UzJLSwoxbUVFRUUwSldrR0xTY3lSSWt1ekRJWWN5U01nRWZ0VWJiVmRnU3lzaTk5dmE1SE43bEQvTllOa20yQXBOR08zCkgxdGhucnQwQUNQVHYzUVRrczJpT2t1VlU0QVZxMnd4RTNwU1JRbzIyYzBtYWNDU0xOQ3lwSWJBYitiSkNqYkoKYmdURDZqaWdIZzJScDJaMFR3N3pnQ1JwcUFXU0lKRmFFU0FlU2l3cnFCbDRVaUJGaGdHMGpwSWdvMk1Sd0lJawppUkt0MVhFMGtJQWtjaUlrM0lIeXpSWkNUd0ZLTlFvelZGRjFhT1lBYUxNcnF2bkFVcThvSHcvUFFBOC9YeS8zClJuZ0VQaEIyZjAzQTJkQy9sWWZld2cxanM5YmN4SlliRHMrQnp5K0hqVjdvUzkxU2JxZ1pNNjFXdHZuK2RMdGkKQXpuWmZ0WFdhRXdobzMvYzBSM3c1WkwvN3FNZmJhYXJub3NMR2doN1p1Yk9tYzhpUnNzY3hxQ1owZStYNjBxMgpKdGp6ZThGWDMrMHNTOFJWYThkTEEwNXNQeHppTU5UNFFkOWlQOFA3bC9sbis1d1RRZnp1M0ZPTnQ5N3JYVzZZCjZxN3VieDZMVW13cjM0dzhYUkY1YmJJSkgwNTZNaUx1eUtIdFVZOGtIOXcwLzN3anlKS2FrMXoxeVl0dFBzWjMKcXh5TXYvTmlUZG5jYUhWWDh6bnYrcWt6N2I5YmxPeUYvdGpFMDEybm5NMXpYNCs0Z3QrbzdMczlIc28wRExWbgpmamk4QWw5eStRVzNaeWtqVkdIRFVHdHU4WUozN2ZMYXZIZkpiL29XVFV6UmthVmpzZllMUHdjYlA5aWlDWi9OCkp3eWtSMWhuNHcvVEZ4ZjNGUS9mU052N3R1WGFrcGROMDRRbTF1TDIzNDI0ZzJxRHVnVDQ4cmMrZTNZMkdSUHUKZmVwa0YrWlB0T3k0Tk40ZVVuTFBheTZ5TjVLNGREYlpsUkErZmVpTG1tM2cvT1N4eEdacFYvaTUxbzdndXB1ZApINmM4bHI0aGZlUE5LMzhteHU4OW1iSTYyTlBJSG5Cd3lhZi9HcW84MzVxaTN6cThiTUE1ektDOTlJL1UyRWROCjIrcGZOWDlTdjZxTCtlV1Y4RDNMTXlmOWU2NitXTHVZbnRKUmZYZkJlSHhUMWEwaS9JNnJ2NjBpWittMXFLVDQKNkpDY3JPbTB1dkdCcHh5L1RqMGMydkY0c1cxL2Qvd1RZVlVvOW5xWFpzNTVaWUtpTnpySDlkRjU5bDJ1OHZMWApIK3daK3djPQqoaHVtYW5VcmzaAChodHRwczovL2NvaW5iYXNlLmNvbS9iaXRjb3luZS9wdWJsaWMta2V5qHJlbW90ZUlkqGJpdGNveW5lp3Byb29mSWQAq3Byb29mU3RhdHVzg6RkZXNjoKVzdGF0ZQGmc3RhdHVzAaJycIatZGlzcGxheU1hcmt1cKhiaXRjb3luZaNrZXmoY29pbmJhc2WlbXRpbWXOU9+3Q6lwcm9vZlR5cGUFpXNpZ0lk2gAgxtLIJ/1ykq42o1n+860Ec2/zc5AbPbA3r3c84T23+rmldmFsdWWoYml0Y295bmWpc2Vzc2lvbklkJQ==";
+//  NSString *s = @"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";
 //
 //  NSData *data = [[NSData alloc] initWithBase64EncodedString:s options:0];
 //  MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:data];
 //  id obj = [reader readObject:nil];
-//  GRTestLog(@"%@", obj);
+//  NSLog(@"%@", obj);
 //}
 
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MPMessagePack.h"
+#import "MPDefines.h"
 
 extern NSString *const MPErrorInfoKey;
 

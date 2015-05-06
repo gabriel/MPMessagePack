@@ -211,8 +211,8 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
   MPMessagePackReader *messagePackReader = [[MPMessagePackReader alloc] initWithData:data options:options];
   id obj = [messagePackReader readObject:error];
   
-  if (!obj) {
-    if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:299 userInfo:@{NSLocalizedDescriptionKey: @"Unable to read object"}];
+  if (!obj && error && !*error) {
+    *error = [NSError errorWithDomain:@"MPMessagePack" code:299 userInfo:@{NSLocalizedDescriptionKey: @"Unable to read object"}];
     return nil;
   }
   
