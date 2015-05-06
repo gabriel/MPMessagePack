@@ -61,6 +61,10 @@
 }
 
 - (void)sendRequest:(NSString *)method params:(NSArray *)params completion:(void (^)(NSError *error, id value))completion {
+  [self sendRequest:method params:params attempt:0 completion:completion];
+}
+
+- (void)sendRequest:(NSString *)method params:(NSArray *)params attempt:(NSInteger)attempt completion:(void (^)(NSError *error, id value))completion {
   if (!_connection) {
     NSError *error = nil;
     if (![self connect:&error]) {
@@ -77,13 +81,16 @@
   }
 
   xpc_connection_send_message_with_reply(_connection, message, dispatch_get_main_queue(), ^(xpc_object_t event) {
-    //DDLogDebug(@"Reply: %@", event);
-
     if (xpc_get_type(event) == XPC_TYPE_ERROR) {
 
-      const char *description = xpc_dictionary_get_string(event, "XPCErrorDescription");
-      NSString *errorMessage = [NSString stringWithCString:description encoding:NSUTF8StringEncoding];
-      completion(MPMakeError(2001, @"XPC Error: %@", errorMessage), nil);
+      // If we failed on retry, return error, otherwise retry
+      if (attempt == 1) {
+        const char *description = xpc_dictionary_get_string(event, "XPCErrorDescription");
+        NSString *errorMessage = [NSString stringWithCString:description encoding:NSUTF8StringEncoding];
+        completion(MPMakeError(2001, @"XPC Error: %@", errorMessage), nil);
+      } else {
+        [self sendRequest:method params:params attempt:attempt+1 completion:completion];
+      }
 
     } else if (xpc_get_type(event) == XPC_TYPE_DICTIONARY) {
       NSError *error = nil;
