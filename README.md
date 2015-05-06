@@ -117,3 +117,7 @@ Then in the client:
 MPMessagePackClient *client = [[MPMessagePackClient alloc] init];
 client.coder = [[KBMantleCoder alloc] init];
 ```
+
+## XPC
+
+There is an experimental, but functional msgpack-rpc over XPC (see XPC directory). More details soon.
