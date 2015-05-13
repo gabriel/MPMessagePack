@@ -1,1 +1,10 @@
-COCOAPODS: 0.37.0
+PODS:
+  - GHODictionary (1.0.0)
+
+DEPENDENCIES:
+  - GHODictionary
+
+SPEC CHECKSUMS:
+  GHODictionary: 2eaca0a089ddf65769fe407f15e5f13238d15bce
+
+COCOAPODS: 0.37.1

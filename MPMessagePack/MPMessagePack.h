@@ -24,8 +24,6 @@ FOUNDATION_EXPORT const unsigned char MPMessagePackVersionString[];
 #import <MPMessagePack/NSArray+MPMessagePack.h>
 #import <MPMessagePack/NSData+MPMessagePack.h>
 
-#import <MPMessagePack/MPOrderedDictionary.h>
-
 #else
 
 #import <Foundation/Foundation.h>
@@ -36,8 +34,6 @@ FOUNDATION_EXPORT const unsigned char MPMessagePackVersionString[];
 #import "NSDictionary+MPMessagePack.h"
 #import "NSArray+MPMessagePack.h"
 #import "NSData+MPMessagePack.h"
-
-#import "MPOrderedDictionary.h"
 
 #endif
 

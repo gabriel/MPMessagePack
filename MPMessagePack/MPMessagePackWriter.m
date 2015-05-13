@@ -10,7 +10,7 @@
 
 #include "cmp.h"
 
-#import "MPOrderedDictionary.h"
+#import <GHODictionary/GHODictionary.h>
 #import "MPDefines.h"
 
 @interface MPMessagePackWriter ()
@@ -97,7 +97,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
         return NO;
       }
     }
-  } else if ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[MPOrderedDictionary class]]) {
+  } else if ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[GHODictionary class]]) {
     if (!cmp_write_map(context, (uint32_t)[obj count])) {
       if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: @"Error writing map"}];
       return NO;

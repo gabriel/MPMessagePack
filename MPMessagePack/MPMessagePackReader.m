@@ -11,7 +11,7 @@
 #include "cmp.h"
 #import "MPDefines.h"
 
-#import "MPOrderedDictionary.h"
+#import <GHODictionary/GHODictionary.h>
 
 @interface MPMessagePackReader ()
 @property NSData *data;
@@ -148,7 +148,7 @@
 
   id dict = nil;
   if ((_options & MPMessagePackReaderOptionsUseOrderedDictionary) == MPMessagePackReaderOptionsUseOrderedDictionary) {
-    dict = [[MPOrderedDictionary alloc] initWithCapacity:capacity];
+    dict = [[GHODictionary alloc] initWithCapacity:capacity];
   } else {
     dict = [NSMutableDictionary dictionaryWithCapacity:capacity];
   }

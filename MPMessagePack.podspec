@@ -1,13 +1,15 @@
 Pod::Spec.new do |s|
 
   s.name         = "MPMessagePack"
-  s.version      = "1.1.18"
+  s.version      = "1.1.19"
   s.summary      = "Objective-C library for MessagePack"
   s.homepage     = "https://github.com/gabriel/MPMessagePack"
   s.license      = { :type => "MIT" }
   s.author       = { "Gabriel Handford" => "gabrielh@gmail.com" }
   s.source       = { :git => "https://github.com/gabriel/MPMessagePack.git", :tag => s.version.to_s }
   s.requires_arc = true
+
+  s.dependency "GHODictionary"
 
   s.ios.platform = :ios, "6.0"
   s.ios.deployment_target = "6.0"
