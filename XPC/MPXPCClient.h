@@ -12,10 +12,12 @@
 
 @property NSTimeInterval timeout;
 
-- (instancetype)initWithServiceName:(NSString *)serviceName priviledged:(BOOL)priviledged;
+- (instancetype)initWithServiceName:(NSString *)serviceName privileged:(BOOL)privileged;
 
 - (BOOL)connect:(NSError **)error;
 
 - (void)sendRequest:(NSString *)method params:(NSArray *)params completion:(void (^)(NSError *error, id value))completion;
+
+- (void)close;
 
 @end

@@ -16,7 +16,7 @@
 
 @interface MPXPCClient ()
 @property NSString *serviceName;
-@property BOOL priviledged;
+@property BOOL privileged;
 
 @property xpc_connection_t connection;
 @property NSInteger messageId;
@@ -24,17 +24,17 @@
 
 @implementation MPXPCClient
 
-- (instancetype)initWithServiceName:(NSString *)serviceName priviledged:(BOOL)priviledged {
+- (instancetype)initWithServiceName:(NSString *)serviceName privileged:(BOOL)privileged {
   if ((self = [super init])) {
     _serviceName = serviceName;
-    _priviledged = priviledged;
+    _privileged = privileged;
     _timeout = 2.0;
   }
   return self;
 }
 
 - (BOOL)connect:(NSError **)error {
-  _connection = xpc_connection_create_mach_service([_serviceName UTF8String], NULL, _priviledged ? XPC_CONNECTION_MACH_SERVICE_PRIVILEGED : 0);
+  _connection = xpc_connection_create_mach_service([_serviceName UTF8String], NULL, _privileged ? XPC_CONNECTION_MACH_SERVICE_PRIVILEGED : 0);
 
   if (!_connection) {
     if (error) *error = MPMakeError(MPXPCErrorCodeInvalidConnection, @"Failed to create connection");
@@ -61,6 +61,13 @@
 
   xpc_connection_resume(_connection);
   return YES;
+}
+
+- (void)close {
+  if (_connection) {
+    xpc_connection_cancel(_connection);
+    _connection = nil;
+  }
 }
 
 - (void)sendRequest:(NSString *)method params:(NSArray *)params completion:(void (^)(NSError *error, id value))completion {
