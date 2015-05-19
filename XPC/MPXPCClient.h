@@ -10,6 +10,8 @@
 
 @interface MPXPCClient : NSObject
 
+@property NSTimeInterval timeout;
+
 - (instancetype)initWithServiceName:(NSString *)serviceName priviledged:(BOOL)priviledged;
 
 - (BOOL)connect:(NSError **)error;

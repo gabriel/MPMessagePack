@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, MPXPCErrorCode) {
+  MPXPCErrorCodeInvalidRequest = -1,
+  MPXPCErrorCodeUnknownRequest = -2,
+
+  MPXPCErrorCodeInvalidConnection = -10,
+  MPXPCErrorCodeTimeout = -11,
+};
+
 @interface MPXPCProtocol : NSObject
 
 + (xpc_object_t)XPCObjectFromRequestWithMethod:(NSString *)method messageId:(NSInteger)messageId params:(NSArray *)params error:(NSError **)error;

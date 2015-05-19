@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <ServiceManagement/ServiceManagement.h>
 
-typedef NS_ENUM(NSInteger, MPXPCErrorCode) {
-  MPXPCErrorCodeInvalidRequest = -1,
-  MPXPCErrorCodeUnknownRequest = -2,
-};
-
 @interface MPXPCService : NSObject
 
 - (void)listen:(xpc_connection_t)service;

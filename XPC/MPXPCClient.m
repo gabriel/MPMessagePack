@@ -28,6 +28,7 @@
   if ((self = [super init])) {
     _serviceName = serviceName;
     _priviledged = priviledged;
+    _timeout = 2.0;
   }
   return self;
 }
@@ -36,7 +37,7 @@
   _connection = xpc_connection_create_mach_service([_serviceName UTF8String], NULL, _priviledged ? XPC_CONNECTION_MACH_SERVICE_PRIVILEGED : 0);
 
   if (!_connection) {
-    if (error) *error = MPMakeError(-1, @"Failed to create XPC connection");
+    if (error) *error = MPMakeError(MPXPCErrorCodeInvalidConnection, @"Failed to create connection");
     return NO;
   }
 
@@ -47,7 +48,9 @@
       if (event == XPC_ERROR_CONNECTION_INTERRUPTED) {
         // Interrupted
       } else if (event == XPC_ERROR_CONNECTION_INVALID) {
-        wself.connection = nil;
+        dispatch_async(dispatch_get_main_queue(), ^{
+          wself.connection = nil;
+        });
       } else {
         // Unknown error
       }
@@ -80,7 +83,23 @@
     return;
   }
 
+  // For timeout (TODO cancelable block?)
+  __block BOOL replied = NO;
+  if (_timeout > 0) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, _timeout * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+      if (!replied) {
+        completion(MPMakeError(MPXPCErrorCodeTimeout, @"Timeout"), nil);
+      }
+    });
+  }
+
+  if (!_connection) {
+    completion(MPMakeError(MPXPCErrorCodeInvalidConnection, @"No connection"), nil);
+    return;
+  }
+
   xpc_connection_send_message_with_reply(_connection, message, dispatch_get_main_queue(), ^(xpc_object_t event) {
+    replied = YES;
     if (xpc_get_type(event) == XPC_TYPE_ERROR) {
 
       // If we failed on retry, return error, otherwise retry
