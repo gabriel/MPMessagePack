@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MPMessagePack"
-  s.version      = "1.1.20"
+  s.version      = "1.1.22"
   s.summary      = "Objective-C library for MessagePack"
   s.homepage     = "https://github.com/gabriel/MPMessagePack"
   s.license      = { :type => "MIT" }

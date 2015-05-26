@@ -9,10 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "MPXPCClient.h"
-#import "MPXPCService.h"
-#import "MPDefines.h"
-#import "MPXPCProtocol.h"
+@import MPMessagePack;
 
 @interface MPXPCTest : XCTestCase
 @end
@@ -50,7 +47,7 @@
 
 - (void)testInvalidConnection {
   XCTestExpectation *expectation = [self expectationWithDescription:@"Timeout"];
-  MPXPCClient *client = [[MPXPCClient alloc] initWithServiceName:@"Test" priviledged:YES];
+  MPXPCClient *client = [[MPXPCClient alloc] initWithServiceName:@"Test" privileged:YES];
   [client sendRequest:@"test" params:nil completion:^(NSError *error, id value) {
     XCTAssertEqual(error.code, MPXPCErrorCodeInvalidConnection);
     [expectation fulfill];

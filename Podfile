@@ -1,9 +1,7 @@
-target "MPMessagePack" do
-  platform :ios
-  pod "GHODictionary"
-end
+use_frameworks!
 
-target "MPMessagePackOSX" do
-  platform :osx
-  pod "GHODictionary"
+pod "GHODictionary"
+
+target "MPMessagePackTests" do
+pod "GHODictionary"
 end

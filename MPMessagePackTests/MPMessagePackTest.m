@@ -8,11 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "MPMessagePackWriter.h"
-#import "MPMessagePackReader.h"
-#import "NSData+MPMessagePack.h"
-#import "NSArray+MPMessagePack.h"
-#import "NSDictionary+MPMessagePack.h"
+@import MPMessagePack;
 
 @interface MPMessagePackTest : XCTestCase
 @end
@@ -163,6 +159,16 @@
   NSError *error = nil;
   XCTAssertFalse({ [data mp_array:&error]; });
   XCTAssertNotNil(error);
+}
+
+- (void)testStress {
+  NSDictionary *dict = @{@("a"): @(1)};
+  NSData *data = [MPMessagePackWriter writeObject:dict options:0 error:nil];
+  for (NSInteger i = 0; i < 1000; i++) {
+    MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:data];
+    NSDictionary *dictRead = [reader readObject:nil];
+    XCTAssertEqualObjects(dict, dictRead);
+  }
 }
 
 // For testing a compatibility issue with go msgpack

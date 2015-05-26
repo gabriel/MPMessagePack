@@ -1,10 +1,10 @@
 PODS:
-  - GHODictionary (1.0.0)
+  - GHODictionary (1.0.7)
 
 DEPENDENCIES:
   - GHODictionary
 
 SPEC CHECKSUMS:
-  GHODictionary: 2eaca0a089ddf65769fe407f15e5f13238d15bce
+  GHODictionary: 993689351856664fea250da963bfd63fc624ca48
 
 COCOAPODS: 0.37.1
