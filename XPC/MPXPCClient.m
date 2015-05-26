@@ -113,7 +113,7 @@
       if (attempt == 1) {
         const char *description = xpc_dictionary_get_string(event, "XPCErrorDescription");
         NSString *errorMessage = [NSString stringWithCString:description encoding:NSUTF8StringEncoding];
-        completion(MPMakeError(2001, @"XPC Error: %@", errorMessage), nil);
+        completion(MPMakeError(MPXPCErrorCodeInvalidConnection, @"XPC Error: %@", errorMessage), nil);
       } else {
         [self sendRequest:method params:params attempt:attempt+1 completion:completion];
       }
