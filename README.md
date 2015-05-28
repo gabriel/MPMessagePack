@@ -5,8 +5,6 @@ Objective-C implementation for [MessagePack](http://msgpack.org/).
 
 MessagePack is an efficient binary serialization format. It lets you exchange data among multiple languages like JSON. But it's faster and smaller.
 
-MPMessagePack uses [gabriel/GRUnit](https://github.com/gabriel/GRUnit) for unit testing.
-
 # Podfile
 
 ```ruby

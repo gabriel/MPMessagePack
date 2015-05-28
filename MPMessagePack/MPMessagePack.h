@@ -11,7 +11,7 @@
 //! Project version number for MPMessagePack.
 FOUNDATION_EXPORT double MPMessagePackVersionNumber;
 
-//! Project version string for Testing.
+//! Project version string for MPMessagePack.
 FOUNDATION_EXPORT const unsigned char MPMessagePackVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <MPMessagePack/PublicHeader.h>
