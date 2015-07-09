@@ -58,7 +58,7 @@
       NSMutableData *data = [NSMutableData dataWithLength:length];
       bool readSuccess = context->read(context, [data mutableBytes], length);
       if (!readSuccess) {
-        return [self returnNilWithErrorCode:202 description:@"Unable to read object" error:error];
+        return [self returnNilWithErrorCode:202 description:@"Unable to read bytes" error:error];
       }
       return data;
     }
@@ -88,7 +88,7 @@
       NSMutableData *data = [NSMutableData dataWithLength:length];
       bool readSuccess = context->read(context, [data mutableBytes], length);
       if (!readSuccess) {
-        return [self returnNilWithErrorCode:202 description:@"Unable to read object" error:error];
+        return [self returnNilWithErrorCode:206 description:@"Unable to read string" error:error];
       }
       NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
       if (!str) {
@@ -125,7 +125,7 @@
     case CMP_TYPE_FIXEXT16:
       
     default: {
-      return [self returnNilWithErrorCode:201 description:@"Unsupported object type" error:error];
+      return [self returnNilWithErrorCode:201 description:[NSString stringWithFormat:@"Unsupported object type: %@", @(obj.type)] error:error];
     }
   }
 }
@@ -135,9 +135,7 @@
   NSMutableArray *array = [NSMutableArray arrayWithCapacity:capacity];
   for (NSInteger i = 0; i < length; i++) {
     id obj = [self readFromContext:context error:error];
-    if (!obj) {
-      return [self returnNilWithErrorCode:202 description:@"Unable to read object" error:error];
-    }
+    if (!obj) return nil;
     [array addObject:obj];
   }
   return array;
@@ -155,13 +153,9 @@
   
   for (NSInteger i = 0; i < length; i++) {
     id key = [self readFromContext:context error:error];
-    if (!key) {
-      return [self returnNilWithErrorCode:203 description:@"Unable to read object" error:error];
-    }
+    if (!key) return nil;
     id value = [self readFromContext:context error:error];
-    if (!value) {
-      return [self returnNilWithErrorCode:204 description:@"Unable to read object" error:error];
-    }
+    if (!value) return nil;
     dict[key] = value;
   }
   return dict;

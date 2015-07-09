@@ -268,8 +268,6 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
   }
 
   NSArray *message = (NSArray *)obj;
-  //MPDebug(@"Read message: %@", [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:message options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding]);
-
   NSInteger type = [message[0] integerValue];
   NSNumber *messageId = message[1];
   
