@@ -12,14 +12,21 @@
 
 extern NSString *const MPErrorInfoKey;
 
-typedef NS_ENUM(NSInteger, MPMessagePackClientStatus) {
+typedef NS_ENUM (NSInteger, MPMessagePackClientStatus) {
   MPMessagePackClientStatusClosed = 1,
   MPMessagePackClientStatusOpening,
   MPMessagePackClientStatusOpen,
 };
 
-typedef NS_ENUM(NSInteger, MPMessagePackOptions) {
+typedef NS_OPTIONS (NSInteger, MPMessagePackOptions) {
   MPMessagePackOptionsFramed = 1 << 0,
+};
+
+typedef NS_ENUM (NSInteger, MPMessagePackError) {
+  MPMessagePackErrorSocketCreateError = -3,
+  MPMessagePackErrorSocketOpenError = -6,
+  MPMessagePackErrorSocketOpenTimeout = -7,
+  MPMessagePackErrorInvalidRequest = -20,
 };
 
 @protocol MPMessagePackCoder
