@@ -17,6 +17,7 @@
 @interface MPXPCClient ()
 @property NSString *serviceName;
 @property BOOL privileged;
+@property MPMessagePackReaderOptions readOptions;
 
 @property xpc_connection_t connection;
 @property NSInteger messageId;
@@ -25,10 +26,15 @@
 @implementation MPXPCClient
 
 - (instancetype)initWithServiceName:(NSString *)serviceName privileged:(BOOL)privileged {
+  return [self initWithServiceName:serviceName privileged:privileged readOptions:0];
+}
+
+- (instancetype)initWithServiceName:(NSString *)serviceName privileged:(BOOL)privileged readOptions:(MPMessagePackReaderOptions)readOptions {
   if ((self = [super init])) {
     _serviceName = serviceName;
     _privileged = privileged;
     _timeout = 2.0;
+    _readOptions = readOptions;
   }
   return self;
 }
@@ -124,7 +130,7 @@
       const void *buffer = xpc_dictionary_get_data(event, "data", &length);
       NSData *dataResponse = [NSData dataWithBytes:buffer length:length];
 
-      id response = [dataResponse mp_array:&error];
+      id response = [dataResponse mp_array:_readOptions error:&error];
 
       if (!response) {
         completion(error, nil);

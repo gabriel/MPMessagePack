@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-@import MPMessagePack;
+#import <MPMessagePack/MPMessagePack.h>
 
 @interface MPMessagePackTest : XCTestCase
 @end
@@ -103,7 +103,7 @@
   id obj3 = [reader readObject:&error];
   XCTAssertNil(obj3);
   XCTAssertNotNil(error);
-  XCTAssertEqual(error.code, (NSInteger)202);
+  XCTAssertEqual(error.code, (NSInteger)200);
   XCTAssertEqual(reader.index, (size_t)index); // Make sure error resets index
   
   [subdata appendData:[data subdataWithRange:NSMakeRange(data.length - 1, 1)]];

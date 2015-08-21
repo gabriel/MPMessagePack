@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, MPMessagePackReaderOptions) {
+typedef NS_OPTIONS (NSInteger, MPMessagePackReaderOptions) {
+  // If set will return a GHODictionary instead of an NSDictionary
   MPMessagePackReaderOptionsUseOrderedDictionary = 1 << 0,
 };
 

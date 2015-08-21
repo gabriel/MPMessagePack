@@ -7,7 +7,8 @@
 //
 
 #import "NSData+MPMessagePack.h"
-#import "MPMessagePackReader.h"
+
+#import <GHODictionary/GHODictionary.h>
 
 @implementation NSData (MPMessagePack)
 
@@ -21,16 +22,24 @@
 }
 
 - (NSDictionary *)mp_dict:(NSError **)error {
-  id obj = [MPMessagePackReader readData:self error:error];
+  return [self mp_dict:0 error:error];
+}
+
+- (id)mp_dict:(MPMessagePackReaderOptions)options error:(NSError **)error {
+  id obj = [MPMessagePackReader readData:self options:options error:error];
   if (!obj) return nil;
-  if (![obj isKindOfClass:NSDictionary.class]) {
-    if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Object was not of type NSDictionary", @"MPObject": obj}];
+  if (![obj isKindOfClass:NSDictionary.class] && ![obj isKindOfClass:GHODictionary.class]) {
+    if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Object was not of type NSDictionary or GHODictionary", @"MPObject": obj}];
     return nil;
   }
   return obj;
 }
 
 - (NSArray *)mp_array:(NSError **)error {
+  return [self mp_array:0 error:error];
+}
+
+- (NSArray *)mp_array:(MPMessagePackReaderOptions)options error:(NSError **)error {
   id obj = [MPMessagePackReader readData:self error:error];
   if (!obj) return nil;
   if (![obj isKindOfClass:NSArray.class]) {
@@ -38,6 +47,10 @@
     return nil;
   }
   return obj;
+}
+
+- (id)mp_object:(NSError **)error {
+  return [MPMessagePackReader readData:self error:error];
 }
 
 @end

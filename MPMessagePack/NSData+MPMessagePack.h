@@ -8,12 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MPMessagePackReader.h"
+
 @interface NSData (MPMessagePack)
 
 - (NSString *)mp_hexString;
 
 - (NSArray *)mp_array:(NSError **)error;
+- (NSArray *)mp_array:(MPMessagePackReaderOptions)options error:(NSError **)error;
 
 - (NSDictionary *)mp_dict:(NSError **)error;
+
+- (id)mp_dict:(MPMessagePackReaderOptions)options error:(NSError **)error;
+
+- (id)mp_object:(NSError **)error;
 
 @end

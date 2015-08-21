@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, MPMessagePackWriterOptions) {
+typedef NS_OPTIONS (NSInteger, MPMessagePackWriterOptions) {
   MPMessagePackWriterOptionsSortDictionaryKeys = 1 << 0,
 };
 
