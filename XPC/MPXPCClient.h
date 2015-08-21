@@ -8,11 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MPMessagePackReader.h"
+
 @interface MPXPCClient : NSObject
 
+@property (readonly) NSString *serviceName;
+@property (readonly) BOOL privileged;
+@property (readonly) MPMessagePackReaderOptions readOptions;
 @property NSTimeInterval timeout;
 
 - (instancetype)initWithServiceName:(NSString *)serviceName privileged:(BOOL)privileged;
+- (instancetype)initWithServiceName:(NSString *)serviceName privileged:(BOOL)privileged readOptions:(MPMessagePackReaderOptions)readOptions ;
 
 - (BOOL)connect:(NSError **)error;
 
