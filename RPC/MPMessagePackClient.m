@@ -9,12 +9,14 @@
 #import "MPMessagePackClient.h"
 
 #import "MPMessagePack.h"
+#import "MPRPCProtocol.h"
 #include <sys/socket.h>
 #include <sys/un.h>
 
 NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
 
 @interface MPMessagePackClient ()
+@property MPRPCProtocol *protocol;
 @property NSString *name;
 @property MPMessagePackOptions options;
 
@@ -48,6 +50,7 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
     _queue = [NSMutableArray array];
     _readBuffer = [NSMutableData data];
     _requests = [NSMutableDictionary dictionary];
+    _protocol = [[MPRPCProtocol alloc] init];
   }
   return self;
 }
@@ -114,9 +117,17 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
 - (NSArray *)sendRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSInteger)messageId completion:(MPRequestCompletion)completion {
   params = [self encodeObject:params];
   NSArray *request = @[@(0), @(messageId), method, params ? params : NSNull.null];
+
+  NSError *encodeError = nil;
+  NSData *data = [_protocol encodeRequestWithMethod:method params:params messageId:messageId options:0 encodeError:&encodeError];
+  if (!data) {
+    completion(encodeError, nil);
+    return nil;
+  }
+
   _requests[@(messageId)] = completion;
   //MPDebug(@"Send: %@", [request componentsJoinedByString:@", "]);
-  [self writeObject:request];
+  [self writeData:data];
   return request;
 }
 
@@ -157,17 +168,16 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
 
   result = [self encodeObject:result];
 
-  NSArray *response = @[@(1), @(messageId), error ? error : NSNull.null, result ? result : NSNull.null];
-  [self writeObject:response];
+  NSError *encodeError = nil;
+  NSData *data = [_protocol encodeResponseWithResult:result error:error messageId:messageId options:0 encodeError:&encodeError];
+  NSAssert(data, @"Error building response: %@", encodeError);
+  [self writeData:data];
 }
 
-- (void)writeObject:(id)object {
+- (void)writeData:(NSData *)data {
   NSError *error = nil;
 
   //MPDebug(@"Sending message: %@", object);
-  NSData *data = [MPMessagePackWriter writeObject:object options:0 error:&error];
-  NSAssert(!error, @"Unable to serialize object: %@", error);
-
   if (_options & MPMessagePackOptionsFramed) {
     //MPDebug(@"[%@] Writing frame size: %@", _name, @(data.length));
     NSData *frameSize = [MPMessagePackWriter writeObject:@(data.length) options:0 error:&error];

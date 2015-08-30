@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MPMessagePack"
-  s.version      = "1.1.25"
+  s.version      = "1.1.26"
   s.summary      = "Objective-C library for MessagePack"
   s.homepage     = "https://github.com/gabriel/MPMessagePack"
   s.license      = { :type => "MIT" }
@@ -13,10 +13,10 @@ Pod::Spec.new do |s|
 
   s.ios.platform = :ios, "6.0"
   s.ios.deployment_target = "6.0"
-  s.ios.source_files = "MPMessagePack/**/*.{c,h,m}"
+  s.ios.source_files = "MPMessagePack/**/*.{c,h,m}", "RPC/**/*.{c,h,m}"
 
   s.osx.platform = :osx, "10.8"
   s.osx.deployment_target = "10.8"
-  s.osx.source_files = "MPMessagePack/**/*.{c,h,m}", "XPC/**/*.{c,h,m}"
+  s.osx.source_files = "MPMessagePack/**/*.{c,h,m}", "RPC/**/*.{c,h,m}", "XPC/**/*.{c,h,m}"
 
 end

@@ -22,6 +22,7 @@ FOUNDATION_EXPORT const unsigned char MPMessagePackVersionString[];
 
 #import <MPMessagePack/MPMessagePackClient.h>
 #import <MPMessagePack/MPMessagePackServer.h>
+#import <MPMessagePack/MPRPCProtocol.h>
 
 #import <MPMessagePack/NSDictionary+MPMessagePack.h>
 #import <MPMessagePack/NSArray+MPMessagePack.h>
