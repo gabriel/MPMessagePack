@@ -17,6 +17,7 @@ typedef NS_ENUM (NSInteger, MPMessagePackClientStatus) {
 };
 
 typedef NS_OPTIONS (NSInteger, MPMessagePackOptions) {
+  MPMessagePackOptionsNone = 0,
   MPMessagePackOptionsFramed = 1 << 0,
 };
 

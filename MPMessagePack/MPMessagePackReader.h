@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_OPTIONS (NSInteger, MPMessagePackReaderOptions) {
+  MPMessagePackReaderOptionsNone = 0,
   // If set will return a GHODictionary instead of an NSDictionary
   MPMessagePackReaderOptionsUseOrderedDictionary = 1 << 0,
 };

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_OPTIONS (NSInteger, MPMessagePackWriterOptions) {
+  MPMessagePackWriterOptionsNone = 0,
   MPMessagePackWriterOptionsSortDictionaryKeys = 1 << 0,
 };
 
