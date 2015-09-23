@@ -12,7 +12,8 @@
 #import "NSArray+MPMessagePack.h"
 #import "NSData+MPMessagePack.h"
 #import "MPXPCProtocol.h"
-#import "MPMessagePackClient.h"
+#import "MPRPCProtocol.h"
+
 
 @interface MPXPCClient ()
 @property NSString *serviceName;

@@ -11,7 +11,7 @@
 #import "NSData+MPMessagePack.h"
 #import "NSArray+MPMessagePack.h"
 #import "MPXPCProtocol.h"
-#import "MPMessagePackClient.h"
+#import "MPDefines.h"
 
 @interface MPXPCService () <NSXPCListenerDelegate>
 @property xpc_connection_t connection;

@@ -10,7 +10,7 @@
 
 #import "NSArray+MPMessagePack.h"
 #import "NSData+MPMessagePack.h"
-#import "MPMessagePackClient.h"
+#import "MPRPCProtocol.h"
 
 @implementation MPXPCProtocol
 

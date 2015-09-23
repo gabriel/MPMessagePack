@@ -16,13 +16,30 @@
 
 @implementation MPRPCProtocolTest
 
-- (void)test {
+- (void)testRequestFramed {
+  NSError *error = nil;
   MPRPCProtocol *protocol = [[MPRPCProtocol alloc] init];
-  NSData *data = [protocol encodeRequestWithMethod:@"test" params:@[@{@"arg1": @"val1"}] messageId:1 options:0 encodeError:nil];
+  NSData *data = [protocol encodeRequestWithMethod:@"test" params:@[@{@"arg1": @"val1"}] messageId:1 options:0 framed:YES error:&error];
+  XCTAssertNil(error);
   XCTAssertNotNil(data);
 
-  NSData *data2 = [protocol encodeResponseWithResult:@(1) error:nil messageId:1 options:0 encodeError:nil];
-  XCTAssertNotNil(data2);
+  NSError *error2 = nil;
+  NSArray *message = [protocol decodeMessage:data framed:YES error:&error2];
+  XCTAssertNil(error2);
+  XCTAssertNotNil(message);
+  XCTAssertEqualObjects(message[2], @"test");
+}
+
+- (void)testResponseFramed {
+  NSError *error = nil;
+  MPRPCProtocol *protocol = [[MPRPCProtocol alloc] init];
+  NSData *data = [protocol encodeResponseWithResult:@(1) error:nil messageId:1 options:0 framed:YES encodeError:&error];
+  XCTAssertNil(error);
+  XCTAssertNotNil(data);
+
+  NSArray *message = [protocol decodeMessage:data framed:YES error:&error];
+  XCTAssertNil(error);
+  XCTAssertNotNil(message);
 }
 
 @end
