@@ -1,7 +1,6 @@
-MPMessagePack
-===========
+# MPMessagePack
 
-Objective-C implementation for [MessagePack](http://msgpack.org/). 
+[MessagePack](http://msgpack.org/) framework.
 
 MessagePack is an efficient binary serialization format. It lets you exchange data among multiple languages like JSON. But it's faster and smaller.
 
@@ -59,7 +58,9 @@ id obj2 = [reader read:&error]; // Read another object
 
 # RPC
 
-Should be compatible with [msgpack-rpc](https://github.com/msgpack-rpc/msgpack-rpc). It also supports a framing option where it will send the number of bytes for the following object (as a msgpack'ed number).
+See [msgpack-rpc](https://github.com/msgpack-rpc/msgpack-rpc). 
+
+It also supports a framing option where it will prefix the rpc message with the number of bytes (as a msgpack'ed number).
 
 ## Client
 

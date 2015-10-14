@@ -116,21 +116,18 @@ typedef void (^MPDispatchSignal)(NSInteger messageId);
   self.status = MPMessagePackClientStatusClosed;
 }
 
-- (NSArray *)sendRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSInteger)messageId completion:(MPRequestCompletion)completion {
+- (void)sendRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSInteger)messageId completion:(MPRequestCompletion)completion {
   params = [self encodeObject:params];
-  NSArray *request = @[@(0), @(messageId), method, params ? params : NSNull.null];
-
   NSError *error = nil;
   NSData *data = [_protocol encodeRequestWithMethod:method params:params messageId:messageId options:0 framed:(_options & MPMessagePackOptionsFramed) error:&error];
   if (!data) {
     completion(error, nil);
-    return nil;
+    return;
   }
 
   _requests[@(messageId)] = [MPRequest requestWithCompletion:completion];
   //MPDebug(@"Send: %@", [request componentsJoinedByString:@", "]);
   [self writeData:data];
-  return request;
 }
 
 - (id)encodeObject:(id)object {
@@ -360,7 +357,12 @@ typedef void (^MPDispatchSignal)(NSInteger messageId);
   }];
 
   [self _waitDispatch:messageId dispatchRequest:dispatchRequest timeout:timeout];
-  if (error && dispatchRequest.error) *error = dispatchRequest.error;
+  if (dispatchRequest.error) {
+    *error = dispatchRequest.error;
+    return nil;
+  }
+
+  if (!dispatchRequest.result) return [NSNull null];
   return dispatchRequest.result;
 }
 
@@ -383,7 +385,9 @@ typedef void (^MPDispatchSignal)(NSInteger messageId);
   }
 
   MPDebug(@"Wait: %@", @(messageId));
-  long status = dispatch_semaphore_wait(dispatchRequest.semaphore, dispatch_time(DISPATCH_TIME_NOW, timeout * NSEC_PER_SEC));
+
+  dispatch_time_t time = timeout > 0 ? dispatch_time(DISPATCH_TIME_NOW, timeout * NSEC_PER_SEC) : DISPATCH_TIME_FOREVER;
+  long status = dispatch_semaphore_wait(dispatchRequest.semaphore, time);
 
   if (status != 0 && !dispatchRequest.error) dispatchRequest.error = MPMakeError(MPRPCErrorRequestTimeout, @"Request timeout");
 }
