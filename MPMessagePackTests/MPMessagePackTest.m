@@ -15,21 +15,6 @@
 
 @implementation MPMessagePackTest
 
-- (NSData *)dataFromHexString:(NSString *)str {
-  const char* chars = [str UTF8String];
-  NSMutableData* data = [NSMutableData dataWithCapacity:str.length / 2];
-  char byteChars[3] = {0, 0, 0};
-  unsigned long wholeByte;
-  for (int i = 0; i < str.length; i += 2) {
-    byteChars[0] = chars[i];
-    byteChars[1] = chars[i + 1];
-    wholeByte = strtoul(byteChars, NULL, 16);
-    [data appendBytes:&wholeByte length:1];
-  }
-  return data;
-}
-
-
 - (void)testEmpty {
   NSData *data1 = [MPMessagePackWriter writeObject:@[] error:nil];
   NSArray *read1 = [MPMessagePackReader readData:data1 options:0 error:nil];
@@ -56,8 +41,8 @@
     @"n64": @(INT64_MIN),
     @"arrayFloatDouble": @[@(1.1f), @(2.1)],
     @"dataEmpty": [NSData data],
-    @"dataShort": [self dataFromHexString:@"ff"],
-    @"data": [self dataFromHexString:@"1c94d7de0000000344b409a81eafc66993cbe5fd885b5f6975a3f1f03c7338452116f7200a46412437007b65304528a314756bc701cec7b493cab44b3971b18c1137c1b1ba63d6a61119a5a2298b447d0cba89071320fc2c0f66b8f8056cd043d1ac6c0e983903355310e794ddd4a532729b3c2d65d71ebff32219f2f1759b3952d686149780c8e20f6bc912e5ba44701cdb165fcf5ab266c4295bf84796f9ac01c4e2ddf91ac7932d7ed71ee6187aa5fc3177b1abefdc29d8dec5098465b31f17511f65d38285f213724fcc98fe9cc6842c28d5"],
+    @"dataShort": [NSData mp_dataFromHexString:@"ff"],
+    @"data": [NSData mp_dataFromHexString:@"1c94d7de0000000344b409a81eafc66993cbe5fd885b5f6975a3f1f03c7338452116f7200a46412437007b65304528a314756bc701cec7b493cab44b3971b18c1137c1b1ba63d6a61119a5a2298b447d0cba89071320fc2c0f66b8f8056cd043d1ac6c0e983903355310e794ddd4a532729b3c2d65d71ebff32219f2f1759b3952d686149780c8e20f6bc912e5ba44701cdb165fcf5ab266c4295bf84796f9ac01c4e2ddf91ac7932d7ed71ee6187aa5fc3177b1abefdc29d8dec5098465b31f17511f65d38285f213724fcc98fe9cc6842c28d5"],
     @"null": [NSNull null],
     @"str": @"🍆😗😂😰",
     };
@@ -148,14 +133,14 @@
 }
 
 - (void)testInvalidDictData {
-  NSData *data = [self dataFromHexString:@"deadbeef"];
+  NSData *data = [NSData mp_dataFromHexString:@"deadbeef"];
   NSError *error = nil;
   XCTAssertFalse({ [data mp_dict:&error]; });
   XCTAssertNotNil(error);
 }
 
 - (void)testInvalidArrayData {
-  NSData *data = [self dataFromHexString:@"deadbeef"];
+  NSData *data = [NSData mp_dataFromHexString:@"deadbeef"];
   NSError *error = nil;
   XCTAssertFalse({ [data mp_array:&error]; });
   XCTAssertNotNil(error);
@@ -168,6 +153,17 @@
     MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:data];
     NSDictionary *dictRead = [reader readObject:nil];
     XCTAssertEqualObjects(dict, dictRead);
+  }
+}
+
+- (void)testHex {
+  NSString *hex = @"940001b36b6579626173652e312e746573742e746573749182a973657373696f6e494402a46e616d65a774657374417267";
+  NSData *data = [NSData mp_dataFromHexString:hex];
+  MPMessagePackReader *reader = [[MPMessagePackReader alloc] initWithData:data];
+  NSError *error = nil;
+  id obj;
+  while ((obj = [reader readObject:&error])) {
+    NSLog(@"%@", obj);
   }
 }
 

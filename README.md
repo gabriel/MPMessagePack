@@ -63,17 +63,33 @@ Should be compatible with [msgpack-rpc](https://github.com/msgpack-rpc/msgpack-r
 
 ## Client
 
+Request with completion block:
+
 ```objc
 MPMessagePackClient *client = [[MPMessagePackClient alloc] init];
 [client openWithHost:@"localhost" port:93434 completion:^(NSError *error) {
   // If error we failed
-  [client sendRequestWithMethod:@"test" params:@{@"param1": @(1)} completion:^(NSError *error, id result) {
+  [client sendRequestWithMethod:@"test" params:@[@{@"arg": @(1)}] completion:^(NSError *error, id result) {
     // If error we failed
     // Otherwise the result
   }];
 }];
 ```
 
+You can also request synchronously:
+
+```objc
+NSError *error = nil;
+id result = [client sendRequestWithMethod:@"test" params:@[@{@"arg": @(1)}] messageId:3 timeout:5.0 error:&error];
+// error.code == MPRPCErrorRequestTimeout on timeout
+```
+
+And cancel in progress requests:
+
+```objc
+BOOL cancelled = [client cancelRequestWithMessageId:3];
+// cancelled == YES, if the request was in progress and we cancelled it
+```
 
 ## Server
 

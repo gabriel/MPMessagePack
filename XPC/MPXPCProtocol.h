@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, MPXPCErrorCode) {
+  MPXPCErrorCodeNone = 0,
   MPXPCErrorCodeInvalidRequest = -1,
   MPXPCErrorCodeUnknownRequest = -2,
 
