@@ -11,6 +11,7 @@
 #import "NSArray+MPMessagePack.h"
 #import "NSData+MPMessagePack.h"
 #import "MPRPCProtocol.h"
+#import "MPDefines.h"
 
 @implementation MPXPCProtocol
 
@@ -48,7 +49,7 @@
 
   NSNumber *messageId = request[1];
   NSString *method = request[2];
-  NSArray *params = request[3];
+  NSArray *params = MPIfNull(request[3], @[]);
 
   completion(nil, messageId, method, params);
 }
