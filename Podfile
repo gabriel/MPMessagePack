@@ -1,7 +1,9 @@
 use_frameworks!
 
-pod "GHODictionary"
+target "MPMessagePack" do
+  pod "GHODictionary"
+end
 
 target "MPMessagePackTests" do
-pod "GHODictionary"
+  pod "GHODictionary"
 end
