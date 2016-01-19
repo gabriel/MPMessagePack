@@ -55,9 +55,11 @@
       if (event == XPC_ERROR_CONNECTION_INTERRUPTED) {
         // Interrupted
       } else if (event == XPC_ERROR_CONNECTION_INVALID) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-          wself.connection = nil;
-        });
+        if (wself.connection) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+            wself.connection = nil;
+          });
+        }
       } else {
         // Unknown error
       }
