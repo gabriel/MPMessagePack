@@ -119,7 +119,8 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
       }
     }
   } else if ([obj isKindOfClass:[NSString class]]) {
-    const char *str = ((NSString*)obj).UTF8String;
+    NSString *s = (NSString *)obj;
+    const char *str = [s UTF8String];
     size_t len = strlen(str);
     if (!cmp_write_str(context, str, (uint32_t)len)) {
       if (error) *error = [NSError errorWithDomain:@"MPMessagePack" code:102 userInfo:@{NSLocalizedDescriptionKey: @"Error writing string"}];
