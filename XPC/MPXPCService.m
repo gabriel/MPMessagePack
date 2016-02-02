@@ -42,7 +42,6 @@ void MPSysLog(NSString *msg, ...) {
       xpc_type_t type = xpc_get_type(event);
 
       if (type == XPC_TYPE_ERROR) {
-        MPSysLog(@"Error: %@", event);
         if (event == XPC_ERROR_CONNECTION_INVALID) {
           // The client process on the other end of the connection has either
           // crashed or cancelled the connection. After receiving this error,
@@ -51,6 +50,8 @@ void MPSysLog(NSString *msg, ...) {
           // here.
         } else if (event == XPC_ERROR_TERMINATION_IMMINENT) {
           // Handle per-connection termination cleanup.
+        } else {
+          MPSysLog(@"Error: %@", event);
         }
       } else {
         xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
