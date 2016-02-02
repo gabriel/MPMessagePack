@@ -38,12 +38,11 @@
 		005F67BC1B1503B900898B3C /* MPMessagePackClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 005F67B91B1503B900898B3C /* MPMessagePackClientTest.m */; };
 		005F67BD1B1503B900898B3C /* MPMessagePackTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 005F67BA1B1503B900898B3C /* MPMessagePackTest.m */; };
 		005F67BE1B1503B900898B3C /* MPXPCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 005F67BB1B1503B900898B3C /* MPXPCTest.m */; };
-		009D441C1BCEF7560030DD7E /* MPDispatchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 009D441A1BCEF7560030DD7E /* MPDispatchRequest.h */; settings = {ASSET_TAGS = (); }; };
-		009D441D1BCEF7560030DD7E /* MPDispatchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D441B1BCEF7560030DD7E /* MPDispatchRequest.m */; settings = {ASSET_TAGS = (); }; };
-		009D44201BCEFE270030DD7E /* MPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 009D441E1BCEFE270030DD7E /* MPRequest.h */; settings = {ASSET_TAGS = (); }; };
-		009D44211BCEFE270030DD7E /* MPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D441F1BCEFE270030DD7E /* MPRequest.m */; settings = {ASSET_TAGS = (); }; };
-		09438C60892F78B27E532DF0 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1305333CA3C3C506BAEBBFA6 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		A68E2777ED9857621BAE7F88 /* Pods_MPMessagePackTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C770CC90B63C167CA94F6DB3 /* Pods_MPMessagePackTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		009D441C1BCEF7560030DD7E /* MPDispatchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 009D441A1BCEF7560030DD7E /* MPDispatchRequest.h */; };
+		009D441D1BCEF7560030DD7E /* MPDispatchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D441B1BCEF7560030DD7E /* MPDispatchRequest.m */; };
+		009D44201BCEFE270030DD7E /* MPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 009D441E1BCEFE270030DD7E /* MPRequest.h */; };
+		009D44211BCEFE270030DD7E /* MPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D441F1BCEFE270030DD7E /* MPRequest.m */; };
+		E97C9ED4FC939A8F4C46A378 /* libPods-MPMessagePack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E06F13C5D0AD585B52969993 /* libPods-MPMessagePack.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,11 +98,9 @@
 		00FB32E219661B0A0060AF33 /* cmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmp.h; sourceTree = "<group>"; };
 		00FB32E51966240B0060AF33 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1305333CA3C3C506BAEBBFA6 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3858AB0BADD910FF7B9035AB /* Pods-MPMessagePackTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPMessagePackTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPMessagePackTests/Pods-MPMessagePackTests.release.xcconfig"; sourceTree = "<group>"; };
-		C770CC90B63C167CA94F6DB3 /* Pods_MPMessagePackTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPMessagePackTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E4170CA945A4F89BF9CA5E29 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		E604670704855824DC37F4BC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		FF1685424BEC49B0E59D136A /* Pods-MPMessagePackTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPMessagePackTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPMessagePackTests/Pods-MPMessagePackTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4A9911173FF0BB8D64082A16 /* Pods-MPMessagePack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPMessagePack.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPMessagePack/Pods-MPMessagePack.debug.xcconfig"; sourceTree = "<group>"; };
+		57C968FD30F37E103558F50C /* Pods-MPMessagePack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPMessagePack.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPMessagePack/Pods-MPMessagePack.release.xcconfig"; sourceTree = "<group>"; };
+		E06F13C5D0AD585B52969993 /* libPods-MPMessagePack.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MPMessagePack.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09438C60892F78B27E532DF0 /* Pods.framework in Frameworks */,
+				E97C9ED4FC939A8F4C46A378 /* libPods-MPMessagePack.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,7 +117,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				005F67B31B15039100898B3C /* MPMessagePack.framework in Frameworks */,
-				A68E2777ED9857621BAE7F88 /* Pods_MPMessagePackTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,7 +186,7 @@
 				005F67AE1B15039100898B3C /* MPMessagePackTests */,
 				00FB32C819661A860060AF33 /* Products */,
 				D0B28C1420694B0CAA57DAF6 /* Frameworks */,
-				60DEB79644B4711B9F39746C /* Pods */,
+				A641D2BE0C4F2C87E845EDE0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -224,13 +220,11 @@
 			path = MPMessagePack;
 			sourceTree = "<group>";
 		};
-		60DEB79644B4711B9F39746C /* Pods */ = {
+		A641D2BE0C4F2C87E845EDE0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E604670704855824DC37F4BC /* Pods.debug.xcconfig */,
-				E4170CA945A4F89BF9CA5E29 /* Pods.release.xcconfig */,
-				FF1685424BEC49B0E59D136A /* Pods-MPMessagePackTests.debug.xcconfig */,
-				3858AB0BADD910FF7B9035AB /* Pods-MPMessagePackTests.release.xcconfig */,
+				4A9911173FF0BB8D64082A16 /* Pods-MPMessagePack.debug.xcconfig */,
+				57C968FD30F37E103558F50C /* Pods-MPMessagePack.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -239,7 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				1305333CA3C3C506BAEBBFA6 /* Pods.framework */,
-				C770CC90B63C167CA94F6DB3 /* Pods_MPMessagePackTests.framework */,
+				E06F13C5D0AD585B52969993 /* libPods-MPMessagePack.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -277,12 +271,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0013921B1B0418E20082DEA8 /* Build configuration list for PBXNativeTarget "MPMessagePack" */;
 			buildPhases = (
-				B8146E5FAA66F3EFCD21440C /* Check Pods Manifest.lock */,
+				1183A416B1B79BAE3B4C75FB /* Check Pods Manifest.lock */,
 				001392031B0418E20082DEA8 /* Sources */,
 				001392041B0418E20082DEA8 /* Frameworks */,
 				001392051B0418E20082DEA8 /* Headers */,
 				001392061B0418E20082DEA8 /* Resources */,
-				2C6A2EFBAE679B9CDDFC8598 /* Copy Pods Resources */,
+				9FD65CA81C2C1318CD5EC248 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -297,12 +291,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 005F67B61B15039100898B3C /* Build configuration list for PBXNativeTarget "MPMessagePackTests" */;
 			buildPhases = (
-				DDCC8321D9F4B89C1D344FED /* Check Pods Manifest.lock */,
 				005F67A91B15039000898B3C /* Sources */,
 				005F67AA1B15039000898B3C /* Frameworks */,
 				005F67AB1B15039000898B3C /* Resources */,
-				4C3259C8F26D4F7ACEE317CA /* Embed Pods Frameworks */,
-				4775C28CACC3B9B88946F789 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -369,52 +360,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C6A2EFBAE679B9CDDFC8598 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4775C28CACC3B9B88946F789 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPMessagePackTests/Pods-MPMessagePackTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4C3259C8F26D4F7ACEE317CA /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPMessagePackTests/Pods-MPMessagePackTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B8146E5FAA66F3EFCD21440C /* Check Pods Manifest.lock */ = {
+		1183A416B1B79BAE3B4C75FB /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -429,19 +375,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		DDCC8321D9F4B89C1D344FED /* Check Pods Manifest.lock */ = {
+		9FD65CA81C2C1318CD5EC248 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPMessagePack/Pods-MPMessagePack-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -492,7 +438,7 @@
 /* Begin XCBuildConfiguration section */
 		0013921C1B0418E20082DEA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E604670704855824DC37F4BC /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 4A9911173FF0BB8D64082A16 /* Pods-MPMessagePack.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -523,7 +469,7 @@
 		};
 		0013921D1B0418E20082DEA8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E4170CA945A4F89BF9CA5E29 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 57C968FD30F37E103558F50C /* Pods-MPMessagePack.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -550,7 +496,6 @@
 		};
 		005F67B71B15039100898B3C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF1685424BEC49B0E59D136A /* Pods-MPMessagePackTests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -575,7 +520,6 @@
 		};
 		005F67B81B15039100898B3C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3858AB0BADD910FF7B9035AB /* Pods-MPMessagePackTests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;

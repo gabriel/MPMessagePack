@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-@import MPMessagePack;
+#import <MPMessagePack/MPMessagePack.h>
 
 @interface MPRPCProtocolTest : XCTestCase
 @end
