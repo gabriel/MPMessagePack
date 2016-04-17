@@ -38,7 +38,7 @@ typedef NS_OPTIONS (NSInteger, MPMessagePackOptions) {
 
 @interface MPMessagePackClient : NSObject
 
-@property (weak) id<MPMessagePackClientDelegate> delegate;
+@property (nullable, weak) id<MPMessagePackClientDelegate> delegate;
 @property (nullable, copy) MPRequestHandler requestHandler;
 @property (readonly, nonatomic) MPMessagePackClientStatus status;
 @property (nullable) id<MPMessagePackCoder> coder;
