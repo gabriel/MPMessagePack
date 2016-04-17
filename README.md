@@ -10,6 +10,12 @@ MessagePack is an efficient binary serialization format. It lets you exchange da
 pod "MPMessagePack"
 ```
 
+# Cartfile
+
+```
+github "gabriel/MPMessagePack"
+```
+
 # MPMessagePack
 
 ## Writing
