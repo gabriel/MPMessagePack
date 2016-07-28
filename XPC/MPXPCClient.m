@@ -119,19 +119,18 @@
   }
 
   xpc_connection_send_message_with_reply(_connection, message, dispatch_get_main_queue(), ^(xpc_object_t event) {
-    replied = YES;
     if (xpc_get_type(event) == XPC_TYPE_ERROR) {
-
       // If we failed on retry, return error, otherwise retry
       if (attempt == maxAttempts) {
+        replied = YES;
         const char *description = xpc_dictionary_get_string(event, "XPCErrorDescription");
         NSString *errorMessage = [NSString stringWithCString:description encoding:NSUTF8StringEncoding];
         completion(MPMakeError(MPXPCErrorCodeInvalidConnection, @"XPC Error: %@", errorMessage), nil);
       } else {
         [self sendRequest:method params:params attempt:attempt+1 maxAttempts:maxAttempts completion:completion];
       }
-
     } else if (xpc_get_type(event) == XPC_TYPE_DICTIONARY) {
+      replied = YES;
       NSError *error = nil;
       size_t length = 0;
       const void *buffer = xpc_dictionary_get_data(event, "data", &length);
