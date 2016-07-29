@@ -26,7 +26,6 @@
 		0013923A1B041AD30082DEA8 /* MPXPCClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 002A2C131AF98AB1006DFB51 /* MPXPCClient.m */; };
 		0013923B1B041AD30082DEA8 /* MPXPCProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 002A2C161AF98BB6006DFB51 /* MPXPCProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0013923C1B041AD30082DEA8 /* MPXPCProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 002A2C171AF98BB6006DFB51 /* MPXPCProtocol.m */; };
-		002AA2051CC42B78004885A5 /* GHODictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002AA2041CC42B78004885A5 /* GHODictionary.framework */; };
 		004270D11B14E74C006F17C7 /* MPMessagePack.h in Headers */ = {isa = PBXBuildFile; fileRef = 006555AF19662E3000288AE7 /* MPMessagePack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		004CF22E1B9393EF002BE5A4 /* MPMessagePackClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 004CF22A1B9393EF002BE5A4 /* MPMessagePackClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		004CF22F1B9393EF002BE5A4 /* MPMessagePackClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 004CF22B1B9393EF002BE5A4 /* MPMessagePackClient.m */; };
@@ -43,6 +42,32 @@
 		009D441D1BCEF7560030DD7E /* MPDispatchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D441B1BCEF7560030DD7E /* MPDispatchRequest.m */; };
 		009D44201BCEFE270030DD7E /* MPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 009D441E1BCEFE270030DD7E /* MPRequest.h */; };
 		009D44211BCEFE270030DD7E /* MPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D441F1BCEFE270030DD7E /* MPRequest.m */; };
+		33220B1F1CFF954B00F3C3DA /* MPMessagePack.h in Headers */ = {isa = PBXBuildFile; fileRef = 006555AF19662E3000288AE7 /* MPMessagePack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B201CFF954B00F3C3DA /* cmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 00FB32E119661B0A0060AF33 /* cmp.c */; };
+		33220B211CFF954B00F3C3DA /* cmp.h in Headers */ = {isa = PBXBuildFile; fileRef = 00FB32E219661B0A0060AF33 /* cmp.h */; };
+		33220B221CFF954B00F3C3DA /* MPMessagePackWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 00FB32CA19661A860060AF33 /* MPMessagePackWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B231CFF954B00F3C3DA /* MPMessagePackWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FB32CC19661A870060AF33 /* MPMessagePackWriter.m */; };
+		33220B241CFF954B00F3C3DA /* MPMessagePackReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 006555AB1966276400288AE7 /* MPMessagePackReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B251CFF954B00F3C3DA /* MPMessagePackReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555AC1966276400288AE7 /* MPMessagePackReader.m */; };
+		33220B261CFF954B00F3C3DA /* NSDictionary+MPMessagePack.h in Headers */ = {isa = PBXBuildFile; fileRef = 006555B31966395500288AE7 /* NSDictionary+MPMessagePack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B271CFF954B00F3C3DA /* NSDictionary+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555B41966395500288AE7 /* NSDictionary+MPMessagePack.m */; };
+		33220B281CFF954B00F3C3DA /* NSArray+MPMessagePack.h in Headers */ = {isa = PBXBuildFile; fileRef = 006555B71966397500288AE7 /* NSArray+MPMessagePack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B291CFF954B00F3C3DA /* NSArray+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 006555B81966397500288AE7 /* NSArray+MPMessagePack.m */; };
+		33220B2A1CFF954B00F3C3DA /* MPDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 004D14A11A3D1D210083888D /* MPDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B2B1CFF954B00F3C3DA /* NSData+MPMessagePack.h in Headers */ = {isa = PBXBuildFile; fileRef = 007110B11A5B68DB005DF8D1 /* NSData+MPMessagePack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B2C1CFF954B00F3C3DA /* NSData+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 007110B21A5B68DB005DF8D1 /* NSData+MPMessagePack.m */; };
+		33220B2D1CFF954F00F3C3DA /* MPMessagePackClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 004CF22A1B9393EF002BE5A4 /* MPMessagePackClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B2E1CFF954F00F3C3DA /* MPMessagePackClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 004CF22B1B9393EF002BE5A4 /* MPMessagePackClient.m */; };
+		33220B2F1CFF954F00F3C3DA /* MPMessagePackServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 004CF22C1B9393EF002BE5A4 /* MPMessagePackServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B301CFF954F00F3C3DA /* MPMessagePackServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 004CF22D1B9393EF002BE5A4 /* MPMessagePackServer.m */; };
+		33220B311CFF954F00F3C3DA /* MPRPCProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 004CF2321B939405002BE5A4 /* MPRPCProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		33220B321CFF954F00F3C3DA /* MPRPCProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 004CF2331B939405002BE5A4 /* MPRPCProtocol.m */; };
+		33220B331CFF954F00F3C3DA /* MPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 009D441E1BCEFE270030DD7E /* MPRequest.h */; };
+		33220B341CFF954F00F3C3DA /* MPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D441F1BCEFE270030DD7E /* MPRequest.m */; };
+		33220B351CFF954F00F3C3DA /* MPDispatchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 009D441A1BCEF7560030DD7E /* MPDispatchRequest.h */; };
+		33220B361CFF954F00F3C3DA /* MPDispatchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D441B1BCEF7560030DD7E /* MPDispatchRequest.m */; };
+		33220B5A1CFF987F00F3C3DA /* GHODictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33220B591CFF987F00F3C3DA /* GHODictionary.framework */; };
+		33220B5C1CFF988500F3C3DA /* GHODictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33220B5B1CFF988500F3C3DA /* GHODictionary.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +88,6 @@
 		002A2C131AF98AB1006DFB51 /* MPXPCClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPXPCClient.m; sourceTree = "<group>"; };
 		002A2C161AF98BB6006DFB51 /* MPXPCProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPXPCProtocol.h; sourceTree = "<group>"; };
 		002A2C171AF98BB6006DFB51 /* MPXPCProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPXPCProtocol.m; sourceTree = "<group>"; };
-		002AA2041CC42B78004885A5 /* GHODictionary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHODictionary.framework; path = Carthage/Build/Mac/GHODictionary.framework; sourceTree = "<group>"; };
 		004CF22A1B9393EF002BE5A4 /* MPMessagePackClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePackClient.h; sourceTree = "<group>"; };
 		004CF22B1B9393EF002BE5A4 /* MPMessagePackClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMessagePackClient.m; sourceTree = "<group>"; };
 		004CF22C1B9393EF002BE5A4 /* MPMessagePackServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePackServer.h; sourceTree = "<group>"; };
@@ -97,6 +121,10 @@
 		00FB32E119661B0A0060AF33 /* cmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cmp.c; sourceTree = "<group>"; };
 		00FB32E219661B0A0060AF33 /* cmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmp.h; sourceTree = "<group>"; };
 		00FB32E51966240B0060AF33 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		33220B171CFF952F00F3C3DA /* MPMessagePack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPMessagePack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33220B1B1CFF952F00F3C3DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33220B591CFF987F00F3C3DA /* GHODictionary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHODictionary.framework; path = ../GHODictionary/build/Debug/GHODictionary.framework; sourceTree = "<group>"; };
+		33220B5B1CFF988500F3C3DA /* GHODictionary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHODictionary.framework; path = "../GHODictionary/build/Debug-iphoneos/GHODictionary.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				002AA2051CC42B78004885A5 /* GHODictionary.framework in Frameworks */,
+				33220B5A1CFF987F00F3C3DA /* GHODictionary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +141,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				005F67B31B15039100898B3C /* MPMessagePack.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		33220B131CFF952F00F3C3DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33220B5C1CFF988500F3C3DA /* GHODictionary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +215,7 @@
 				004CF2291B9393EF002BE5A4 /* RPC */,
 				002A2BDD1AF977AE006DFB51 /* XPC */,
 				005F67AE1B15039100898B3C /* MPMessagePackTests */,
+				33220B181CFF952F00F3C3DA /* MPMessagePack iOS */,
 				00FB32C819661A860060AF33 /* Products */,
 				D0B28C1420694B0CAA57DAF6 /* Frameworks */,
 			);
@@ -189,6 +226,7 @@
 			children = (
 				001392081B0418E20082DEA8 /* MPMessagePack.framework */,
 				005F67AD1B15039000898B3C /* MPMessagePackTests.xctest */,
+				33220B171CFF952F00F3C3DA /* MPMessagePack.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,10 +252,19 @@
 			path = MPMessagePack;
 			sourceTree = "<group>";
 		};
+		33220B181CFF952F00F3C3DA /* MPMessagePack iOS */ = {
+			isa = PBXGroup;
+			children = (
+				33220B1B1CFF952F00F3C3DA /* Info.plist */,
+			);
+			path = "MPMessagePack iOS";
+			sourceTree = "<group>";
+		};
 		D0B28C1420694B0CAA57DAF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				002AA2041CC42B78004885A5 /* GHODictionary.framework */,
+				33220B5B1CFF988500F3C3DA /* GHODictionary.framework */,
+				33220B591CFF987F00F3C3DA /* GHODictionary.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -245,6 +292,26 @@
 				004CF2301B9393EF002BE5A4 /* MPMessagePackServer.h in Headers */,
 				001392231B0418EF0082DEA8 /* MPMessagePackWriter.h in Headers */,
 				001392251B0418EF0082DEA8 /* MPMessagePackReader.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		33220B141CFF952F00F3C3DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33220B261CFF954B00F3C3DA /* NSDictionary+MPMessagePack.h in Headers */,
+				33220B2F1CFF954F00F3C3DA /* MPMessagePackServer.h in Headers */,
+				33220B281CFF954B00F3C3DA /* NSArray+MPMessagePack.h in Headers */,
+				33220B311CFF954F00F3C3DA /* MPRPCProtocol.h in Headers */,
+				33220B1F1CFF954B00F3C3DA /* MPMessagePack.h in Headers */,
+				33220B2B1CFF954B00F3C3DA /* NSData+MPMessagePack.h in Headers */,
+				33220B2A1CFF954B00F3C3DA /* MPDefines.h in Headers */,
+				33220B2D1CFF954F00F3C3DA /* MPMessagePackClient.h in Headers */,
+				33220B221CFF954B00F3C3DA /* MPMessagePackWriter.h in Headers */,
+				33220B241CFF954B00F3C3DA /* MPMessagePackReader.h in Headers */,
+				33220B211CFF954B00F3C3DA /* cmp.h in Headers */,
+				33220B351CFF954F00F3C3DA /* MPDispatchRequest.h in Headers */,
+				33220B331CFF954F00F3C3DA /* MPRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +354,24 @@
 			productReference = 005F67AD1B15039000898B3C /* MPMessagePackTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		33220B161CFF952F00F3C3DA /* MPMessagePack iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 33220B1E1CFF952F00F3C3DA /* Build configuration list for PBXNativeTarget "MPMessagePack iOS" */;
+			buildPhases = (
+				33220B121CFF952F00F3C3DA /* Sources */,
+				33220B131CFF952F00F3C3DA /* Frameworks */,
+				33220B141CFF952F00F3C3DA /* Headers */,
+				33220B151CFF952F00F3C3DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MPMessagePack iOS";
+			productName = "MPMessagePack iOS";
+			productReference = 33220B171CFF952F00F3C3DA /* MPMessagePack.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -302,6 +387,10 @@
 					};
 					005F67AC1B15039000898B3C = {
 						CreatedOnToolsVersion = 6.3.2;
+					};
+					33220B161CFF952F00F3C3DA = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 7ZVA8A38DQ;
 					};
 				};
 			};
@@ -320,6 +409,7 @@
 			targets = (
 				001392071B0418E20082DEA8 /* MPMessagePack */,
 				005F67AC1B15039000898B3C /* MPMessagePackTests */,
+				33220B161CFF952F00F3C3DA /* MPMessagePack iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -333,6 +423,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		005F67AB1B15039000898B3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		33220B151CFF952F00F3C3DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -371,6 +468,24 @@
 				005F67BD1B1503B900898B3C /* MPMessagePackTest.m in Sources */,
 				004CF23B1B93986A002BE5A4 /* MPRPCProtocolTest.m in Sources */,
 				005F67BE1B1503B900898B3C /* MPXPCTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		33220B121CFF952F00F3C3DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33220B301CFF954F00F3C3DA /* MPMessagePackServer.m in Sources */,
+				33220B291CFF954B00F3C3DA /* NSArray+MPMessagePack.m in Sources */,
+				33220B361CFF954F00F3C3DA /* MPDispatchRequest.m in Sources */,
+				33220B341CFF954F00F3C3DA /* MPRequest.m in Sources */,
+				33220B321CFF954F00F3C3DA /* MPRPCProtocol.m in Sources */,
+				33220B231CFF954B00F3C3DA /* MPMessagePackWriter.m in Sources */,
+				33220B2C1CFF954B00F3C3DA /* NSData+MPMessagePack.m in Sources */,
+				33220B2E1CFF954F00F3C3DA /* MPMessagePackClient.m in Sources */,
+				33220B201CFF954B00F3C3DA /* cmp.c in Sources */,
+				33220B271CFF954B00F3C3DA /* NSDictionary+MPMessagePack.m in Sources */,
+				33220B251CFF954B00F3C3DA /* MPMessagePackReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,6 +646,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				METAL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -565,9 +681,63 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				METAL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		33220B1C1CFF952F00F3C3DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "MPMessagePack iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.rel.MPMessagePack-iOS";
+				PRODUCT_NAME = MPMessagePack;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		33220B1D1CFF952F00F3C3DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "MPMessagePack iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.rel.MPMessagePack-iOS";
+				PRODUCT_NAME = MPMessagePack;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -600,6 +770,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		33220B1E1CFF952F00F3C3DA /* Build configuration list for PBXNativeTarget "MPMessagePack iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				33220B1C1CFF952F00F3C3DA /* Debug */,
+				33220B1D1CFF952F00F3C3DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
