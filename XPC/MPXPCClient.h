@@ -24,7 +24,7 @@
 
 - (void)sendRequest:(NSString *)method params:(NSArray *)params completion:(void (^)(NSError *error, id value))completion;
 
-- (void)sendRequest:(NSString *)method params:(NSArray *)params maxAttempts:(NSInteger)maxAttempts completion:(void (^)(NSError *error, id value))completion;
+- (void)sendRequest:(NSString *)method params:(NSArray *)params maxAttempts:(NSInteger)maxAttempts retryDelay:(NSTimeInterval)retryDelay completion:(void (^)(NSError *error, id value))completion;
 
 - (void)close;
 

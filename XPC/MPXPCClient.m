@@ -80,14 +80,14 @@
 }
 
 - (void)sendRequest:(NSString *)method params:(NSArray *)params completion:(void (^)(NSError *error, id value))completion {
-  [self sendRequest:method params:params attempt:1 maxAttempts:2 completion:completion];
+  [self sendRequest:method params:params attempt:1 maxAttempts:2 retryDelay:0 completion:completion];
 }
 
-- (void)sendRequest:(NSString *)method params:(NSArray *)params maxAttempts:(NSInteger)maxAttempts completion:(void (^)(NSError *error, id value))completion {
-  [self sendRequest:method params:params attempt:1 maxAttempts:maxAttempts completion:completion];
+- (void)sendRequest:(NSString *)method params:(NSArray *)params maxAttempts:(NSInteger)maxAttempts retryDelay:(NSTimeInterval)retryDelay completion:(void (^)(NSError *error, id value))completion {
+  [self sendRequest:method params:params attempt:1 maxAttempts:maxAttempts retryDelay:retryDelay completion:completion];
 }
 
-- (void)sendRequest:(NSString *)method params:(NSArray *)params attempt:(NSInteger)attempt maxAttempts:(NSInteger)maxAttempts completion:(void (^)(NSError *error, id value))completion {
+- (void)sendRequest:(NSString *)method params:(NSArray *)params attempt:(NSInteger)attempt maxAttempts:(NSInteger)maxAttempts retryDelay:(NSTimeInterval)retryDelay completion:(void (^)(NSError *error, id value))completion {
   if (!_connection) {
     NSError *error = nil;
     if (![self connect:&error]) {
@@ -127,7 +127,9 @@
         NSString *errorMessage = [NSString stringWithCString:description encoding:NSUTF8StringEncoding];
         completion(MPMakeError(MPXPCErrorCodeInvalidConnection, @"XPC Error: %@", errorMessage), nil);
       } else {
-        [self sendRequest:method params:params attempt:attempt+1 maxAttempts:maxAttempts completion:completion];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, retryDelay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+          [self sendRequest:method params:params attempt:attempt+1 maxAttempts:maxAttempts retryDelay:retryDelay completion:completion];
+        });
       }
     } else if (xpc_get_type(event) == XPC_TYPE_DICTIONARY) {
       replied = YES;
