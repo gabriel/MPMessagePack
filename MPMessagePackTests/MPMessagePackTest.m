@@ -100,7 +100,8 @@
 - (void)testRandomData {
   NSUInteger length = 1024 * 32;
   NSMutableData *data = [NSMutableData dataWithLength:length];
-  SecRandomCopyBytes(kSecRandomDefault, length, [data mutableBytes]);
+  int result = SecRandomCopyBytes(kSecRandomDefault, length, [data mutableBytes]);
+  XCTAssert(result == 0);
   
   NSError *error = nil;
   [MPMessagePackReader readData:data options:0 error:&error];
