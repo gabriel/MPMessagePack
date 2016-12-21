@@ -27,12 +27,22 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
 - (NSData *)encodeRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSInteger)messageId options:(MPMessagePackWriterOptions)options framed:(BOOL)framed error:(NSError **)error {
   NSArray *request = @[@(0), @(messageId), method, params ? params : NSNull.null];
   NSData *data = [MPMessagePackWriter writeObject:request options:options error:error];
+
+  if(!data) {
+    return nil;
+  }
+  
   return framed ? [self _frameData:data] : data;
 }
 
 - (NSData *)encodeResponseWithResult:(id)result error:(id)error messageId:(NSInteger)messageId options:(MPMessagePackWriterOptions)options framed:(BOOL)framed encodeError:(NSError **)encodeError {
   NSArray *response = @[@(1), @(messageId), error ? error : NSNull.null, result ? result : NSNull.null];
   NSData *data = [MPMessagePackWriter writeObject:response options:options error:encodeError];
+  
+  if(!data) {
+    return nil;
+  }
+  
   return framed ? [self _frameData:data] : data;
 }
 
