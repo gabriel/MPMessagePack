@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "003126101E0B456800657DAF"
+               BuildableName = "MPMessagePack iOS Tests.xctest"
+               BlueprintName = "MPMessagePack iOS Tests"
+               ReferencedContainer = "container:MPMessagePack.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "33220B161CFF952F00F3C3DA"
+            BuildableName = "MPMessagePack.framework"
+            BlueprintName = "MPMessagePack iOS"
+            ReferencedContainer = "container:MPMessagePack.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
