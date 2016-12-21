@@ -53,7 +53,7 @@ static size_t mp_writer(cmp_ctx_t *ctx, const void *data, size_t count) {
 + (NSMutableData *)writeObject:(id)obj options:(MPMessagePackWriterOptions)options error:(NSError **)error {
   MPMessagePackWriter *messagePack = [[MPMessagePackWriter alloc] init];
   
-  if(![messagePack writeObject:obj options:options error:error]) {
+  if (![messagePack writeObject:obj options:options error:error]) {
     return nil;
   }
   
