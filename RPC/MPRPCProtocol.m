@@ -28,7 +28,7 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
   NSArray *request = @[@(0), @(messageId), method, params ? params : NSNull.null];
   NSData *data = [MPMessagePackWriter writeObject:request options:options error:error];
 
-  if(!data) {
+  if (!data) {
     return nil;
   }
   
@@ -39,7 +39,7 @@ NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
   NSArray *response = @[@(1), @(messageId), error ? error : NSNull.null, result ? result : NSNull.null];
   NSData *data = [MPMessagePackWriter writeObject:response options:options error:encodeError];
   
-  if(!data) {
+  if (!data) {
     return nil;
   }
   

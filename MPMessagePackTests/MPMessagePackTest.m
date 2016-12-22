@@ -13,6 +13,12 @@
 @interface MPMessagePackTest : XCTestCase
 @end
 
+@interface Unsupported : NSObject
+@end
+
+@implementation Unsupported
+@end
+
 @implementation MPMessagePackTest
 
 - (void)testEmpty {
@@ -166,6 +172,13 @@
   while ((obj = [reader readObject:&error])) {
     NSLog(@"%@", obj);
   }
+}
+
+- (void)testNilOnError {
+  NSError *error = nil;
+  NSData *data = [MPMessagePackWriter writeObject:[[Unsupported alloc] init] options:0 error:&error];
+  XCTAssertNotNil(error);
+  XCTAssertNil(data);
 }
 
 // For testing a compatibility issue with go msgpack
