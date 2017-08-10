@@ -122,8 +122,30 @@
     case CMP_TYPE_FIXEXT2:
     case CMP_TYPE_FIXEXT4:
     case CMP_TYPE_FIXEXT8:
-    case CMP_TYPE_FIXEXT16:
-      
+    case CMP_TYPE_FIXEXT16:{
+        // Type and size
+        int8_t type = obj.as.ext.type;
+        uint32_t length = obj.as.ext.size;
+        
+        // Read data
+        if (length == 0) return [NSData data];
+        if (length > [_data length]) { // binary data can't be larger than the total data size
+            return [self returnNilWithErrorCode:298 description:@"Invalid data length, data might be malformed" error:error];
+        }
+        NSMutableData *data = [NSMutableData dataWithLength:length];
+        bool readSuccess = context->read(context, [data mutableBytes], length);
+        if (!readSuccess) {
+            return [self returnNilWithErrorCode:202 description:@"Unable to read bytes" error:error];
+        }
+        
+        // Return a dict with everything
+        return @{
+          @"type":@(obj.as.ext.type),
+          @"length":@(obj.as.ext.size),
+          @"data":data
+        };
+    }
+
     default: {
       return [self returnNilWithErrorCode:201 description:[NSString stringWithFormat:@"Unsupported object type: %@", @(obj.type)] error:error];
     }
