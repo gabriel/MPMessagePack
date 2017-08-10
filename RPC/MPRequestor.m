@@ -1,21 +1,21 @@
 //
-//  MPRequest.m
+//  MPRequestor.m
 //  MPMessagePack
 //
 //  Created by Gabriel on 10/14/15.
 //  Copyright © 2015 Gabriel Handford. All rights reserved.
 //
 
-#import "MPRequest.h"
+#import "MPRequestor.h"
 
-@interface MPRequest ()
+@interface MPRequestor ()
 @property MPRequestCompletion completion;
 @end
 
-@implementation MPRequest
+@implementation MPRequestor
 
 + (instancetype)requestWithCompletion:(MPRequestCompletion)completion {
-  MPRequest *request = [[MPRequest alloc] init];
+  MPRequestor *request = [[MPRequestor alloc] init];
   request.completion = completion;
   return request;
 }

@@ -9,7 +9,7 @@
 #import "MPMessagePackClient.h"
 
 #import "MPMessagePack.h"
-#import "MPRequest.h"
+#import "MPRequestor.h"
 #import "MPDispatchRequest.h"
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -125,7 +125,7 @@ typedef void (^MPDispatchSignal)(NSInteger messageId);
     return;
   }
 
-  _requests[@(messageId)] = [MPRequest requestWithCompletion:completion];
+  _requests[@(messageId)] = [MPRequestor requestWithCompletion:completion];
   //MPDebug(@"Send: %@", [request componentsJoinedByString:@", "]);
   [self writeData:data];
 }
@@ -313,7 +313,7 @@ typedef void (^MPDispatchSignal)(NSInteger messageId);
     }
     
     id result = MPIfNull(message[3], nil);
-    MPRequest *request = _requests[messageId];
+    MPRequestor *request = _requests[messageId];
     [_requests removeObjectForKey:messageId];
     if (!request.completion) {
       MPErr(@"No completion block for request: %@", messageId);
@@ -394,7 +394,7 @@ typedef void (^MPDispatchSignal)(NSInteger messageId);
 
 - (BOOL)cancelRequestWithMessageId:(NSInteger)messageId {
   MPDebug(@"Cancel: %@", @(messageId));
-  MPRequest *request = _requests[@(messageId)];
+  MPRequestor *request = _requests[@(messageId)];
   if (!request.completion) return NO;
 
   [request completeWithResult:nil error:MPMakeError(MPRPCErrorRequestCanceled, @"Cancelled")];

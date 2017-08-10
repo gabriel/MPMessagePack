@@ -1,5 +1,5 @@
 //
-//  MPRequest.h
+//  MPRequestor.h
 //  MPMessagePack
 //
 //  Created by Gabriel on 10/14/15.
@@ -10,7 +10,7 @@
 
 #import "MPRPCProtocol.h"
 
-@interface MPRequest : NSObject
+@interface MPRequestor : NSObject
 
 @property (readonly) MPRequestCompletion completion;
 
