@@ -140,8 +140,8 @@
         
         // Return a dict with everything
         return @{
-          @"type":@(obj.as.ext.type),
-          @"length":@(obj.as.ext.size),
+          @"type":@(type),
+          @"length":@(length),
           @"data":data
         };
     }
