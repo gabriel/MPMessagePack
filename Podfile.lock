@@ -5,7 +5,7 @@ DEPENDENCIES:
   - GHODictionary
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - GHODictionary
 
 SPEC CHECKSUMS:
@@ -13,4 +13,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0bbb57744609ebc36ef1f6a60bab55905103bd35
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2
