@@ -55,7 +55,7 @@ void MPSysLog(NSString *msg, ...) {
         }
       } else {
         xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
-        [self handleEvent:event completion:^(NSError *error, NSData *data) {
+        [self handleEvent:event remote:remote completion:^(NSError *error, NSData *data) {
           if (error) {
             xpc_object_t reply = xpc_dictionary_create_reply(event);
             xpc_dictionary_set_string(reply, "error", [[error localizedDescription] UTF8String]);
@@ -75,13 +75,13 @@ void MPSysLog(NSString *msg, ...) {
   xpc_connection_resume(service);
 }
 
-- (void)handleEvent:(xpc_object_t)event completion:(void (^)(NSError *error, NSData *data))completion {
+- (void)handleEvent:(xpc_object_t)event remote:(xpc_connection_t)remote completion:(void (^)(NSError *error, NSData *data))completion {
   [MPXPCProtocol requestFromXPCObject:event completion:^(NSError *error, NSNumber *messageId, NSString *method, NSArray *params) {
     if (error) {
       MPSysLog(@"Request error: %@", error);
       completion(error, nil);
     } else {
-      [self handleRequestWithMethod:method params:params messageId:messageId completion:^(NSError *error, id value) {
+      [self handleRequestWithMethod:method params:params messageId:messageId remote:remote completion:^(NSError *error, id value) {
         if (error) {
           NSDictionary *errorDict = @{@"code": @(error.code), @"desc": error.localizedDescription};
           NSArray *response = @[@(1), messageId, errorDict, NSNull.null];
