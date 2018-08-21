@@ -97,7 +97,7 @@ void MPSysLog(NSString *msg, ...) {
   }];
 }
 
-- (void)handleRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSNumber *)messageId completion:(void (^)(NSError *error, id value))completion {
+- (void)handleRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSNumber *)messageId remote:(xpc_connection_t)remote completion:(void (^)(NSError *error, id value))completion {
   completion(MPMakeError(MPXPCErrorCodeUnknownRequest, @"Unkown request"), nil);
 }
 
