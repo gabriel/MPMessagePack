@@ -165,7 +165,7 @@
       const void *buffer = xpc_dictionary_get_data(event, "data", &length);
       NSData *dataResponse = [NSData dataWithBytes:buffer length:length];
 
-      id response = [dataResponse mp_array:_readOptions error:&error];
+      id response = [dataResponse mp_array:self.readOptions error:&error];
 
       if (!response) {
         completion(error, nil);
@@ -177,7 +177,7 @@
       }
       NSDictionary *errorDict = MPIfNull(response[2], nil);
       if (errorDict) {
-        error = MPErrorFromErrorDict(_serviceName, errorDict);
+        error = MPErrorFromErrorDict(self.serviceName, errorDict);
         completion(error, nil);
       } else {
         completion(nil, MPIfNull(response[3], nil));

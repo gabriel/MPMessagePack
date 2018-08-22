@@ -260,7 +260,7 @@ typedef void (^MPDispatchSignal)(NSInteger messageId);
       [self _handleMessage:message];
     }
 
-    _readBuffer = [[_readBuffer subdataWithRange:NSMakeRange(reader.index, _readBuffer.length - reader.index)] mutableCopy]; // TODO: Fix mutable copy (this might actually no-op tho)
+    self.readBuffer = [[self.readBuffer subdataWithRange:NSMakeRange(reader.index, self.readBuffer.length - reader.index)] mutableCopy]; // TODO: Fix mutable copy (this might actually no-op tho)
     [self checkReadBuffer];
   }];
 }

@@ -14,6 +14,8 @@
 
 - (void)listen:(xpc_connection_t)service;
 
+- (void)listen:(xpc_connection_t)service codeRequirement:(NSString *)codeRequirement;
+
 // Subclasses should implement this
 - (void)handleRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSNumber *)messageId remote:(xpc_connection_t)remote completion:(void (^)(NSError *error, id value))completion;
 
