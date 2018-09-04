@@ -123,13 +123,21 @@ void MPSysLog(NSString *msg, ...) {
     *error = MPMakeError(statusCodePath, @"Failed to create code path");
     return NO;
   }
+  // Code requirement must start with 'anchor apple'.
+  // See https://www.okta.com/security-blog/2018/06/issues-around-third-party-apple-code-signing-checks/
+  if (![codeRequirement hasPrefix:@"anchor apple"]) {
+    *error = MPMakeError(-1, @"Code requirement must start with 'anchor apple'");
+    return NO;
+  }
   SecRequirementRef requirement = NULL;
   OSStatus statusCreate = SecRequirementCreateWithString((__bridge CFStringRef)codeRequirement, kSecCSDefaultFlags, &requirement);
   if (statusCreate != errSecSuccess) {
     *error = MPMakeError(statusCreate, @"Failed to create requirement");
     return NO;
   }
-  OSStatus statusCheck = SecStaticCodeCheckValidityWithErrors(staticCode, kSecCSDefaultFlags, requirement, NULL);
+  // It is important to have all these flags present.
+  // See https://www.okta.com/security-blog/2018/06/issues-around-third-party-apple-code-signing-checks/
+  OSStatus statusCheck = SecStaticCodeCheckValidityWithErrors(staticCode, kSecCSDefaultFlags | kSecCSCheckNestedCode | kSecCSCheckAllArchitectures | kSecCSEnforceRevocationChecks, requirement, NULL);
   if (statusCheck != errSecSuccess) {
     *error = MPMakeError(statusCheck, @"Binary failed code requirement");
     return NO;
@@ -140,10 +148,11 @@ void MPSysLog(NSString *msg, ...) {
 /*!
  Check code requirement for process id (from an xpc connection).
 
- The OS’s process ID space is relatively small, which means that process IDs are commonly reused.
+ "The OS’s process ID space is relatively small, which means that process IDs are commonly reused.
  There is a recommended alternative to process IDs, namely audit tokens (audit_token_t), but you can’t use this because a critical piece of public API is missing.
  While you can do step 2 with an audit token (using kSecGuestAttributeAudit), there’s no public API to get an audit token from an XPC connection.
- Fortunately, process ID wrapping problems aren’t a real threat in this context because, if you create an XPC connection per process, you can do your checking based on the process ID of that process. If the process dies, the connection goes away and you’ll end up rechecking the process ID on the new connection.
+ Fortunately, process ID wrapping problems aren’t a real threat in this context because, if you create an XPC connection per process, you can do your checking based on the process ID of that process. If the process dies, the connection goes away and you’ll end up rechecking the process ID on the new connection."
+  -- https://forums.developer.apple.com/thread/72881
  */
 - (BOOL)checkCodeRequirement:(NSString *)codeRequirement pid:(pid_t)pid error:(NSError **)error {
   CFNumberRef value = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &pid);
