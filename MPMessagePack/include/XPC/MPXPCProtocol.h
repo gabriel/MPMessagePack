@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MPXDefines.h"
+
+#if ENABLE_XPC_SUPPORT
 #import <xpc/xpc.h>
 
 typedef NS_ENUM(NSInteger, MPXPCErrorCode) {
@@ -25,3 +28,5 @@ typedef NS_ENUM(NSInteger, MPXPCErrorCode) {
 + (void)requestFromXPCObject:(xpc_object_t)event completion:(void (^)(NSError *error, NSNumber *messageId, NSString *method, NSArray *params))completion;
 
 @end
+
+#endif

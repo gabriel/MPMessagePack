@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MPXDefines.h"
+
+#if ENABLE_XPC_SUPPORT
 #import <ServiceManagement/ServiceManagement.h>
 #import <xpc/xpc.h>
 
@@ -20,3 +23,5 @@
 - (void)handleRequestWithMethod:(NSString *)method params:(NSArray *)params messageId:(NSNumber *)messageId remote:(xpc_connection_t)remote completion:(void (^)(NSError *error, id value))completion;
 
 @end
+
+#endif

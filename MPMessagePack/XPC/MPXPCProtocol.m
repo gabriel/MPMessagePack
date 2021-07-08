@@ -6,11 +6,14 @@
 //  Copyright (c) 2015 Gabriel Handford. All rights reserved.
 //
 
-#import "MPXPCProtocol.h"
+#import "XPC/MPXPCProtocol.h"
+#import "XPC/MPXDefines.h"
+
+#if ENABLE_XPC_SUPPORT
 
 #import "NSArray+MPMessagePack.h"
 #import "NSData+MPMessagePack.h"
-#import "MPRPCProtocol.h"
+#import "RPC/MPRPCProtocol.h"
 #import "MPDefines.h"
 
 @implementation MPXPCProtocol
@@ -55,3 +58,5 @@
 }
 
 @end
+
+#endif

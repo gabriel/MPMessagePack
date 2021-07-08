@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MPXDefines.h"
+
+#if ENABLE_XPC_SUPPORT
 
 #import "MPMessagePackReader.h"
 #import "MPLog.h"
@@ -31,3 +34,5 @@
 - (void)close;
 
 @end
+
+#endif

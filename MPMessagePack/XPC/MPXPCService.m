@@ -6,11 +6,14 @@
 //  Copyright (c) 2015 Gabriel Handford. All rights reserved.
 //
 
-#import "MPXPCService.h"
+#import "XPC/MPXPCService.h"
+#import "XPC/MPXDefines.h"
+
+#if ENABLE_XPC_SUPPORT
 
 #import "NSData+MPMessagePack.h"
 #import "NSArray+MPMessagePack.h"
-#import "MPXPCProtocol.h"
+#import "XPC/MPXPCProtocol.h"
 #import "MPDefines.h"
 
 @interface MPXPCService () <NSXPCListenerDelegate>
@@ -181,3 +184,5 @@ void MPSysLog(NSString *msg, ...) {
 }
 
 @end
+
+#endif
