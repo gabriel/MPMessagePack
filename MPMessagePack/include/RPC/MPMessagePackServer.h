@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MPMessagePack.h"
 #import "MPMessagePackClient.h"
 
 @interface MPMessagePackServer : NSObject <MPMessagePackClientDelegate>

@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Gabriel Handford. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 #undef MPDebug
 #define MPDebug(fmt, ...) do {} while(0)
 #undef MPErr

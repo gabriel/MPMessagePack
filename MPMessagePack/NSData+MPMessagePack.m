@@ -8,7 +8,7 @@
 
 #import "NSData+MPMessagePack.h"
 
-#import <GHODictionary/GHODictionary.h>
+@import GHODictionary;
 
 @implementation NSData (MPMessagePack)
 

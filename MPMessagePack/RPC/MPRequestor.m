@@ -6,7 +6,7 @@
 //  Copyright © 2015 Gabriel Handford. All rights reserved.
 //
 
-#import "MPRequestor.h"
+#import "RPC/MPRequestor.h"
 
 @interface MPRequestor ()
 @property MPRequestCompletion completion;

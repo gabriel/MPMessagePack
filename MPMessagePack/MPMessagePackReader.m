@@ -11,7 +11,7 @@
 #include "cmp.h"
 #import "MPDefines.h"
 
-#import <GHODictionary/GHODictionary.h>
+@import GHODictionary;
 
 @interface MPMessagePackReader ()
 @property NSData *data;

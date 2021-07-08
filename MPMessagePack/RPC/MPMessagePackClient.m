@@ -6,11 +6,10 @@
 //  Copyright (c) 2014 Gabriel Handford. All rights reserved.
 //
 
-#import "MPMessagePackClient.h"
+#import "RPC/MPMessagePackClient.h"
 
-#import "MPMessagePack.h"
-#import "MPRequestor.h"
-#import "MPDispatchRequest.h"
+#import "RPC/MPRequestor.h"
+#import "RPC/MPDispatchRequest.h"
 #include <sys/socket.h>
 #include <sys/un.h>
 

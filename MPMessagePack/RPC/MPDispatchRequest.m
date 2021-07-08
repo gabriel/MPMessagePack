@@ -6,7 +6,7 @@
 //  Copyright © 2015 Gabriel Handford. All rights reserved.
 //
 
-#import "MPDispatchRequest.h"
+#import "RPC/MPDispatchRequest.h"
 
 @interface MPDispatchRequest ()
 @property dispatch_semaphore_t semaphore;

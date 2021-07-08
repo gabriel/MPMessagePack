@@ -10,7 +10,7 @@
 
 #include "cmp.h"
 
-#import <GHODictionary/GHODictionary.h>
+@import GHODictionary;
 #import "MPDefines.h"
 
 @interface MPMessagePackWriter ()

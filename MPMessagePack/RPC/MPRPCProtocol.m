@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Gabriel Handford. All rights reserved.
 //
 
-#import "MPRPCProtocol.h"
+#import "RPC/MPRPCProtocol.h"
 #import "MPDefines.h"
 
 NSString *const MPErrorInfoKey = @"MPErrorInfoKey";
