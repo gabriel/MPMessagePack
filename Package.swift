@@ -23,7 +23,9 @@ let package = Package(
             path: "MPMessagePack",
             exclude: ["MPMessagePack.h"],
             cSettings: [
-                .headerSearchPath("include")
+                .headerSearchPath("include"),
+                .headerSearchPath("include/RPC"),
+                .headerSearchPath("include/XPC"),
             ]),
         .testTarget(
             name: "MPMessagePackTests",

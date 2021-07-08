@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Gabriel Handford. All rights reserved.
 //
 
-#import "RPC/MPMessagePackServer.h"
+#import "MPMessagePackServer.h"
 
-#import "RPC/MPMessagePackClient.h"
+#import "MPMessagePackClient.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>

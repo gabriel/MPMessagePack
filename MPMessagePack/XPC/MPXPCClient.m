@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Gabriel Handford. All rights reserved.
 //
 
-#import "XPC/MPXPCClient.h"
-#import "XPC/MPXDefines.h"
+#import "MPXPCClient.h"
+#import "MPXDefines.h"
 
 #if ENABLE_XPC_SUPPORT
 
 #import "MPDefines.h"
 #import "NSArray+MPMessagePack.h"
 #import "NSData+MPMessagePack.h"
-#import "XPC/MPXPCProtocol.h"
-#import "RPC/MPRPCProtocol.h"
+#import "MPXPCProtocol.h"
+#import "MPRPCProtocol.h"
 
 
 @interface MPXPCClient ()

@@ -10,7 +10,12 @@
 
 #include "cmp.h"
 
+#if SWIFT_PACKAGE
 @import GHODictionary;
+#else
+#import <GHODictionary/GHODictionary.h>
+#endif
+
 #import "MPDefines.h"
 
 @interface MPMessagePackWriter ()

@@ -8,7 +8,11 @@
 
 #import "NSData+MPMessagePack.h"
 
+#if SWIFT_PACKAGE
 @import GHODictionary;
+#else
+#import <GHODictionary/GHODictionary.h>
+#endif
 
 @implementation NSData (MPMessagePack)
 

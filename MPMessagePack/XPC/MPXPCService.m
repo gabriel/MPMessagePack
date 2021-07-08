@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Gabriel Handford. All rights reserved.
 //
 
-#import "XPC/MPXPCService.h"
-#import "XPC/MPXDefines.h"
+#import "MPXPCService.h"
+#import "MPXDefines.h"
 
 #if ENABLE_XPC_SUPPORT
 
 #import "NSData+MPMessagePack.h"
 #import "NSArray+MPMessagePack.h"
-#import "XPC/MPXPCProtocol.h"
+#import "MPXPCProtocol.h"
 #import "MPDefines.h"
 
 @interface MPXPCService () <NSXPCListenerDelegate>
