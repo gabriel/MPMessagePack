@@ -4,6 +4,12 @@
 
 MessagePack is an efficient binary serialization format. It lets you exchange data among multiple languages like JSON. But it's faster and smaller.
 
+# Swift Package Manager
+
+```swift
+.package(url: "https://github.com/gabriel/MPMessagePack", from: "1.6.0"),
+```
+
 # Podfile
 
 ```ruby
@@ -64,7 +70,7 @@ id obj2 = [reader read:&error]; // Read another object
 
 # RPC
 
-See [msgpack-rpc](https://github.com/msgpack-rpc/msgpack-rpc). 
+See [msgpack-rpc](https://github.com/msgpack-rpc/msgpack-rpc).
 
 It also supports a framing option where it will prefix the rpc message with the number of bytes (as a msgpack'ed number).
 
