@@ -14,7 +14,7 @@ let package = Package(
             targets: ["MPMessagePack"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/gabriel/GHODictionary", .branch("master"))
+        .package(url: "https://github.com/gabriel/GHODictionary", from: "1.2.0")
     ],
     targets: [
         .target(
