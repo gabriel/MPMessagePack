@@ -7,6 +7,9 @@
 //
 
 #import "MPXPCProtocol.h"
+#import "MPXDefines.h"
+
+#if ENABLE_XPC_SUPPORT
 
 #import "NSArray+MPMessagePack.h"
 #import "NSData+MPMessagePack.h"
@@ -55,3 +58,5 @@
 }
 
 @end
+
+#endif

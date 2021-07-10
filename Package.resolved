@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "GHODictionary",
+        "repositoryURL": "https://github.com/gabriel/GHODictionary",
+        "state": {
+          "branch": "master",
+          "revision": "a67b9df6dfc6e6af3910d104fd9900e15dc15de9",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

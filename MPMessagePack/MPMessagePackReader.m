@@ -11,7 +11,11 @@
 #include "cmp.h"
 #import "MPDefines.h"
 
+#if SWIFT_PACKAGE
+@import GHODictionary;
+#else
 #import <GHODictionary/GHODictionary.h>
+#endif
 
 @interface MPMessagePackReader ()
 @property NSData *data;

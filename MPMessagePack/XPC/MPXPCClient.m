@@ -7,6 +7,9 @@
 //
 
 #import "MPXPCClient.h"
+#import "MPXDefines.h"
+
+#if ENABLE_XPC_SUPPORT
 
 #import "MPDefines.h"
 #import "NSArray+MPMessagePack.h"
@@ -187,3 +190,5 @@
 }
 
 @end
+
+#endif

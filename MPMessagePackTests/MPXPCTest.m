@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import <MPMessagePack/MPMessagePack.h>
+#ifdef __MAC_OS_X_VERSION_MAX_ALLOWED
+
+@import MPMessagePack;
 
 @interface MPXPCTest : XCTestCase
 @end
@@ -58,3 +60,4 @@
 
 @end
 
+#endif

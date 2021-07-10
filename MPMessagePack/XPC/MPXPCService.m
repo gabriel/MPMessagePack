@@ -7,6 +7,9 @@
 //
 
 #import "MPXPCService.h"
+#import "MPXDefines.h"
+
+#if ENABLE_XPC_SUPPORT
 
 #import "NSData+MPMessagePack.h"
 #import "NSArray+MPMessagePack.h"
@@ -181,3 +184,5 @@ void MPSysLog(NSString *msg, ...) {
 }
 
 @end
+
+#endif

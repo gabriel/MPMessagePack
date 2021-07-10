@@ -8,7 +8,6 @@
 
 #import "MPMessagePackClient.h"
 
-#import "MPMessagePack.h"
 #import "MPRequestor.h"
 #import "MPDispatchRequest.h"
 #include <sys/socket.h>

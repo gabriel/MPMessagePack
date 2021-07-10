@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTestCase.h>
 
-#import <MPMessagePack/MPMessagePack.h>
+@import MPMessagePack;
 
 @interface MPMessagePackClientTest : XCTestCase
 @property MPMessagePackClient *client;
