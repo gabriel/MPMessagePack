@@ -4,6 +4,10 @@
 
 MessagePack is an efficient binary serialization format. It lets you exchange data among multiple languages like JSON. But it's faster and smaller.
 
+# Included Open Source Libraries
+
+- [CMP](https://github.com/camgunz/cmp) is a C implementation of the MessagePack serialization format.
+
 # Swift Package Manager
 
 ```swift
